@@ -1,0 +1,44 @@
+komuniakce - hrany
+body styku - vrcholy
+k - postižená silnice, dostat tam vozidlo
+vypoèítat optimální trajektorii do místa K. Musíme vyšetøit obì možnosti pøístupu (z obou stran)
+každá silnice má pøíznak metrické délky. Metricky nejkratší cesta = optimální cesta do cíle
+výsledkem je Trajektorie pøemístìní (2 varianty, nejlepší musí být ta kratší)
+
+Omezující podmínky:
+  množina komunikací, která nená udržována a jsou nesjízdné
+  
+Vstupy: výchozí poloha vozu, cílová komunikace, množina komunikací, které jsou nesjízdné
+Výstup: optimální trajektorie
+
+Primární požadavek komunikace: musí být identifikována alfanumerickým identifikátorem (nesmí být duplicitní) - primární klíè
+Sekundární: definovat komunikaci alternativním zpùsobem, pomocí koordinátù krajních bodù komunikace
+
+BackgroundWorker - hledání cesty v threadu
+
+Buï grafem + datová struktura graf z datovek
+
+
+Efektivný dynamický výpoèet: vždy hledáme dynamicky pro zadané vstupní parametry. Spoleènì definujeme parametry (poèátek, parametry, nesjízdné) a musíme najít cestu. Efektivní: bude sledovat jakou datovou strukturu jsme použili a jaký algoritmus je naprogramován a jak nad DS bude pracovat.
+
+Požadavky na aplikaci:
+  po spuštìní zobrazení menu, vybrání základních funkcí.
+  Algoritmus: definování vstupù/stream a spoèítání trajektorie
+  Vyhledávání komunikací dle primárního klíèe.
+  Realizace vkládní a odebírání komunikací - není potøeba efektivní vkládání /odebrání komunikace - pøerovnání stromu
+
+
+String, int, int, int, int, int, bool
+Silnice: Název; X1; Y1; X2; Y2; ohodnocení; sjízdná;
+
+bankomaty, gps koordináty, vlakový podklad
+
+Musíme brát pøesnou polohu poèátku automobilu, musíme zapoèítat jeho vzdálenost
+
+Identifikace polohy na hranì
+
+
+Zadá hranu a polohu. Najít hranu, zjistit délku, posuvník s km vzdáleností a zadat polohu od bodu X1,Y1.
+
+  
+
