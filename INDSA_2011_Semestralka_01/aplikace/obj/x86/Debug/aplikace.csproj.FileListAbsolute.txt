@@ -1,0 +1,9 @@
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.Properties.Resources.resources
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\GenerateResource.read.1.tlog
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\GenerateResource.write.1.tlog
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\bin\Debug\aplikace.exe
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\bin\Debug\aplikace.pdb
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.exe
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.pdb
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.MainForm.resources

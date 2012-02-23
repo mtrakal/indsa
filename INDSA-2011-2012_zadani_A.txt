@@ -42,3 +42,5 @@ Zadá hranu a polohu. Najít hranu, zjistit délku, posuvník s km vzdáleností a zad
 
   
 
+http://www.cs.berkeley.edu/~vazirani/algorithms/chap4.pdf
+http://www.cs.brown.edu/courses/cs141/amy_notes/graphs.pdf
