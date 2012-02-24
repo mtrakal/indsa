@@ -1,7 +1,50 @@
+        //  Zde nový
       }
+      
+      function codeLatLng(location, marker) {
+        geocoder.geocode({'latLng': location}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+              infowindow.setContent(results[2].formatted_address);
+              infowindow.open(map, marker);
+            }
+          } else {
+            alert("Geocoder failed due to: " + status);
+          }
+        });
+      }     
+      
+      function getPopisek(location) {
+        geocoder.geocode({'latLng': location}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+              var text = '';
+              text = results[1].formatted_address;
+              text = text.substring(0,text.indexOf(","));
+              alert(text);
+            }
+          } else {
+            alert("Neznámé");
+          }
+        });
+      } 
+      
+      // Add a marker to the map and push to the array.
+      function addMarker(location) {
+        marker = new google.maps.Marker({
+          position: location,
+          map: map,
+          icon: icon
+        });
+        getPopisek(location);
+        alert(location);
+        markers.push(marker);
+      }
+
     </script>
-</head>
-<body onload="initialize()">
-  <div id="map_canvas" style="width:100%; height:100%"></div>
-</body>
+
+  </head>
+  <body onload="initialize()">
+    <div id="map_canvas" style="width:100%; height:100%"></div>
+  </body>
 </html>

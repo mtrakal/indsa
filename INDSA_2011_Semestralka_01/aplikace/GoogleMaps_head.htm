@@ -1,83 +1,105 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-<link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript"> 
-// Define the overlay, derived from google.maps.OverlayView
-function Label(opt_options) {
-     // Initialization
-     this.setValues(opt_options);
- 
-     // Here go the label styles
-     var span = this.span_ = document.createElement('span');
-     span.style.cssText = 'position: relative; z-index: 1000;' +
-                          'white-space: nowrap;color:#ffffff;' +
-                          'padding: 2px; background-color: #33f;font-family: Arial; font-weight: bold;' +
-                          'font-size: 12px;',
-                          'opacity: .75; '+
-                          'filter: alpha(opacity=75); '+
-                          '-ms-filter: "alpha(opacity=75)"; border-radius: 5px; '+
-                          '-khtml-opacity: .75; -webkit-border-radius: 5px; '+
-                          '-moz-opacity: .75; -moz-border-radius: 5px;';
- 
-     var div = this.div_ = document.createElement('div');
-     div.appendChild(span);
-     div.style.cssText = 'position: absolute; display: none';
-};
- 
-Label.prototype = new google.maps.OverlayView;
- 
-Label.prototype.onAdd = function() {
-     var pane = this.getPanes().overlayImage;
-     pane.appendChild(this.div_);
- 
-     // Ensures the label is redrawn if the text or position is changed.
-     var me = this;
-     this.listeners_ = [
-          google.maps.event.addListener(this, 'position_changed',
-               function() { me.draw(); }),
-          google.maps.event.addListener(this, 'text_changed',
-               function() { me.draw(); }),
-          google.maps.event.addListener(this, 'zindex_changed',
-               function() { me.draw(); })
-     ];
-};
- 
-// Implement onRemove
-Label.prototype.onRemove = function() {
-     this.div_.parentNode.removeChild(this.div_);
- 
-     // Label is removed from the map, stop updating its position/text.
-     for (var i = 0, I = this.listeners_.length; i < I; ++i) {
-          google.maps.event.removeListener(this.listeners_[i]);
-     }
-};
- 
-// Implement draw
-Label.prototype.draw = function() {
-     var projection = this.getProjection();
-     var position = projection.fromLatLngToDivPixel(this.get('position'));
-     var div = this.div_;
-     div.style.left = position.x + 'px';
-     div.style.top = position.y + 'px';
-     div.style.display = 'block';
-     //div.style.zIndex = this.get('zIndex'); //ALLOW LABEL TO OVERLAY MARKER
-     this.span_.innerHTML = this.get('text').toString();
-};
- 
-function initialize() {
-  var myOptions = {
-    zoom: 8,
-    center: new google.maps.LatLng(49.741129, 15.335981),
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  }
-  var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-  var icon = new google.maps.MarkerImage('http://labs.google.com/ridefinder/images/mm_20_red.png', new google.maps.Size(12, 20), new google.maps.Point(0,0), new google.maps.Point(5, 20));
+<!-- http://code.google.com/apis/maps/documentation/javascript/overlays.html -->
 
-//var marker = new google.maps.Marker({icon:"pixel.gif", position:  new google.maps.LatLng(lat,lon), draggable: false, map: map});
-//var label = new Label({map: map}); label.bindTo('position', marker, 'position'); label.set('text', "Pokus");
-//return;
-
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map_canvas { height: 100% }
+    </style>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?&sensor=false"></script>
+    <script type="text/javascript">
+      // Define the overlay, derived from google.maps.OverlayView
+      function Label(opt_options) {
+           // Initialization
+           this.setValues(opt_options);
+       
+           // Here go the label styles
+           var span = this.span_ = document.createElement('span');
+           span.style.cssText = 'position: relative; z-index: 1000;' +
+                                'white-space: nowrap;color:#ffffff;' +
+                                'padding: 2px; background-color: #33f;font-family: Arial; font-weight: bold;' +
+                                'font-size: 12px;',
+                                'opacity: .75; '+
+                                'filter: alpha(opacity=75); '+
+                                '-ms-filter: "alpha(opacity=75)"; border-radius: 5px; '+
+                                '-khtml-opacity: .75; -webkit-border-radius: 5px; '+
+                                '-moz-opacity: .75; -moz-border-radius: 5px;';
+       
+           var div = this.div_ = document.createElement('div');
+           div.appendChild(span);
+           div.style.cssText = 'position: absolute; display: none';
+      };
+       
+      Label.prototype = new google.maps.OverlayView;
+       
+      Label.prototype.onAdd = function() {
+           var pane = this.getPanes().overlayImage;
+           pane.appendChild(this.div_);
+       
+           // Ensures the label is redrawn if the text or position is changed.
+           var me = this;
+           this.listeners_ = [
+                google.maps.event.addListener(this, 'position_changed',
+                     function() { me.draw(); }),
+                google.maps.event.addListener(this, 'text_changed',
+                     function() { me.draw(); }),
+                google.maps.event.addListener(this, 'zindex_changed',
+                     function() { me.draw(); })
+           ];
+      };
+       
+      // Implement onRemove
+      Label.prototype.onRemove = function() {
+           this.div_.parentNode.removeChild(this.div_);
+       
+           // Label is removed from the map, stop updating its position/text.
+           for (var i = 0, I = this.listeners_.length; i < I; ++i) {
+                google.maps.event.removeListener(this.listeners_[i]);
+           }
+      };
+       
+      // Implement draw
+      Label.prototype.draw = function() {
+           var projection = this.getProjection();
+           var position = projection.fromLatLngToDivPixel(this.get('position'));
+           var div = this.div_;
+           div.style.left = position.x + 'px';
+           div.style.top = position.y + 'px';
+           div.style.display = 'block';
+           //div.style.zIndex = this.get('zIndex'); //ALLOW LABEL TO OVERLAY MARKER
+           this.span_.innerHTML = this.get('text').toString();
+      };    
+    
+    
+    
+    
+    
+      var map;
+      var markers = [];
+      var icon = new google.maps.MarkerImage('http://labs.google.com/ridefinder/images/mm_20_red.png', new google.maps.Size(12, 20), new google.maps.Point(0,0), new google.maps.Point(5, 20));
+      var auto = new google.maps.MarkerImage('http://en.jeep-club.net/graphics/car_icon10_002.gif', new google.maps.Size(32, 15), new google.maps.Point(0,0), new google.maps.Point(10, 20));
+      
+      // geolocation
+      var geocoder;
+      var infowindow = new google.maps.InfoWindow();
+      
+      function initialize() {
+        geocoder = new google.maps.Geocoder();
+        
+        var myOptions = {
+          center: new google.maps.LatLng(49.741129, 15.335981),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        google.maps.event.addListener(map, 'click', function(event) {
+          addMarker(event.latLng);
+        });
+        
+        
+        // Zde rozpůlit
