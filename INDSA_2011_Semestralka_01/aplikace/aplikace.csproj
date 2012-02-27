@@ -47,7 +47,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bod.cs" />
+    <Compile Include="CestaPridatDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CestaPridatDialog.Designer.cs">
+      <DependentUpon>CestaPridatDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graf.cs" />
     <Compile Include="Hrana.cs" />
+    <Compile Include="CestaOdeberDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CestaOdeberDialog.Designer.cs">
+      <DependentUpon>CestaOdeberDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Hrany.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -57,6 +70,18 @@
     </Compile>
     <Compile Include="IDatovaVrstva.cs" />
     <Compile Include="Konstanty.cs" />
+    <Compile Include="MestoOdeberDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MestoOdeberDialog.Designer.cs">
+      <DependentUpon>MestoOdeberDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MestoPridejDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MestoPridejDialog.Designer.cs">
+      <DependentUpon>MestoPridejDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -67,8 +92,20 @@
     <Compile Include="TextSouborDV.cs" />
     <Compile Include="Vrchol.cs" />
     <Compile Include="Vrcholy.cs" />
+    <EmbeddedResource Include="CestaPridatDialog.resx">
+      <DependentUpon>CestaPridatDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CestaOdeberDialog.resx">
+      <DependentUpon>CestaOdeberDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MestoOdeberDialog.resx">
+      <DependentUpon>MestoOdeberDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MestoPridejDialog.resx">
+      <DependentUpon>MestoPridejDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Globalization;
 using System.Threading;
+using System.Diagnostics;
 
 namespace aplikace {
     public partial class MainForm : Form {
@@ -17,10 +18,14 @@ namespace aplikace {
         string gmHead;
         string gmBottom;
 
+        CultureInfo ci;
+
         public MainForm() {
             InitializeComponent();
 
-            CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            //webBrowser1.Document.MouseUp += new HtmlElementEventHandler(udalostMouseUpWebBrowser);
+
+            ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
             ci.NumberFormat.NumberDecimalSeparator = ".";
             Thread.CurrentThread.CurrentCulture = ci;
 
@@ -33,9 +38,31 @@ namespace aplikace {
             streamReader.Close();
         }
 
-        #region GoogleMaps
-
-        #endregion
+        public void Pokus() {
+            Dictionary<string, int> seznamVrcholu = new Dictionary<string, int>();
+            double[,] mapa = new double[vrcholy.Count, vrcholy.Count];
+            foreach (Hrana item in hrany) {
+                vrcholy.Dej(item.Vrchol1.Nazev).PridejHranu(item);
+                vrcholy.Dej(item.Vrchol2.Nazev).PridejHranu(item);
+            }
+            int i = 0;
+            foreach (Vrchol item in vrcholy) {
+                seznamVrcholu.Add(item.Nazev, i);
+                i++;
+            }
+            for (i = 0; i < seznamVrcholu.Count; i++) {
+                for (int j = 0; j < seznamVrcholu.Count; j++) {
+                    mapa[i, j] = -1;
+                }
+            }
+            foreach (Hrana item in hrany) {
+                if (item.Sjizdna) {
+                    mapa[seznamVrcholu[item.Vrchol1.Nazev], seznamVrcholu[item.Vrchol2.Nazev]] = item.Metrika;
+                    mapa[seznamVrcholu[item.Vrchol2.Nazev], seznamVrcholu[item.Vrchol1.Nazev]] = item.Metrika;
+                }
+            }
+            Console.WriteLine();
+        }
 
         IDatovaVrstva idvHrany = null;
         IDatovaVrstva idvVrcholy = null;
@@ -60,6 +87,8 @@ namespace aplikace {
 
         private void toolStripMenuItemNacist_Click(object sender, EventArgs e) {
             nactiSoubory();
+            nactiStranku();
+            //Pokus();
         }
 
         private void nactiSoubory() {
@@ -75,7 +104,6 @@ namespace aplikace {
                     hrany.Pridej(idvHrany.NactiHrany(ref vrcholy));
                 }
             }
-            nactiStranku();
         }
         private void nactiStranku() {
             StringBuilder sb = new StringBuilder();
@@ -88,15 +116,75 @@ namespace aplikace {
                     item.Vrchol1.Souradnice.Y,
                     item.Vrchol2.Souradnice.X,
                     item.Vrchol2.Souradnice.Y,
-                    (item.Vrchol1.Souradnice.X+item.Vrchol2.Souradnice.X)/2,
-                    (item.Vrchol1.Souradnice.Y+item.Vrchol2.Souradnice.Y)/2,
+                    (item.Vrchol1.Souradnice.X + item.Vrchol2.Souradnice.X) / 2,
+                    (item.Vrchol1.Souradnice.Y + item.Vrchol2.Souradnice.Y) / 2,
                     item.Nazev + ": " + item.Metrika));
             }
             webBrowser1.DocumentText = gmHead + sb.ToString() + gmBottom;
+            /*
+            StreamWriter sw = new StreamWriter("./aaaa.txt");
+            sw.WriteLine(gmHead + sb.ToString() + gmBottom);
+            sw.Close();
+             */
+        }
+
+        private void přidatCestuToolStripMenuItem_Click(object sender, EventArgs e) {
+            CestaPridatDialog cp = new CestaPridatDialog(vrcholy.Dej());
+            if (cp.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                hrany.Pridej(new Hrana(cp.Nazev, cp.CestaZ, cp.CestaDo, cp.Metrika, true));
+            }
+            nactiStranku();
+        }
+
+        private void odebratCestuToolStripMenuItem_Click(object sender, EventArgs e) {
+            CestaOdeberDialog co = new CestaOdeberDialog(hrany.Dej());
+            if (co.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                hrany.Odeber(co.HranaProOdebrani.Nazev);
+                nactiStranku();
+            }
         }
 
         private void přidatToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            // načtení města
+            MestoPridejDialog mp = new MestoPridejDialog(udalostMouseUpWebBrowser(this, null));
+            if (mp.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                vrcholy.Pridej(mp.Mesto);
+                nactiStranku();
+            }
         }
+        private void odebratToolStripMenuItem_Click(object sender, EventArgs e) {
+            MestoOdeberDialog mo = new MestoOdeberDialog(vrcholy.Dej());
+            if (mo.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                vrcholy.Odeber(mo.MestoProOdebrani.Souradnice);
+                nactiStranku();
+            }
+        }
+        Vrchol udalostMouseUpWebBrowser(object sender, HtmlElementEventArgs e) {
+            //if (e.MouseButtonsPressed == MouseButtons.Left) {
+
+            Thread.CurrentThread.CurrentCulture = ci;
+            Object[] objArray = new Object[1];
+            Vrchol v = new Vrchol();
+
+            try {
+                objArray[0] = (object)"bodNazev";
+                v.Nazev = webBrowser1.Document.InvokeScript("getValue", objArray).ToString();
+                v.Souradnice = new Bod();
+                objArray[0] = (object)"bodPolohaX";
+                v.Souradnice.X = double.Parse(webBrowser1.Document.InvokeScript("getValue", objArray).ToString().Trim(), ci.NumberFormat);
+                objArray[0] = (object)"bodPolohaY";
+                v.Souradnice.Y = double.Parse(webBrowser1.Document.InvokeScript("getValue", objArray).ToString().Trim(), ci.NumberFormat);
+                return v;
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+            //}
+        }
+
+        private void umístitVozidloToolStripMenuItem_Click(object sender, EventArgs e) {
+            // TODO
+        }
+
     }
 }

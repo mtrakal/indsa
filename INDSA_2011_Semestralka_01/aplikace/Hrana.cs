@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 
 namespace aplikace {
-    class Hrana {
+    public class Hrana {
         public string Nazev { get; set; }
         public Vrchol Vrchol1 { get; set; }
         public Vrchol Vrchol2 { get; set; }
@@ -22,7 +22,7 @@ namespace aplikace {
             Sjizdna = sjizdna;
         }
         public override string ToString() {
-            return Nazev + ": " + Vrchol1.Nazev + " - " + Vrchol2.Nazev + ": " + Metrika + "," + Sjizdna;
+            return Nazev + ": " + Vrchol1.Nazev + " - " + Vrchol2.Nazev + ": " + Metrika + "km ," + ((Sjizdna == true) ? "Sjízdná" : "Nesjízdná");
         }
     }
 }

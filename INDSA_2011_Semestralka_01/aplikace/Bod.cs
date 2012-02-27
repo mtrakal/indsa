@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace aplikace {
-    class Bod {
+    public class Bod {
         public double X { get; set; }
         public double Y { get; set; }
         public Bod() {

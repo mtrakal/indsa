@@ -7,3 +7,7 @@ D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplika
 D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.exe
 D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.pdb
 D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.MainForm.resources
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.CestaPridatDialog.resources
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.CestaOdeberDialog.resources
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.MestoOdeberDialog.resources
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.MestoPridejDialog.resources

@@ -1,0 +1,5 @@
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\ADT\obj\Debug\ResolveAssemblyReference.cache
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\ADT\bin\Debug\ADT.dll
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\ADT\bin\Debug\ADT.pdb
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\ADT\obj\Debug\ADT.dll
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\ADT\obj\Debug\ADT.pdb

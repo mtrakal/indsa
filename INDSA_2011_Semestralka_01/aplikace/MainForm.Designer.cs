@@ -27,9 +27,15 @@
             this.souborToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemNacist = new System.Windows.Forms.ToolStripMenuItem();
             this.konecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.přidatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.odebratToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.přidatCestuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.odebratCestuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.operaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.umístitVozidloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.najítCestuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonKonec = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -37,12 +43,6 @@
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.přidatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.odebratToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.operaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.umístitVozidloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.najítCestuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -85,6 +85,29 @@
             this.konecToolStripMenuItem.Text = "Konec";
             this.konecToolStripMenuItem.Click += new System.EventHandler(this.konecToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.přidatToolStripMenuItem,
+            this.odebratToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(48, 20);
+            this.toolStripMenuItem1.Text = "Město";
+            // 
+            // přidatToolStripMenuItem
+            // 
+            this.přidatToolStripMenuItem.Name = "přidatToolStripMenuItem";
+            this.přidatToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.přidatToolStripMenuItem.Text = "Přidat";
+            this.přidatToolStripMenuItem.Click += new System.EventHandler(this.přidatToolStripMenuItem_Click);
+            // 
+            // odebratToolStripMenuItem
+            // 
+            this.odebratToolStripMenuItem.Name = "odebratToolStripMenuItem";
+            this.odebratToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.odebratToolStripMenuItem.Text = "Odebrat";
+            this.odebratToolStripMenuItem.Click += new System.EventHandler(this.odebratToolStripMenuItem_Click);
+            // 
             // mapaToolStripMenuItem
             // 
             this.mapaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -99,12 +122,36 @@
             this.přidatCestuToolStripMenuItem.Name = "přidatCestuToolStripMenuItem";
             this.přidatCestuToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.přidatCestuToolStripMenuItem.Text = "Přidat";
+            this.přidatCestuToolStripMenuItem.Click += new System.EventHandler(this.přidatCestuToolStripMenuItem_Click);
             // 
             // odebratCestuToolStripMenuItem
             // 
             this.odebratCestuToolStripMenuItem.Name = "odebratCestuToolStripMenuItem";
             this.odebratCestuToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.odebratCestuToolStripMenuItem.Text = "Odebrat";
+            this.odebratCestuToolStripMenuItem.Click += new System.EventHandler(this.odebratCestuToolStripMenuItem_Click);
+            // 
+            // operaceToolStripMenuItem
+            // 
+            this.operaceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.umístitVozidloToolStripMenuItem,
+            this.najítCestuToolStripMenuItem});
+            this.operaceToolStripMenuItem.Name = "operaceToolStripMenuItem";
+            this.operaceToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.operaceToolStripMenuItem.Text = "Operace";
+            // 
+            // umístitVozidloToolStripMenuItem
+            // 
+            this.umístitVozidloToolStripMenuItem.Name = "umístitVozidloToolStripMenuItem";
+            this.umístitVozidloToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.umístitVozidloToolStripMenuItem.Text = "Umístit vozidlo";
+            this.umístitVozidloToolStripMenuItem.Click += new System.EventHandler(this.umístitVozidloToolStripMenuItem_Click);
+            // 
+            // najítCestuToolStripMenuItem
+            // 
+            this.najítCestuToolStripMenuItem.Name = "najítCestuToolStripMenuItem";
+            this.najítCestuToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.najítCestuToolStripMenuItem.Text = "Najít cestu";
             // 
             // buttonKonec
             // 
@@ -155,49 +202,6 @@
             this.webBrowser1.Size = new System.Drawing.Size(760, 539);
             this.webBrowser1.TabIndex = 4;
             this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.přidatToolStripMenuItem,
-            this.odebratToolStripMenuItem});
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(48, 20);
-            this.toolStripMenuItem1.Text = "Město";
-            // 
-            // přidatToolStripMenuItem
-            // 
-            this.přidatToolStripMenuItem.Name = "přidatToolStripMenuItem";
-            this.přidatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.přidatToolStripMenuItem.Text = "Přidat";
-            this.přidatToolStripMenuItem.Click += new System.EventHandler(this.přidatToolStripMenuItem_Click);
-            // 
-            // odebratToolStripMenuItem
-            // 
-            this.odebratToolStripMenuItem.Name = "odebratToolStripMenuItem";
-            this.odebratToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.odebratToolStripMenuItem.Text = "Odebrat";
-            // 
-            // operaceToolStripMenuItem
-            // 
-            this.operaceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.umístitVozidloToolStripMenuItem,
-            this.najítCestuToolStripMenuItem});
-            this.operaceToolStripMenuItem.Name = "operaceToolStripMenuItem";
-            this.operaceToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
-            this.operaceToolStripMenuItem.Text = "Operace";
-            // 
-            // umístitVozidloToolStripMenuItem
-            // 
-            this.umístitVozidloToolStripMenuItem.Name = "umístitVozidloToolStripMenuItem";
-            this.umístitVozidloToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.umístitVozidloToolStripMenuItem.Text = "Umístit vozidlo";
-            // 
-            // najítCestuToolStripMenuItem
-            // 
-            this.najítCestuToolStripMenuItem.Name = "najítCestuToolStripMenuItem";
-            this.najítCestuToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.najítCestuToolStripMenuItem.Text = "Najít cestu";
             // 
             // MainForm
             // 

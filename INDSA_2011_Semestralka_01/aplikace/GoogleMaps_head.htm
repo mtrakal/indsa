@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <!-- http://code.google.com/apis/maps/documentation/javascript/overlays.html -->
 
@@ -12,6 +12,13 @@
     </style>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?&sensor=false"></script>
     <script type="text/javascript">
+      var bodNazev = "";
+      var bodPolohaX = -1;
+      var bodPolohaY = -1;
+      function getValue(value) {
+        return eval(value);
+      }
+      
       // Define the overlay, derived from google.maps.OverlayView
       function Label(opt_options) {
            // Initialization
@@ -74,9 +81,7 @@
            this.span_.innerHTML = this.get('text').toString();
       };    
     
-    
-    
-    
+
     
       var map;
       var markers = [];
@@ -103,3 +108,4 @@
         
         
         // Zde rozpůlit
+

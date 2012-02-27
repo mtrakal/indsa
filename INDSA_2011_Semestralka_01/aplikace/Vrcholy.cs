@@ -56,6 +56,6 @@ namespace aplikace {
             }
             return vystup;
         }
-
+        public int Count { get { return vrcholy.Count; } }
     }
 }

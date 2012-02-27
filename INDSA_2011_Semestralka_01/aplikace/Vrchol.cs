@@ -4,9 +4,24 @@ using System.Linq;
 using System.Text;
 
 namespace aplikace {
-    class Vrchol {
+    public class Vrchol {
         public Bod Souradnice { get; set; }
         public string Nazev { get; set; }
+
+        Hrany seznamHran = new Hrany();
+
+        public void PridejHranu(Hrana hrana) {
+            seznamHran.Pridej(hrana);
+        }
+
+        public Hrana DejHranu(string nazevHrany) {
+            return seznamHran.Dej(nazevHrany);
+        }
+
+        public void OdeberHranu(string nazevHrany) {
+            seznamHran.Odeber(nazevHrany);
+        }
+
         public override string ToString() {
             return string.Format("{0}: {1},{2}", Nazev, Souradnice.X, Souradnice.Y);
         }
