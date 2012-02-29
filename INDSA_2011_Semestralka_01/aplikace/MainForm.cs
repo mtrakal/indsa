@@ -18,15 +18,13 @@ namespace aplikace {
         string gmHead;
         string gmBottom;
 
-        CultureInfo ci;
+        CultureInfo ci = Konstanty.CULTUREINFO;
 
         public MainForm() {
             InitializeComponent();
 
             //webBrowser1.Document.MouseUp += new HtmlElementEventHandler(udalostMouseUpWebBrowser);
 
-            ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
-            ci.NumberFormat.NumberDecimalSeparator = ".";
             Thread.CurrentThread.CurrentCulture = ci;
 
             //webBrowser1.Url = new Uri(Directory.GetCurrentDirectory()+"../../../GoogleMaps.htm");
@@ -36,6 +34,8 @@ namespace aplikace {
             streamReader = new StreamReader(Directory.GetCurrentDirectory() + "../../../GoogleMaps_bottom.htm");
             gmBottom = streamReader.ReadToEnd();
             streamReader.Close();
+
+            nactiStranku();
         }
 
         public void Pokus() {
@@ -120,7 +120,13 @@ namespace aplikace {
                     (item.Vrchol1.Souradnice.Y + item.Vrchol2.Souradnice.Y) / 2,
                     item.Nazev + ": " + item.Metrika));
             }
-            webBrowser1.DocumentText = gmHead + sb.ToString() + gmBottom;
+            string s = gmHead + sb.ToString() + gmBottom;
+            //webBrowser1.Document.Write(s);
+            webBrowser1.Document.OpenNew(true);
+            //webBrowser1.Navigate("about:blank");
+            //Debug.Write(s);
+//            webBrowser1.Document.Write(s.ToString());
+            webBrowser1.DocumentText = s.ToString();
             /*
             StreamWriter sw = new StreamWriter("./aaaa.txt");
             sw.WriteLine(gmHead + sb.ToString() + gmBottom);
@@ -132,8 +138,9 @@ namespace aplikace {
             CestaPridatDialog cp = new CestaPridatDialog(vrcholy.Dej());
             if (cp.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 hrany.Pridej(new Hrana(cp.Nazev, cp.CestaZ, cp.CestaDo, cp.Metrika, true));
+                nactiStranku();
+                idvHrany.UlozHrany(hrany.Dej());
             }
-            nactiStranku();
         }
 
         private void odebratCestuToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -141,6 +148,7 @@ namespace aplikace {
             if (co.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 hrany.Odeber(co.HranaProOdebrani.Nazev);
                 nactiStranku();
+                idvHrany.UlozHrany(hrany.Dej());
             }
         }
 
@@ -150,6 +158,7 @@ namespace aplikace {
             if (mp.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 vrcholy.Pridej(mp.Mesto);
                 nactiStranku();
+                idvVrcholy.UlozVrcholy(vrcholy.Dej());
             }
         }
         private void odebratToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -157,6 +166,7 @@ namespace aplikace {
             if (mo.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 vrcholy.Odeber(mo.MestoProOdebrani.Souradnice);
                 nactiStranku();
+                idvVrcholy.UlozVrcholy(vrcholy.Dej());
             }
         }
         Vrchol udalostMouseUpWebBrowser(object sender, HtmlElementEventArgs e) {

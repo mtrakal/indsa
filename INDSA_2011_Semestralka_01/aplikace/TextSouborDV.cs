@@ -7,6 +7,7 @@ using System.Drawing;
 
 namespace aplikace {
     class TextSouborDV : IDisposable, IDatovaVrstva {
+
         /// <summary>
         /// Podkladový stream.
         /// </summary>
@@ -28,8 +29,6 @@ namespace aplikace {
             sw = new StreamWriter(fs, Encoding.UTF8);
             sr = new StreamReader(fs, Encoding.UTF8);
         }
-
-
         public void Dispose() {
             sw.Close();
         }
@@ -39,21 +38,31 @@ namespace aplikace {
 
             sw.WriteLine(vrcholy.Count);
             foreach (Vrchol item in vrcholy) {
-                sw.WriteLine(string.Format(Konstanty.FORMAT, item.Nazev, item.Souradnice.X, item.Souradnice.Y));
+                sw.WriteLine(string.Format(Konstanty.FORMAT,
+                    item.Nazev,
+                    item.Souradnice.X.ToString(Konstanty.CULTUREINFO),
+                    item.Souradnice.Y.ToString(Konstanty.CULTUREINFO)
+                    ));
             }
             sw.Flush();
         }
-
         public void UlozHrany(List<Hrana> hrany) {
             sw.BaseStream.SetLength(0);
 
             sw.WriteLine(hrany.Count);
             foreach (Hrana item in hrany) {
-                sw.WriteLine(string.Format(Konstanty.FORMAT, item.Nazev, item.Vrchol1.Souradnice.X, item.Vrchol1.Souradnice.Y, item.Vrchol2.Souradnice.X, item.Vrchol2.Souradnice.Y, item.Metrika, item.Sjizdna));
+                sw.WriteLine(string.Format(Konstanty.FORMAT,
+                    item.Nazev,
+                    item.Vrchol1.Souradnice.X.ToString(Konstanty.CULTUREINFO),
+                    item.Vrchol1.Souradnice.Y.ToString(Konstanty.CULTUREINFO),
+                    item.Vrchol2.Souradnice.X.ToString(Konstanty.CULTUREINFO),
+                    item.Vrchol2.Souradnice.Y.ToString(Konstanty.CULTUREINFO),
+                    item.Metrika,
+                    item.Sjizdna
+                    ));
             }
             sw.Flush();
         }
-
         public List<Vrchol> NactiVrcholy() {
             List<Vrchol> vrcholy = new List<Vrchol>();
             if (sr.BaseStream.Length == 0) {
@@ -71,7 +80,6 @@ namespace aplikace {
             }
             return vrcholy;
         }
-
         public List<Hrana> NactiHrany(ref Vrcholy vrcholy) {
             List<Hrana> cesty = new List<Hrana>();
             if (sr.BaseStream.Length == 0) {
@@ -89,7 +97,7 @@ namespace aplikace {
                     //Nazev = string.Format("{0}{1}", Konstanty.ABECEDA[i / Konstanty.ABECEDA.Length], Konstanty.ABECEDA[i % Konstanty.ABECEDA.Length]),
                     //Vrchol1 = vrcholy.Dej(pom[0]),
                     //Vrchol2 = vrcholy.Dej(pom[1]),
-                    Vrchol1 = vrcholy.Dej(new Bod(double.Parse(pom[1]),double.Parse(pom[2]))),
+                    Vrchol1 = vrcholy.Dej(new Bod(double.Parse(pom[1]), double.Parse(pom[2]))),
                     Vrchol2 = vrcholy.Dej(new Bod(double.Parse(pom[3]), double.Parse(pom[4]))),
                     Metrika = int.Parse(pom[5]),
                     Sjizdna = bool.Parse(pom[6])

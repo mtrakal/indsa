@@ -1,4 +1,4 @@
-﻿        //  Zde nový
+﻿        //  Zde novy
       }
       
       function codeLatLng(location, marker) {
@@ -22,11 +22,11 @@
               text = results[1].formatted_address;
               text = text.substring(0,text.indexOf(","));
               bodNazev = text;
-              alert(text);
+//              alert(text);
             }
           } else {
             bodNazev = "Neznámé";
-            alert("Neznámé");
+//            alert("Neznámé");
           }
         });
       } 
@@ -41,7 +41,7 @@
         getPopisek(location);
         bodPolohaX = location.lat();
         bodPolohaY = location.lng();
-        alert(location);
+  //      alert(location);
         markers.push(marker);
       }
 
