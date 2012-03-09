@@ -8,11 +8,10 @@ namespace aplikace {
         Dictionary<Bod, Vrchol> vrcholy = new Dictionary<Bod, Vrchol>();
 
         public void Pridej(Vrchol vrchol) {
-            if (vrcholy.ContainsKey(vrchol.Souradnice)) {
+            if (vrcholy.ContainsKey(vrchol.Souradnice as Bod)) {
                 throw new Exception("Klíč již existuje Vrcholy");
-                //return;
             }
-            vrcholy.Add(vrchol.Souradnice, vrchol);
+            vrcholy.Add(vrchol.Souradnice as Bod, vrchol);
         }
         public void Pridej(string nazev, Bod souradnice) {
             Pridej(new Vrchol(nazev, souradnice));
@@ -34,16 +33,16 @@ namespace aplikace {
                 yield return item.Value;
             }
         }
-        public Vrchol Dej(Bod souradnice) {
+        public Graf<string, string, double>.IVrchol Dej(Bod souradnice) {
             if (vrcholy.ContainsKey(souradnice)) {
                 return vrcholy[souradnice];
             } else {
                 return null;
             }
         }
-        public Vrchol Dej(string nazev) {
+        public Graf<string, string, double>.IVrchol Dej(string nazev) {
             foreach (KeyValuePair<Bod, Vrchol> item in vrcholy) {
-                if (item.Value.Nazev == nazev) {
+                if (item.Value.Data == nazev) {
                     return item.Value;
                 }
             }

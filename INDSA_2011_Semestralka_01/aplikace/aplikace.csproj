@@ -46,40 +46,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bod.cs" />
-    <Compile Include="CestaPridatDialog.cs">
+    <Compile Include="DatoveStruktury\Auto.cs" />
+    <Compile Include="Dialogy\AutoNastav.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CestaPridatDialog.Designer.cs">
+    <Compile Include="Dialogy\AutoNastav.Designer.cs">
+      <DependentUpon>AutoNastav.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DatoveStruktury\Bod.cs" />
+    <Compile Include="Dialogy\CestaPridatDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogy\CestaPridatDialog.Designer.cs">
       <DependentUpon>CestaPridatDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Graf.cs" />
-    <Compile Include="Hrana.cs" />
-    <Compile Include="CestaOdeberDialog.cs">
+    <Compile Include="Dialogy\CestaSjizdnost.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CestaOdeberDialog.Designer.cs">
+    <Compile Include="Dialogy\CestaSjizdnost.Designer.cs">
+      <DependentUpon>CestaSjizdnost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ADTGraf\Graf.cs" />
+    <Compile Include="DatoveStruktury\Hrana.cs" />
+    <Compile Include="Dialogy\CestaOdeberDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogy\CestaOdeberDialog.Designer.cs">
       <DependentUpon>CestaOdeberDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Hrany.cs" />
+    <Compile Include="DatoveStruktury\Hrany.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="IDatovaVrstva.cs" />
+    <Compile Include="DatoveStruktury\IDatovaVrstva.cs" />
     <Compile Include="Konstanty.cs" />
-    <Compile Include="MestoOdeberDialog.cs">
+    <Compile Include="Dialogy\MestoOdeberDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MestoOdeberDialog.Designer.cs">
+    <Compile Include="Dialogy\MestoOdeberDialog.Designer.cs">
       <DependentUpon>MestoOdeberDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="MestoPridejDialog.cs">
+    <Compile Include="Dialogy\MestoPridejDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MestoPridejDialog.Designer.cs">
+    <Compile Include="Dialogy\MestoPridejDialog.Designer.cs">
       <DependentUpon>MestoPridejDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -89,22 +102,28 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TextSouborDV.cs" />
-    <Compile Include="Vrchol.cs" />
-    <Compile Include="Vrcholy.cs" />
-    <EmbeddedResource Include="CestaPridatDialog.resx">
+    <Compile Include="DatoveStruktury\TextSouborDV.cs" />
+    <Compile Include="DatoveStruktury\Vrchol.cs" />
+    <Compile Include="DatoveStruktury\Vrcholy.cs" />
+    <EmbeddedResource Include="Dialogy\AutoNastav.resx">
+      <DependentUpon>AutoNastav.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogy\CestaPridatDialog.resx">
       <DependentUpon>CestaPridatDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CestaOdeberDialog.resx">
+    <EmbeddedResource Include="Dialogy\CestaOdeberDialog.resx">
       <DependentUpon>CestaOdeberDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogy\CestaSjizdnost.resx">
+      <DependentUpon>CestaSjizdnost.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MestoOdeberDialog.resx">
+    <EmbeddedResource Include="Dialogy\MestoOdeberDialog.resx">
       <DependentUpon>MestoOdeberDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MestoPridejDialog.resx">
+    <EmbeddedResource Include="Dialogy\MestoPridejDialog.resx">
       <DependentUpon>MestoPridejDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -112,6 +131,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ADTGraf\Graf.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

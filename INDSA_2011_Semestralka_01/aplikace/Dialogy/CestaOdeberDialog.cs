@@ -11,7 +11,7 @@ namespace aplikace {
     public partial class CestaOdeberDialog : Form {
         public Hrana HranaProOdebrani { get; set; }
 
-        public CestaOdeberDialog(List<Hrana> hrany) {
+        public CestaOdeberDialog(List<Graf<string,string,double>.IHrana> hrany) {
             InitializeComponent();
             foreach (Hrana item in hrany) {
                 comboBoxHrana.Items.Add(item);

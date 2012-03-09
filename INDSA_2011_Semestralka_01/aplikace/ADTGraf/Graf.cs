@@ -5,25 +5,28 @@ using System.Text;
 using System.Collections;
 
 namespace aplikace {
-    class Graf<Tvrchol> {
+    public class Graf<TVrchol, THrana, TMetrika> {
         public interface IBod {
             double X { get; set; }
             double Y { get; set; }
         }
         public interface IVrchol {
-            string Data { get; set; }
+            TVrchol Data { get; set; }
             IBod Souradnice { get; set; }
+            void PridejHranu(IHrana hrana);
+            IHrana DejHranu(TVrchol nazevHrany);
+            List<IHrana> DejHrany();
+            void OdeberHranu(TVrchol nazevHrany);
         }
         public interface IHrana {
-            string Nazev { get; set; }
+            THrana Data { get; set; }
             IVrchol Vrchol1 { get; set; }
             IVrchol Vrchol2 { get; set; }
             double Metrika { get; set; }
         }
         Dictionary<IBod, IVrchol> vrcholy = new Dictionary<IBod, IVrchol>();
-        Dictionary<string, IHrana> hrany = new Dictionary<string, IHrana>();
-
-        #region Vrchol
+        Dictionary<THrana, IHrana> hrany = new Dictionary<THrana, IHrana>();
+        #region Vrcholy
         public void Pridej(IVrchol vrchol) {
             if (vrcholy.ContainsKey(vrchol.Souradnice)) {
                 throw new Exception("Klíč již existuje Vrcholy-Pridej");
@@ -62,20 +65,19 @@ namespace aplikace {
             return vystup;
         }
         #endregion
-
         #region Hrany
         public void Pridej(IHrana hrana) {
-            if (hrany.ContainsKey(hrana.Nazev)) {
+            if (hrany.ContainsKey(hrana.Data)) {
                 throw new Exception("Klíč již existuje Hrany-Pridej");
             }
-            hrany.Add(hrana.Nazev, hrana);
+            hrany.Add(hrana.Data, hrana);
         }
         public void Pridej(List<IHrana> hrany) {
             foreach (IHrana item in hrany) {
                 Pridej(item);
             }
         }
-        public void Odeber(string nazev) {
+        public void Odeber(THrana nazev) {
             if (hrany.ContainsKey(nazev)) {
                 hrany.Remove(nazev);
             } else {
@@ -84,11 +86,11 @@ namespace aplikace {
         }
 
         public IEnumerator GetEnumeratorHrany() {
-            foreach (KeyValuePair<string, IHrana> item in hrany) {
+            foreach (KeyValuePair<THrana, IHrana> item in hrany) {
                 yield return item.Value;
             }
         }
-        public IHrana Dej(string nazev) {
+        public IHrana Dej(THrana nazev) {
             if (hrany.ContainsKey(nazev)) {
                 return hrany[nazev];
             } else {
@@ -97,7 +99,7 @@ namespace aplikace {
         }
         public List<IHrana> DejHrany() {
             List<IHrana> vystup = new List<IHrana>();
-            foreach (KeyValuePair<string, IHrana> item in hrany) {
+            foreach (KeyValuePair<THrana, IHrana> item in hrany) {
                 vystup.Add(item.Value);
             }
             return vystup;

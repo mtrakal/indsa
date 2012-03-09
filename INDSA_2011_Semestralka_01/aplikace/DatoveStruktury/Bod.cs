@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace aplikace {
-    public class Bod {
+    public class Bod:Graf<string,string,double>.IBod {
         public double X { get; set; }
         public double Y { get; set; }
         public Bod() {

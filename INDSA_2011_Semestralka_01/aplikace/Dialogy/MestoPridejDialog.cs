@@ -19,7 +19,7 @@ namespace aplikace {
             Mesto = vrchol;
 
             if (Mesto != null) {
-                textBoxNazev.Text = Mesto.Nazev;
+                textBoxNazev.Text = Mesto.Data;
                 if (Mesto.Souradnice != null) {
                     textBoxX.Text = Mesto.Souradnice.X.ToString();
                     textBoxY.Text = Mesto.Souradnice.Y.ToString();

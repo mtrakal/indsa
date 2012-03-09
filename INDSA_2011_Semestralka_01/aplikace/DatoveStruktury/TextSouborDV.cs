@@ -29,8 +29,11 @@ namespace aplikace {
             sw = new StreamWriter(fs, Encoding.UTF8);
             sr = new StreamReader(fs, Encoding.UTF8);
         }
+
         public void Dispose() {
             sw.Close();
+            sr.Close();
+            fs.Close();
         }
 
         public void UlozVrcholy(List<Vrchol> vrcholy) {
@@ -39,7 +42,7 @@ namespace aplikace {
             sw.WriteLine(vrcholy.Count);
             foreach (Vrchol item in vrcholy) {
                 sw.WriteLine(string.Format(Konstanty.FORMAT,
-                    item.Nazev,
+                    item.Data,
                     item.Souradnice.X.ToString(Konstanty.CULTUREINFO),
                     item.Souradnice.Y.ToString(Konstanty.CULTUREINFO)
                     ));
@@ -52,7 +55,7 @@ namespace aplikace {
             sw.WriteLine(hrany.Count);
             foreach (Hrana item in hrany) {
                 sw.WriteLine(string.Format(Konstanty.FORMAT,
-                    item.Nazev,
+                    item.Data,
                     item.Vrchol1.Souradnice.X.ToString(Konstanty.CULTUREINFO),
                     item.Vrchol1.Souradnice.Y.ToString(Konstanty.CULTUREINFO),
                     item.Vrchol2.Souradnice.X.ToString(Konstanty.CULTUREINFO),
@@ -93,8 +96,8 @@ namespace aplikace {
                 pom = null;
                 pom = sr.ReadLine().Split(';');
                 Hrana c = new Hrana() {
-                    Nazev = pom[0],
-                    //Nazev = string.Format("{0}{1}", Konstanty.ABECEDA[i / Konstanty.ABECEDA.Length], Konstanty.ABECEDA[i % Konstanty.ABECEDA.Length]),
+                    Data = pom[0],
+                    //Data = string.Format("{0}{1}", Konstanty.ABECEDA[i / Konstanty.ABECEDA.Length], Konstanty.ABECEDA[i % Konstanty.ABECEDA.Length]),
                     //Vrchol1 = vrcholy.Dej(pom[0]),
                     //Vrchol2 = vrcholy.Dej(pom[1]),
                     Vrchol1 = vrcholy.Dej(new Bod(double.Parse(pom[1]), double.Parse(pom[2]))),
@@ -102,7 +105,7 @@ namespace aplikace {
                     Metrika = int.Parse(pom[5]),
                     Sjizdna = bool.Parse(pom[6])
 
-                    /*Nazev = string.Format("{0}{1}", Konstanty.ABECEDA[i / Konstanty.ABECEDA.Length], Konstanty.ABECEDA[i % Konstanty.ABECEDA.Length]),
+                    /*Data = string.Format("{0}{1}", Konstanty.ABECEDA[i / Konstanty.ABECEDA.Length], Konstanty.ABECEDA[i % Konstanty.ABECEDA.Length]),
                     Vrchol1 = new Point(int.Parse(pom[0]), int.Parse(pom[1])),
                     Vrchol2 = new Point(int.Parse(pom[2]), int.Parse(pom[3])),
                     Metrika = int.Parse(pom[4]),
