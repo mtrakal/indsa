@@ -36,7 +36,7 @@
             this.buttonPridat.Location = new System.Drawing.Point(89, 43);
             this.buttonPridat.Name = "buttonPridat";
             this.buttonPridat.Size = new System.Drawing.Size(75, 23);
-            this.buttonPridat.TabIndex = 7;
+            this.buttonPridat.TabIndex = 2;
             this.buttonPridat.Text = "Odebrat";
             this.buttonPridat.UseVisualStyleBackColor = true;
             this.buttonPridat.Click += new System.EventHandler(this.buttonPridat_Click);
@@ -48,7 +48,7 @@
             this.buttonZrusit.Location = new System.Drawing.Point(170, 43);
             this.buttonZrusit.Name = "buttonZrusit";
             this.buttonZrusit.Size = new System.Drawing.Size(75, 23);
-            this.buttonZrusit.TabIndex = 6;
+            this.buttonZrusit.TabIndex = 3;
             this.buttonZrusit.Text = "Zrušit";
             this.buttonZrusit.UseVisualStyleBackColor = true;
             this.buttonZrusit.Click += new System.EventHandler(this.buttonZrusit_Click);
@@ -59,7 +59,7 @@
             this.label1.Location = new System.Drawing.Point(11, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(36, 13);
-            this.label1.TabIndex = 5;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Město";
             // 
             // comboBoxMesto
@@ -70,7 +70,7 @@
             this.comboBoxMesto.Location = new System.Drawing.Point(61, 12);
             this.comboBoxMesto.Name = "comboBoxMesto";
             this.comboBoxMesto.Size = new System.Drawing.Size(258, 21);
-            this.comboBoxMesto.TabIndex = 4;
+            this.comboBoxMesto.TabIndex = 1;
             this.comboBoxMesto.SelectedIndexChanged += new System.EventHandler(this.comboBoxMesto_SelectedIndexChanged);
             // 
             // MestoOdeberDialog

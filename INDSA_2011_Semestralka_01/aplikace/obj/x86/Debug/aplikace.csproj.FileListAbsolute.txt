@@ -13,3 +13,4 @@ D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplika
 D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.MestoPridejDialog.resources
 D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.AutoNastav.resources
 D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.CestaSjizdnost.resources
+D:\Upce\Materialy\8.semestr\INDSA_Kavicka\indsa\INDSA_2011_Semestralka_01\aplikace\obj\x86\Debug\aplikace.Dialogy.CestaCil.resources

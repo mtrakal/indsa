@@ -6,15 +6,16 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using aplikace.DatoveStruktury;
 
 namespace aplikace {
     public partial class CestaPridatDialog : Form {
-        public Vrchol CestaZ { get; set; }
-        public Vrchol CestaDo { get; set; }
+        public CestyGraf.Vrchol CestaZ { get; set; }
+        public CestyGraf.Vrchol CestaDo { get; set; }
         public string Nazev { get; set; }
         public double Metrika { get; set; }
 
-        public CestaPridatDialog(List<Vrchol> vrcholy) {
+        public CestaPridatDialog(List<CestyGraf.Vrchol> vrcholy) {
             InitializeComponent();
             try {
                 if (vrcholy == null || vrcholy.Count == 0) {
@@ -27,7 +28,7 @@ namespace aplikace {
                 Close();
             }
 
-            foreach (Vrchol item in vrcholy) {
+            foreach (CestyGraf.Vrchol item in vrcholy) {
                 comboBoxZ.Items.Add(item);
                 comboBoxDo.Items.Add(item);
             }
@@ -43,12 +44,12 @@ namespace aplikace {
         }
 
         private void comboBoxZ_SelectedIndexChanged(object sender, EventArgs e) {
-            CestaZ = comboBoxZ.Items[comboBoxZ.SelectedIndex] as Vrchol;
+            CestaZ = comboBoxZ.Items[comboBoxZ.SelectedIndex] as CestyGraf.Vrchol;
             textBoxMetrika.Text = vypocitejMetriku().ToString();
         }
 
         private void comboBoxDo_SelectedIndexChanged(object sender, EventArgs e) {
-            CestaDo = comboBoxDo.Items[comboBoxDo.SelectedIndex] as Vrchol;
+            CestaDo = comboBoxDo.Items[comboBoxDo.SelectedIndex] as CestyGraf.Vrchol;
             textBoxMetrika.Text = vypocitejMetriku().ToString();
         }
         private double vypocitejMetriku() {
@@ -56,9 +57,9 @@ namespace aplikace {
                 return 0;
             }
             double d2r = Math.PI / 180.0;
-            double dlong = (((comboBoxDo.Items[comboBoxDo.SelectedIndex] as Vrchol).Souradnice.X - (comboBoxZ.Items[comboBoxZ.SelectedIndex] as Vrchol).Souradnice.X)) * d2r;
-            double dlat = (((comboBoxDo.Items[comboBoxDo.SelectedIndex] as Vrchol).Souradnice.Y - (comboBoxZ.Items[comboBoxZ.SelectedIndex] as Vrchol).Souradnice.Y)) * d2r;
-            double a = Math.Pow(Math.Sin(dlat / 2.0), 2) + Math.Cos((comboBoxZ.Items[comboBoxZ.SelectedIndex] as Vrchol).Souradnice.Y * d2r) * Math.Cos((comboBoxDo.Items[comboBoxDo.SelectedIndex] as Vrchol).Souradnice.Y * d2r) * Math.Pow(Math.Sin(dlong / 2.0), 2);
+            double dlong = (((comboBoxDo.Items[comboBoxDo.SelectedIndex] as CestyGraf.Vrchol).Souradnice.X - (comboBoxZ.Items[comboBoxZ.SelectedIndex] as CestyGraf.Vrchol).Souradnice.X)) * d2r;
+            double dlat = (((comboBoxDo.Items[comboBoxDo.SelectedIndex] as CestyGraf.Vrchol).Souradnice.Y - (comboBoxZ.Items[comboBoxZ.SelectedIndex] as CestyGraf.Vrchol).Souradnice.Y)) * d2r;
+            double a = Math.Pow(Math.Sin(dlat / 2.0), 2) + Math.Cos((comboBoxZ.Items[comboBoxZ.SelectedIndex] as CestyGraf.Vrchol).Souradnice.Y * d2r) * Math.Cos((comboBoxDo.Items[comboBoxDo.SelectedIndex] as CestyGraf.Vrchol).Souradnice.Y * d2r) * Math.Pow(Math.Sin(dlong / 2.0), 2);
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
             double d = 6367 * c;
             return Math.Round(d, 2);

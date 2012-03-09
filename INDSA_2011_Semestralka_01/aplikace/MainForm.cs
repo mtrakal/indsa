@@ -10,11 +10,13 @@ using System.IO;
 using System.Globalization;
 using System.Threading;
 using System.Diagnostics;
+using aplikace.Dialogy;
+using aplikace.DatoveStruktury;
 
 namespace aplikace {
     public partial class MainForm : Form {
-        Vrcholy vrcholy = new Vrcholy();
-        Hrany hrany = new Hrany();
+        CestyGraf.Vrcholy vrcholy = new CestyGraf.Vrcholy();
+        CestyGraf.Hrany hrany = new CestyGraf.Hrany();
         Auto auto = null;
         string gmHead;
         string gmBottom;
@@ -42,12 +44,12 @@ namespace aplikace {
         public void Pokus() {
             Dictionary<string, int> seznamVrcholu = new Dictionary<string, int>();
             double[,] mapa = new double[vrcholy.Count, vrcholy.Count];
-            foreach (Hrana item in hrany) {
+            foreach (CestyGraf.Hrana item in hrany) {
                 vrcholy.Dej(item.Vrchol1.Data).PridejHranu(item);
                 vrcholy.Dej(item.Vrchol2.Data).PridejHranu(item);
             }
             int i = 0;
-            foreach (Vrchol item in vrcholy) {
+            foreach (CestyGraf.Vrchol item in vrcholy) {
                 seznamVrcholu.Add(item.Data, i);
                 i++;
             }
@@ -56,7 +58,7 @@ namespace aplikace {
                     mapa[i, j] = -1;
                 }
             }
-            foreach (Hrana item in hrany) {
+            foreach (CestyGraf.Hrana item in hrany) {
                 if (item.Sjizdna) {
                     mapa[seznamVrcholu[item.Vrchol1.Data], seznamVrcholu[item.Vrchol2.Data]] = item.Metrika;
                     mapa[seznamVrcholu[item.Vrchol2.Data], seznamVrcholu[item.Vrchol1.Data]] = item.Metrika;
@@ -82,7 +84,7 @@ namespace aplikace {
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private void konec() {
-            //idvHrany.UlozHrany(hrany.Dej());
+            //idvHrany.UlozHrany(seznamHran.Dej());
             Close();
         }
 
@@ -104,7 +106,7 @@ namespace aplikace {
                     idvHrany = new TextSouborDV(openFileDialog.FileName);
                     hrany.Pridej(idvHrany.NactiHrany(ref vrcholy));
                 }
-                foreach (Hrana item in hrany.Dej()) {
+                foreach (CestyGraf.Hrana item in hrany.Dej()) {
                     item.Vrchol1.PridejHranu(item);
                     item.Vrchol2.PridejHranu(item);
                 }
@@ -112,10 +114,10 @@ namespace aplikace {
         }
         private void nactiStranku() {
             StringBuilder sb = new StringBuilder();
-            foreach (Vrchol item in vrcholy) {
+            foreach (CestyGraf.Vrchol item in vrcholy) {
                 sb.Append(string.Format(Konstanty.FORMATVRCHOL, item.Data, item.Souradnice.X, item.Souradnice.Y));
             }
-            foreach (Hrana item in hrany) {
+            foreach (CestyGraf.Hrana item in hrany) {
                 sb.Append(string.Format((item.Sjizdna) ? Konstanty.FORMATHRANA : Konstanty.FORMATHRANANESJIZDNA,
                     item.Vrchol1.Souradnice.X,
                     item.Vrchol1.Souradnice.Y,
@@ -145,24 +147,26 @@ namespace aplikace {
         private void přidatCestuToolStripMenuItem_Click(object sender, EventArgs e) {
             CestaPridatDialog cp = new CestaPridatDialog(vrcholy.Dej());
             if (cp.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                hrany.Pridej(new Hrana(cp.Nazev, cp.CestaZ, cp.CestaDo, cp.Metrika, true));
+                hrany.Pridej(new CestyGraf.Hrana(cp.Nazev, cp.CestaZ, cp.CestaDo, cp.Metrika, true));
                 nactiStranku();
-                // idvHrany.UlozHrany(hrany.Dej());
+                // idvHrany.UlozHrany(seznamHran.Dej());
             }
         }
 
         private void odebratCestuToolStripMenuItem_Click(object sender, EventArgs e) {
             CestaOdeberDialog co = new CestaOdeberDialog(hrany.Dej());
             if (co.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                if (auto.HranaPoloha.Data == co.HranaProOdebrani.Data) {
-                    MessageBox.Show("Automobil je na této silnici, nelze ji odstranit.");
-                    return;
+                if (auto != null) {
+                    if (auto.HranaPoloha.Data == co.HranaProOdebrani.Data) {
+                        MessageBox.Show("Automobil je na této silnici, nelze ji odstranit.");
+                        return;
+                    }
                 }
                 co.HranaProOdebrani.Vrchol1.OdeberHranu(co.HranaProOdebrani.Data);
                 co.HranaProOdebrani.Vrchol2.OdeberHranu(co.HranaProOdebrani.Data);
                 hrany.Odeber(co.HranaProOdebrani.Data);
                 nactiStranku();
-                // idvHrany.UlozHrany(hrany.Dej());
+                // idvHrany.UlozHrany(seznamHran.Dej());
             }
         }
 
@@ -178,27 +182,27 @@ namespace aplikace {
         private void odebratToolStripMenuItem_Click(object sender, EventArgs e) {
             MestoOdeberDialog mo = new MestoOdeberDialog(vrcholy.Dej());
             if (mo.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                foreach (Hrana item in mo.MestoProOdebrani.DejHrany()) {
+                foreach (CestyGraf.Hrana item in mo.MestoProOdebrani.DejHrany()) {
                     hrany.Odeber(item.Data);
                 }
-                vrcholy.Odeber((Bod)mo.MestoProOdebrani.Souradnice);
+                vrcholy.Odeber((CestyGraf.Bod)mo.MestoProOdebrani.Souradnice);
 
 
                 nactiStranku();
                 // idvVrcholy.UlozVrcholy(vrcholy.Dej());
             }
         }
-        Vrchol udalostMouseUpWebBrowser(object sender, HtmlElementEventArgs e) {
+        CestyGraf.Vrchol udalostMouseUpWebBrowser(object sender, HtmlElementEventArgs e) {
             //if (e.MouseButtonsPressed == MouseButtons.Left) {
 
             Thread.CurrentThread.CurrentCulture = ci;
             Object[] objArray = new Object[1];
-            Vrchol v = new Vrchol();
+            CestyGraf.Vrchol v = new CestyGraf.Vrchol();
 
             try {
                 objArray[0] = (object)"bodNazev";
                 v.Data = webBrowser1.Document.InvokeScript("getValue", objArray).ToString();
-                v.Souradnice = new Bod();
+                v.Souradnice = new CestyGraf.Bod();
                 objArray[0] = (object)"bodPolohaX";
                 v.Souradnice.X = double.Parse(webBrowser1.Document.InvokeScript("getValue", objArray).ToString().Trim(), ci.NumberFormat);
                 objArray[0] = (object)"bodPolohaY";
@@ -227,17 +231,22 @@ namespace aplikace {
         private void nastavSjízdnostToolStripMenuItem_Click(object sender, EventArgs e) {
             CestaSjizdnost cs = new CestaSjizdnost(hrany.Dej());
             if (cs.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                if (auto.HranaPoloha.Data == cs.Silnice.Data) {
-                    MessageBox.Show("Automobil je na této silnici, nelze ji nastavit na nesjízdnou");
-                    return;
+                if (auto != null) {
+                    if (auto.HranaPoloha.Data == cs.Silnice.Data) {
+                        MessageBox.Show("Automobil je na této silnici, nelze ji nastavit na nesjízdnou");
+                        return;
+                    }
                 }
-                (hrany.Dej(cs.Silnice.Data) as Hrana).Sjizdna = cs.Silnice.Sjizdna;
+                (hrany.Dej(cs.Silnice.Data) as CestyGraf.Hrana).Sjizdna = cs.Silnice.Sjizdna;
                 nactiStranku();
             }
         }
 
         private void najítCestuToolStripMenuItem_Click(object sender, EventArgs e) {
+            CestaCil cc = new CestaCil(hrany.Dej());
+            if (cc.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
 
+            }
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e) {

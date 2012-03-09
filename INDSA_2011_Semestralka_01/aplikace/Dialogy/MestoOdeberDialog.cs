@@ -6,14 +6,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using aplikace.DatoveStruktury;
 
 namespace aplikace {
     public partial class MestoOdeberDialog : Form {
-        public Vrchol MestoProOdebrani { get; set; }
-        public MestoOdeberDialog(List<Vrchol> vrcholy) {
+        public CestyGraf.Vrchol MestoProOdebrani { get; set; }
+        public MestoOdeberDialog(List<CestyGraf.Vrchol> vrcholy) {
             InitializeComponent();
 
-            foreach (Vrchol item in vrcholy) {
+            foreach (CestyGraf.Vrchol item in vrcholy) {
                 comboBoxMesto.Items.Add(item);
             }
         }
@@ -29,7 +30,7 @@ namespace aplikace {
         }
 
         private void comboBoxMesto_SelectedIndexChanged(object sender, EventArgs e) {
-            MestoProOdebrani = comboBoxMesto.Items[comboBoxMesto.SelectedIndex] as Vrchol;
+            MestoProOdebrani = comboBoxMesto.Items[comboBoxMesto.SelectedIndex] as CestyGraf.Vrchol;
         }
     }
 }

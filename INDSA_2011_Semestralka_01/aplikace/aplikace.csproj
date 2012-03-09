@@ -47,13 +47,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatoveStruktury\Auto.cs" />
+    <Compile Include="DatoveStruktury\CestyGraf.cs" />
     <Compile Include="Dialogy\AutoNastav.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialogy\AutoNastav.Designer.cs">
       <DependentUpon>AutoNastav.cs</DependentUpon>
     </Compile>
-    <Compile Include="DatoveStruktury\Bod.cs" />
+    <Compile Include="Dialogy\CestaCil.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogy\CestaCil.Designer.cs">
+      <DependentUpon>CestaCil.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogy\CestaPridatDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,14 +73,12 @@
       <DependentUpon>CestaSjizdnost.cs</DependentUpon>
     </Compile>
     <Compile Include="ADTGraf\Graf.cs" />
-    <Compile Include="DatoveStruktury\Hrana.cs" />
     <Compile Include="Dialogy\CestaOdeberDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialogy\CestaOdeberDialog.Designer.cs">
       <DependentUpon>CestaOdeberDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="DatoveStruktury\Hrany.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,10 +107,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="DatoveStruktury\TextSouborDV.cs" />
-    <Compile Include="DatoveStruktury\Vrchol.cs" />
-    <Compile Include="DatoveStruktury\Vrcholy.cs" />
     <EmbeddedResource Include="Dialogy\AutoNastav.resx">
       <DependentUpon>AutoNastav.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogy\CestaCil.resx">
+      <DependentUpon>CestaCil.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogy\CestaPridatDialog.resx">
       <DependentUpon>CestaPridatDialog.cs</DependentUpon>

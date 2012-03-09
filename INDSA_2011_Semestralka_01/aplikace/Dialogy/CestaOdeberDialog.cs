@@ -6,14 +6,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using aplikace.DatoveStruktury;
 
 namespace aplikace {
     public partial class CestaOdeberDialog : Form {
-        public Hrana HranaProOdebrani { get; set; }
+        public CestyGraf.Hrana HranaProOdebrani { get; set; }
 
-        public CestaOdeberDialog(List<Graf<string,string,double>.IHrana> hrany) {
+        public CestaOdeberDialog(List<CestyGraf.IHrana> hrany) {
             InitializeComponent();
-            foreach (Hrana item in hrany) {
+            foreach (CestyGraf.Hrana item in hrany) {
                 comboBoxHrana.Items.Add(item);
             }
         }
@@ -29,7 +30,7 @@ namespace aplikace {
         }
 
         private void comboBoxHrana_SelectedIndexChanged(object sender, EventArgs e) {
-            HranaProOdebrani = comboBoxHrana.Items[comboBoxHrana.SelectedIndex] as Hrana;
+            HranaProOdebrani = comboBoxHrana.Items[comboBoxHrana.SelectedIndex] as CestyGraf.Hrana;
         }
 
     }

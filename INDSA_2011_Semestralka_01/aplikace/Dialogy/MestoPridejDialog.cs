@@ -6,15 +6,16 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using aplikace.DatoveStruktury;
 
 namespace aplikace {
     public partial class MestoPridejDialog : Form {
-        public Vrchol Mesto { get; set; }
+        public CestyGraf.Vrchol Mesto { get; set; }
         public MestoPridejDialog() {
             InitializeComponent();
         }
 
-        public MestoPridejDialog(Vrchol vrchol)
+        public MestoPridejDialog(CestyGraf.Vrchol vrchol)
             : this() {
             Mesto = vrchol;
 
@@ -33,7 +34,7 @@ namespace aplikace {
                 return;
             }
             try {
-                Vrchol v = new Vrchol(textBoxNazev.Text, double.Parse(textBoxX.Text), double.Parse(textBoxY.Text));
+                CestyGraf.Vrchol v = new CestyGraf.Vrchol(textBoxNazev.Text, double.Parse(textBoxX.Text), double.Parse(textBoxY.Text));
                 Mesto = v;
                 DialogResult = System.Windows.Forms.DialogResult.OK;
             } catch (Exception) {

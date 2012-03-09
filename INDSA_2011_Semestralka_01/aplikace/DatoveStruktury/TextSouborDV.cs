@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Drawing;
+using aplikace.DatoveStruktury;
 
 namespace aplikace {
     class TextSouborDV : IDisposable, IDatovaVrstva {
@@ -36,11 +37,11 @@ namespace aplikace {
             fs.Close();
         }
 
-        public void UlozVrcholy(List<Vrchol> vrcholy) {
+        public void UlozVrcholy(List<CestyGraf.Vrchol> vrcholy) {
             sw.BaseStream.SetLength(0);
 
             sw.WriteLine(vrcholy.Count);
-            foreach (Vrchol item in vrcholy) {
+            foreach (CestyGraf.Vrchol item in vrcholy) {
                 sw.WriteLine(string.Format(Konstanty.FORMAT,
                     item.Data,
                     item.Souradnice.X.ToString(Konstanty.CULTUREINFO),
@@ -49,11 +50,11 @@ namespace aplikace {
             }
             sw.Flush();
         }
-        public void UlozHrany(List<Hrana> hrany) {
+        public void UlozHrany(List<CestyGraf.Hrana> hrany) {
             sw.BaseStream.SetLength(0);
 
             sw.WriteLine(hrany.Count);
-            foreach (Hrana item in hrany) {
+            foreach (CestyGraf.Hrana item in hrany) {
                 sw.WriteLine(string.Format(Konstanty.FORMAT,
                     item.Data,
                     item.Vrchol1.Souradnice.X.ToString(Konstanty.CULTUREINFO),
@@ -66,8 +67,8 @@ namespace aplikace {
             }
             sw.Flush();
         }
-        public List<Vrchol> NactiVrcholy() {
-            List<Vrchol> vrcholy = new List<Vrchol>();
+        public List<CestyGraf.Vrchol> NactiVrcholy() {
+            List<CestyGraf.Vrchol> vrcholy = new List<CestyGraf.Vrchol>();
             if (sr.BaseStream.Length == 0) {
                 return vrcholy;
             }
@@ -78,13 +79,13 @@ namespace aplikace {
             for (int i = 0; i < pocet; i++) {
                 pom = null;
                 pom = sr.ReadLine().Split(';');
-                Vrchol c = new Vrchol(pom[0], double.Parse(pom[1]), double.Parse(pom[2]));
+                CestyGraf.Vrchol c = new CestyGraf.Vrchol(pom[0], double.Parse(pom[1]), double.Parse(pom[2]));
                 vrcholy.Add(c);
             }
             return vrcholy;
         }
-        public List<Hrana> NactiHrany(ref Vrcholy vrcholy) {
-            List<Hrana> cesty = new List<Hrana>();
+        public List<CestyGraf.Hrana> NactiHrany(ref CestyGraf.Vrcholy vrcholy) {
+            List<CestyGraf.Hrana> cesty = new List<CestyGraf.Hrana>();
             if (sr.BaseStream.Length == 0) {
                 return cesty;
             }
@@ -95,13 +96,13 @@ namespace aplikace {
             for (int i = 0; i < pocet; i++) {
                 pom = null;
                 pom = sr.ReadLine().Split(';');
-                Hrana c = new Hrana() {
+                CestyGraf.Hrana c = new CestyGraf.Hrana() {
                     Data = pom[0],
                     //Data = string.Format("{0}{1}", Konstanty.ABECEDA[i / Konstanty.ABECEDA.Length], Konstanty.ABECEDA[i % Konstanty.ABECEDA.Length]),
                     //Vrchol1 = vrcholy.Dej(pom[0]),
                     //Vrchol2 = vrcholy.Dej(pom[1]),
-                    Vrchol1 = vrcholy.Dej(new Bod(double.Parse(pom[1]), double.Parse(pom[2]))),
-                    Vrchol2 = vrcholy.Dej(new Bod(double.Parse(pom[3]), double.Parse(pom[4]))),
+                    Vrchol1 = vrcholy.Dej(new CestyGraf.Bod(double.Parse(pom[1]), double.Parse(pom[2]))),
+                    Vrchol2 = vrcholy.Dej(new CestyGraf.Bod(double.Parse(pom[3]), double.Parse(pom[4]))),
                     Metrika = int.Parse(pom[5]),
                     Sjizdna = bool.Parse(pom[6])
 

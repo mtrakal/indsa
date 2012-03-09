@@ -42,7 +42,7 @@
             this.buttonZrusit.Location = new System.Drawing.Point(199, 127);
             this.buttonZrusit.Name = "buttonZrusit";
             this.buttonZrusit.Size = new System.Drawing.Size(75, 23);
-            this.buttonZrusit.TabIndex = 0;
+            this.buttonZrusit.TabIndex = 9;
             this.buttonZrusit.Text = "Zrušit";
             this.buttonZrusit.UseVisualStyleBackColor = true;
             this.buttonZrusit.Click += new System.EventHandler(this.buttonZrusit_Click);
@@ -54,7 +54,7 @@
             this.buttonPridat.Location = new System.Drawing.Point(118, 127);
             this.buttonPridat.Name = "buttonPridat";
             this.buttonPridat.Size = new System.Drawing.Size(75, 23);
-            this.buttonPridat.TabIndex = 1;
+            this.buttonPridat.TabIndex = 8;
             this.buttonPridat.Text = "Přidat";
             this.buttonPridat.UseVisualStyleBackColor = true;
             this.buttonPridat.Click += new System.EventHandler(this.buttonPridat_Click);
@@ -69,7 +69,7 @@
             this.comboBoxZ.Location = new System.Drawing.Point(67, 12);
             this.comboBoxZ.Name = "comboBoxZ";
             this.comboBoxZ.Size = new System.Drawing.Size(310, 21);
-            this.comboBoxZ.TabIndex = 2;
+            this.comboBoxZ.TabIndex = 1;
             this.comboBoxZ.SelectedIndexChanged += new System.EventHandler(this.comboBoxZ_SelectedIndexChanged);
             // 
             // comboBoxDo
@@ -91,7 +91,7 @@
             this.label1.Location = new System.Drawing.Point(12, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(17, 13);
-            this.label1.TabIndex = 4;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Z:";
             // 
             // label2
@@ -100,7 +100,7 @@
             this.label2.Location = new System.Drawing.Point(12, 43);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 13);
-            this.label2.TabIndex = 5;
+            this.label2.TabIndex = 2;
             this.label2.Text = "Do:";
             // 
             // textBoxNazev
@@ -110,7 +110,7 @@
             this.textBoxNazev.Location = new System.Drawing.Point(67, 68);
             this.textBoxNazev.Name = "textBoxNazev";
             this.textBoxNazev.Size = new System.Drawing.Size(310, 20);
-            this.textBoxNazev.TabIndex = 6;
+            this.textBoxNazev.TabIndex = 5;
             this.textBoxNazev.TextChanged += new System.EventHandler(this.textBoxNazev_TextChanged);
             // 
             // label3
@@ -119,7 +119,7 @@
             this.label3.Location = new System.Drawing.Point(12, 71);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
-            this.label3.TabIndex = 7;
+            this.label3.TabIndex = 4;
             this.label3.Text = "Název";
             // 
             // textBoxMetrika
@@ -129,7 +129,7 @@
             this.textBoxMetrika.Location = new System.Drawing.Point(67, 95);
             this.textBoxMetrika.Name = "textBoxMetrika";
             this.textBoxMetrika.Size = new System.Drawing.Size(310, 20);
-            this.textBoxMetrika.TabIndex = 8;
+            this.textBoxMetrika.TabIndex = 7;
             this.textBoxMetrika.TextChanged += new System.EventHandler(this.textBoxMetrika_TextChanged);
             // 
             // label4
@@ -138,7 +138,7 @@
             this.label4.Location = new System.Drawing.Point(12, 98);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(42, 13);
-            this.label4.TabIndex = 9;
+            this.label4.TabIndex = 6;
             this.label4.Text = "Metrika";
             // 
             // CestaPridatDialog
