@@ -12,7 +12,7 @@ namespace aplikace {
     public partial class CestaOdeberDialog : Form {
         public CestyGraf.Hrana HranaProOdebrani { get; set; }
 
-        public CestaOdeberDialog(List<CestyGraf.IHrana> hrany) {
+        public CestaOdeberDialog(List<CestyGraf.Hrana> hrany) {
             InitializeComponent();
             foreach (CestyGraf.Hrana item in hrany) {
                 comboBoxHrana.Items.Add(item);

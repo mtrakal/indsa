@@ -149,7 +149,7 @@ namespace aplikace {
             if (cp.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 hrany.Pridej(new CestyGraf.Hrana(cp.Nazev, cp.CestaZ, cp.CestaDo, cp.Metrika, true));
                 nactiStranku();
-                // idvHrany.UlozHrany(seznamHran.Dej());
+                idvHrany.UlozHrany(hrany.Dej());
             }
         }
 
@@ -166,7 +166,7 @@ namespace aplikace {
                 co.HranaProOdebrani.Vrchol2.OdeberHranu(co.HranaProOdebrani.Data);
                 hrany.Odeber(co.HranaProOdebrani.Data);
                 nactiStranku();
-                // idvHrany.UlozHrany(seznamHran.Dej());
+                idvHrany.UlozHrany(hrany.Dej());
             }
         }
 
@@ -176,7 +176,7 @@ namespace aplikace {
             if (mp.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 vrcholy.Pridej(mp.Mesto);
                 nactiStranku();
-                //  idvVrcholy.UlozVrcholy(vrcholy.Dej());
+                idvVrcholy.UlozVrcholy(vrcholy.Dej());
             }
         }
         private void odebratToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -186,10 +186,9 @@ namespace aplikace {
                     hrany.Odeber(item.Data);
                 }
                 vrcholy.Odeber((CestyGraf.Bod)mo.MestoProOdebrani.Souradnice);
-
-
                 nactiStranku();
-                // idvVrcholy.UlozVrcholy(vrcholy.Dej());
+                idvVrcholy.UlozVrcholy(vrcholy.Dej());
+                idvHrany.UlozHrany(hrany.Dej());
             }
         }
         CestyGraf.Vrchol udalostMouseUpWebBrowser(object sender, HtmlElementEventArgs e) {

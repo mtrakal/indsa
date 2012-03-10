@@ -12,7 +12,7 @@ namespace aplikace {
     public partial class AutoNastav : Form {
         public Auto Automobil { get; set; }
 
-        public AutoNastav(List<CestyGraf.IHrana> seznamHran) {
+        public AutoNastav(List<CestyGraf.Hrana> seznamHran) {
             InitializeComponent();
             buttonOK.Enabled = false;
 

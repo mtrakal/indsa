@@ -42,11 +42,12 @@ namespace aplikace {
 
             sw.WriteLine(vrcholy.Count);
             foreach (CestyGraf.Vrchol item in vrcholy) {
-                sw.WriteLine(string.Format(Konstanty.FORMAT,
+                string s = string.Format("{0};{1};{2}",
                     item.Data,
-                    item.Souradnice.X.ToString(Konstanty.CULTUREINFO),
-                    item.Souradnice.Y.ToString(Konstanty.CULTUREINFO)
-                    ));
+                    item.Souradnice.X,
+                    item.Souradnice.Y
+                    );
+                sw.WriteLine(s);
             }
             sw.Flush();
         }
@@ -55,7 +56,7 @@ namespace aplikace {
 
             sw.WriteLine(hrany.Count);
             foreach (CestyGraf.Hrana item in hrany) {
-                sw.WriteLine(string.Format(Konstanty.FORMAT,
+                string s = string.Format(Konstanty.FORMAT,
                     item.Data,
                     item.Vrchol1.Souradnice.X.ToString(Konstanty.CULTUREINFO),
                     item.Vrchol1.Souradnice.Y.ToString(Konstanty.CULTUREINFO),
@@ -63,7 +64,8 @@ namespace aplikace {
                     item.Vrchol2.Souradnice.Y.ToString(Konstanty.CULTUREINFO),
                     item.Metrika,
                     item.Sjizdna
-                    ));
+                    );
+                sw.WriteLine(s);
             }
             sw.Flush();
         }

@@ -90,7 +90,11 @@ namespace aplikace.DatoveStruktury {
             }
 
             public List<IHrana> DejHrany() {
-                return seznamHran.Dej();
+                List<IHrana> hrany = new List<IHrana>();
+                foreach (Hrana item in seznamHran.Dej()) {
+                    hrany.Add(item);
+                }
+                return hrany;
             }
 
             IHrana IVrchol.DejHranu(string nazevHrany) {
@@ -181,15 +185,15 @@ namespace aplikace.DatoveStruktury {
                     yield return item.Value;
                 }
             }
-            public Graf<string, string, double>.IHrana Dej(string nazev) {
+            public Hrana Dej(string nazev) {
                 if (hrany.ContainsKey(nazev)) {
                     return hrany[nazev];
                 } else {
                     return null;
                 }
             }
-            public List<IHrana> Dej() {
-                List<IHrana> vystup = new List<IHrana>();
+            public List<Hrana> Dej() {
+                List<Hrana> vystup = new List<Hrana>();
                 foreach (KeyValuePair<string, Hrana> item in hrany) {
                     vystup.Add(item.Value);
                 }

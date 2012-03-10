@@ -11,7 +11,7 @@ using aplikace.DatoveStruktury;
 namespace aplikace {
     public partial class CestaSjizdnost : Form {
         public CestyGraf.Hrana Silnice { get; set; }
-        public CestaSjizdnost(List<CestyGraf.IHrana> seznamHran) {
+        public CestaSjizdnost(List<CestyGraf.Hrana> seznamHran) {
             InitializeComponent();
 
             foreach (CestyGraf.Hrana item in seznamHran) {

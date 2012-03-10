@@ -11,7 +11,7 @@ using aplikace.DatoveStruktury;
 namespace aplikace.Dialogy {
     public partial class CestaCil : Form {
         public CestyGraf.Hrana HranaCil { get; private set; }
-        public CestaCil(List<CestyGraf.IHrana> seznamHran) {
+        public CestaCil(List<CestyGraf.Hrana> seznamHran) {
             InitializeComponent();
 
             foreach (CestyGraf.Hrana item in seznamHran) {
