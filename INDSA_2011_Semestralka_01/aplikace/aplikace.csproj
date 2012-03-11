@@ -79,6 +79,8 @@
     <Compile Include="Dialogy\CestaOdeberDialog.Designer.cs">
       <DependentUpon>CestaOdeberDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Astar.cs" />
+    <Compile Include="Dijkstra.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +139,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ADTGraf\Graf.cd" />
+    <None Include="DatoveStruktury\CestyGraf.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

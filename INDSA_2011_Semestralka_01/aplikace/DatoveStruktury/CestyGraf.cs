@@ -5,17 +5,10 @@ using System.Text;
 using System.Collections;
 
 namespace aplikace.DatoveStruktury {
-    public class CestyGraf : Graf<string, string, double> {
-        public class Bod : IBod {
-            public double X { get; set; }
-            public double Y { get; set; }
-            public Bod() {
-
-            }
-            public Bod(double x, double y) {
-                X = x;
-                Y = y;
-            }
+    public class CestyGraf : Graf<double, string, string, double> {
+        public class Bod : Graf<double, string, string, double>.GBod {
+            public Bod() : base() { }
+            public Bod(double x, double y) : base(x, y) { }
             public override bool Equals(object obj) {
                 if (this.X == (obj as Bod).X && this.Y == (obj as Bod).Y) {
                     return true;
@@ -31,8 +24,7 @@ namespace aplikace.DatoveStruktury {
                 return unchecked((int)value) ^ ((int)(value >> 32));
             }
         }
-        public class Hrana : IHrana {
-            public double Metrika { get; set; }
+        public class Hrana : Graf<double, string, string, double>.GHrana, IComparable, IComparer {
             public bool Sjizdna { get; set; }
             public Hrana() { }
             public Hrana(string nazev, IVrchol p1, IVrchol p2, double metrika, bool sjizdna) {
@@ -45,160 +37,150 @@ namespace aplikace.DatoveStruktury {
             public override string ToString() {
                 return Data + ": " + Vrchol1.Data + " - " + Vrchol2.Data + ": " + Metrika + "km ," + ((Sjizdna == true) ? "Sjízdná" : "Nesjízdná");
             }
-
-            public string Data {
-                get;
-                set;
+            new public int Compare(object x, object y) {
+                if ((x as Hrana).Metrika > (y as Hrana).Metrika) {
+                    return 1;
+                }
+                if ((x as Hrana).Metrika < (y as Hrana).Metrika) {
+                    return -1;
+                }
+                return 0;
             }
 
-            public IVrchol Vrchol1 {
-                get;
-                set;
-            }
-
-            public IVrchol Vrchol2 {
-                get;
-                set;
+            public int CompareTo(object obj) {
+                return Compare(this, obj);
             }
         }
-        public class Vrchol : IVrchol {
-            IBod souradnice = new Bod();
-            public IBod Souradnice { get { return this.souradnice; } set { this.souradnice = value; } }
-            public string Data { get; set; }
-
-            Hrany seznamHran = new Hrany();
-
-            public void PridejHranu(IHrana hrana) {
-                seznamHran.Pridej(hrana);
-            }
-
-            public void OdeberHranu(string nazevHrany) {
-                seznamHran.Odeber(nazevHrany);
-            }
-
+        public class Vrchol : Graf<double, string, string, double>.GVrchol {
             public override string ToString() {
                 return string.Format("{0}: {1},{2}", Data, Souradnice.X, Souradnice.Y);
             }
-            public Vrchol() {
-
-            }
+            public Vrchol() { }
             public Vrchol(string nazev, double x, double y)
                 : this(nazev, new Bod(x, y)) { }
             public Vrchol(string nazev, Bod souradnice) {
                 Data = nazev;
                 Souradnice = souradnice;
             }
+        }
 
-            public List<IHrana> DejHrany() {
-                List<IHrana> hrany = new List<IHrana>();
-                foreach (Hrana item in seznamHran.Dej()) {
-                    hrany.Add(item);
+        public void Pridej(string nazev, Bod souradnice) {
+            Pridej(new Vrchol(nazev, souradnice));
+        }
+        //public void Pridej(List<Vrchol> vrcholy) {
+        //    foreach (Vrchol item in vrcholy) {
+        //        Pridej(item);
+        //    }
+        //}
+
+        //public void Odeber(Bod souradnice) {
+        //    if (vrcholy.ContainsKey(souradnice)) {
+        //        vrcholy.Remove(souradnice);
+        //    } else {
+        //        throw new ArgumentException("Neznámý parametr klíče v Vrcholy-Odeber!");
+        //    }
+        //}
+        //public IEnumerator GetEnumerator() {
+        //    foreach (KeyValuePair<Bod, Vrchol> item in vrcholy) {
+        //        yield return item.Value;
+        //    }
+        //}
+        //public Vrchol Dej(Bod souradnice) {
+        //    if (vrcholy.ContainsKey(souradnice)) {
+        //        return vrcholy[souradnice];
+        //    } else {
+        //        return null;
+        //    }
+        //}
+        public Vrchol DejVrchol(string nazev) {
+            foreach (KeyValuePair<IBod, IVrchol> item in vrcholy) {
+                if (item.Value.Data == nazev) {
+                    return item.Value as CestyGraf.Vrchol;
                 }
-                return hrany;
             }
+            return null;
+        }
+        //public List<Vrchol> Dej() {
+        //    List<Vrchol> vystup = new List<Vrchol>();
+        //    foreach (KeyValuePair<IBod, IVrchol> item in vrcholy) {
+        //        vystup.Add(item.Value);
+        //    }
+        //    return vystup;
+        //}
+        //public int Count { get { return vrcholy.Count; } }
 
-            IHrana IVrchol.DejHranu(string nazevHrany) {
-                return seznamHran.Dej(nazevHrany);
+
+        //public void Pridej(IHrana hrana) {
+        //    if (hrany.ContainsKey(hrana.Data)) {
+        //        throw new Exception("Klíč již existuje Hrany");
+        //        //return;
+        //    }
+        //    hrany.Add(hrana.Data, hrana as Hrana);
+        //}
+        public void Pridej(string nazev, IVrchol vrchol1, IVrchol vrchol2, double metrika, bool sjizdna) {
+            Pridej(new Hrana(nazev, vrchol1, vrchol2, metrika, sjizdna));
+        }
+        //public void Pridej(List<Hrana> hrany) {
+        //    foreach (Hrana item in hrany) {
+        //        Pridej(item);
+        //    }
+        //}
+        //public void Odeber(string nazev) {
+        //    if (hrany.ContainsKey(nazev)) {
+        //        hrany.Remove(nazev);
+        //    } else {
+        //        throw new ArgumentException("Neznámý parametr klíče v Hrany-Odeber!");
+        //    }
+        //}
+
+        //public IEnumerator GetEnumerator() {
+        //    foreach (KeyValuePair<string, Hrana> item in hrany) {
+        //        yield return item.Value;
+        //    }
+        //}
+        //public Hrana Dej(string nazev) {
+        //    if (hrany.ContainsKey(nazev)) {
+        //        return hrany[nazev];
+        //    } else {
+        //        return null;
+        //    }
+        //}
+        //public List<Hrana> Dej() {
+        //    List<Hrana> vystup = new List<Hrana>();
+        //    foreach (KeyValuePair<string, Hrana> item in hrany) {
+        //        vystup.Add(item.Value);
+        //    }
+        //    return vystup;
+        //}
+
+        new public List<Hrana> DejHrany() {
+            List<Hrana> vystup = new List<Hrana>();
+            foreach (KeyValuePair<string, IHrana> item in hrany) {
+                vystup.Add(item.Value as Hrana);
+            }
+            return vystup;
+        }
+        new public List<Vrchol> DejVrcholy() {
+            List<Vrchol> vystup = new List<Vrchol>();
+            foreach (KeyValuePair<IBod, IVrchol> item in vrcholy) {
+                vystup.Add(item.Value as Vrchol);
+            }
+            return vystup;
+        }
+
+        internal void Pridej(List<Hrana> list) {
+            foreach (Hrana item in list) {
+                hrany.Add(item.Data, item);
             }
         }
-        public class Vrcholy : IEnumerable {
-            Dictionary<Bod, Vrchol> vrcholy = new Dictionary<Bod, Vrchol>();
 
-            public void Pridej(Vrchol vrchol) {
-                if (vrcholy.ContainsKey(vrchol.Souradnice as Bod)) {
-                    throw new Exception("Klíč již existuje Vrcholy");
-                }
-                vrcholy.Add(vrchol.Souradnice as Bod, vrchol);
+        internal void Pridej(List<Vrchol> list) {
+            foreach (Vrchol item in list) {
+                vrcholy.Add(item.Souradnice, item);
             }
-            public void Pridej(string nazev, Bod souradnice) {
-                Pridej(new Vrchol(nazev, souradnice));
-            }
-            public void Pridej(List<Vrchol> vrcholy) {
-                foreach (Vrchol item in vrcholy) {
-                    Pridej(item);
-                }
-            }
-            public void Odeber(Bod souradnice) {
-                if (vrcholy.ContainsKey(souradnice)) {
-                    vrcholy.Remove(souradnice);
-                } else {
-                    throw new ArgumentException("Neznámý parametr klíče v Vrcholy-Odeber!");
-                }
-            }
-            public IEnumerator GetEnumerator() {
-                foreach (KeyValuePair<Bod, Vrchol> item in vrcholy) {
-                    yield return item.Value;
-                }
-            }
-            public Vrchol Dej(Bod souradnice) {
-                if (vrcholy.ContainsKey(souradnice)) {
-                    return vrcholy[souradnice];
-                } else {
-                    return null;
-                }
-            }
-            public Vrchol Dej(string nazev) {
-                foreach (KeyValuePair<Bod, Vrchol> item in vrcholy) {
-                    if (item.Value.Data == nazev) {
-                        return item.Value;
-                    }
-                }
-                return null;
-            }
-            public List<Vrchol> Dej() {
-                List<Vrchol> vystup = new List<Vrchol>();
-                foreach (KeyValuePair<Bod, Vrchol> item in vrcholy) {
-                    vystup.Add(item.Value);
-                }
-                return vystup;
-            }
-            public int Count { get { return vrcholy.Count; } }
         }
-        public class Hrany : IEnumerable {
-            Dictionary<string, Hrana> hrany = new Dictionary<string, Hrana>();
-
-            public void Pridej(IHrana hrana) {
-                if (hrany.ContainsKey(hrana.Data)) {
-                    throw new Exception("Klíč již existuje Hrany");
-                    //return;
-                }
-                hrany.Add(hrana.Data, hrana as Hrana);
-            }
-            public void Pridej(string nazev, IVrchol vrchol1, IVrchol vrchol2, double metrika, bool sjizdna) {
-                Pridej(new Hrana(nazev, vrchol1, vrchol2, metrika, sjizdna));
-            }
-            public void Pridej(List<Hrana> hrany) {
-                foreach (Hrana item in hrany) {
-                    Pridej(item);
-                }
-            }
-            public void Odeber(string nazev) {
-                if (hrany.ContainsKey(nazev)) {
-                    hrany.Remove(nazev);
-                } else {
-                    throw new ArgumentException("Neznámý parametr klíče v Hrany-Odeber!");
-                }
-            }
-
-            public IEnumerator GetEnumerator() {
-                foreach (KeyValuePair<string, Hrana> item in hrany) {
-                    yield return item.Value;
-                }
-            }
-            public Hrana Dej(string nazev) {
-                if (hrany.ContainsKey(nazev)) {
-                    return hrany[nazev];
-                } else {
-                    return null;
-                }
-            }
-            public List<Hrana> Dej() {
-                List<Hrana> vystup = new List<Hrana>();
-                foreach (KeyValuePair<string, Hrana> item in hrany) {
-                    vystup.Add(item.Value);
-                }
-                return vystup;
-            }
+        new public IVrchol DejVrchol(double x, double y) { // does not work due to: IEqualityComparer is not implemented on abstract layer
+            return DejVrchol(new Bod(x, y));
         }
     }
 }

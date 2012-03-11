@@ -86,7 +86,7 @@ namespace aplikace {
             }
             return vrcholy;
         }
-        public List<CestyGraf.Hrana> NactiHrany(ref CestyGraf.Vrcholy vrcholy) {
+        public List<CestyGraf.Hrana> NactiHrany(ref CestyGraf graf) {
             List<CestyGraf.Hrana> cesty = new List<CestyGraf.Hrana>();
             if (sr.BaseStream.Length == 0) {
                 return cesty;
@@ -103,9 +103,9 @@ namespace aplikace {
                     //Data = string.Format("{0}{1}", Konstanty.ABECEDA[i / Konstanty.ABECEDA.Length], Konstanty.ABECEDA[i % Konstanty.ABECEDA.Length]),
                     //Vrchol1 = vrcholy.Dej(pom[0]),
                     //Vrchol2 = vrcholy.Dej(pom[1]),
-                    Vrchol1 = vrcholy.Dej(new CestyGraf.Bod(double.Parse(pom[1]), double.Parse(pom[2]))),
-                    Vrchol2 = vrcholy.Dej(new CestyGraf.Bod(double.Parse(pom[3]), double.Parse(pom[4]))),
-                    Metrika = int.Parse(pom[5]),
+                    Vrchol1 = graf.DejVrchol(double.Parse(pom[1], Konstanty.CULTUREINFO), double.Parse(pom[2], Konstanty.CULTUREINFO)),
+                    Vrchol2 = graf.DejVrchol(double.Parse(pom[3], Konstanty.CULTUREINFO), double.Parse(pom[4], Konstanty.CULTUREINFO)),
+                    Metrika = double.Parse(pom[5], Konstanty.CULTUREINFO),
                     Sjizdna = bool.Parse(pom[6])
 
                     /*Data = string.Format("{0}{1}", Konstanty.ABECEDA[i / Konstanty.ABECEDA.Length], Konstanty.ABECEDA[i % Konstanty.ABECEDA.Length]),

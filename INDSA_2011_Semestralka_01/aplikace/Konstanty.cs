@@ -14,6 +14,6 @@ namespace aplikace {
         "var label = new Label({{map: map}}); label.bindTo('position', new google.maps.Marker({{icon:\"pixel.gif\", position: new google.maps.LatLng({4}, {5}), draggable: false, map: map}}), 'position'); label.set('text', '{6} km');\r\n";
         public static string FORMATHRANANESJIZDNA = "new google.maps.Polyline({{path: [new google.maps.LatLng({0}, {1}), new google.maps.LatLng({2},{3})], strokeColor: \"#ff0000\", strokeOpacity: 0.5, strokeWeight: 1.5}}).setMap(map);\r\n" +
         "var label = new Label({{map: map}}); label.bindTo('position', new google.maps.Marker({{icon:\"pixel.gif\", position: new google.maps.LatLng({4}, {5}), draggable: false, map: map}}), 'position'); label.set('text', '{6} km');\r\n";
-        public static string FORMATHRANAVYBRANA = "new google.maps.Polyline({{path: [{0}], strokeColor: \"#00ff00\", strokeOpacity: 0.5, strokeWeight: 2}}).setMap(map);\r\n";
+        public static string FORMATHRANAVYBRANA = "new google.maps.Polyline({{path: [new google.maps.LatLng({0}, {1}), new google.maps.LatLng({2},{3})], strokeColor: \"#00ff00\", strokeOpacity: 0.5, strokeWeight: 4}}).setMap(map);\r\n";
     }
 }

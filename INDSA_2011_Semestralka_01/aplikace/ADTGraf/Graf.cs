@@ -5,27 +5,85 @@ using System.Text;
 using System.Collections;
 
 namespace aplikace {
-    public class Graf<TVrchol, THrana, TMetrika> {
-        public interface IBod {
-            double X { get; set; }
-            double Y { get; set; }
+    public class Graf<TBod, TVrchol, THrana, TMetrika> {
+        public interface IBod : IEqualityComparer<IBod> {
+            TBod X { get; set; }
+            TBod Y { get; set; }
         }
         public interface IVrchol {
             TVrchol Data { get; set; }
             IBod Souradnice { get; set; }
             void PridejHranu(IHrana hrana);
-            IHrana DejHranu(TVrchol nazevHrany);
+            IHrana DejHranu(THrana data);
             List<IHrana> DejHrany();
-            void OdeberHranu(TVrchol nazevHrany);
+            bool OdeberHranu(THrana data);
         }
         public interface IHrana {
             THrana Data { get; set; }
             IVrchol Vrchol1 { get; set; }
             IVrchol Vrchol2 { get; set; }
-            double Metrika { get; set; }
+            TMetrika Metrika { get; set; }
         }
-        Dictionary<IBod, IVrchol> vrcholy = new Dictionary<IBod, IVrchol>();
-        Dictionary<THrana, IHrana> hrany = new Dictionary<THrana, IHrana>();
+
+        public class GBod : IBod {
+            public TBod X { get; set; }
+            public TBod Y { get; set; }
+            public GBod() { }
+            public GBod(TBod x, TBod y) { X = x; Y = y; }
+            public override bool Equals(object obj) {
+                return Equals(this, obj as IBod);
+            }
+            public bool Equals(IBod x, IBod y) {
+                if (ReferenceEquals(x, y)) {
+                    return true;
+                }
+                if ((x == null) || (y == null)) {
+                    return false;
+                }
+                if (x.X.Equals(y.X) && x.Y.Equals(y.Y)) {
+                    return true;
+                }
+                return false;
+            }
+            public int GetHashCode(IBod obj) {
+                throw new NotImplementedException("not impl");
+            }
+        }
+        public class GVrchol : IVrchol {
+            List<IHrana> seznamHran = new List<IHrana>();
+            public TVrchol Data { get; set; }
+            public IBod Souradnice { get; set; }
+            public void PridejHranu(IHrana hrana) {
+                seznamHran.Add(hrana);
+            }
+            public IHrana DejHranu(THrana data) {
+                foreach (IHrana item in seznamHran) {
+                    if (item.Data.Equals(data)) {
+                        return item;
+                    }
+                }
+                return null;
+            }
+            public List<IHrana> DejHrany() {
+                return seznamHran;
+            }
+            public bool OdeberHranu(THrana data) {
+                foreach (GHrana item in seznamHran) {
+                    if (item.Data.Equals(data)) {
+                        return seznamHran.Remove(item as IHrana);
+                    }
+                }
+                return false;
+            }
+        }
+        public class GHrana : IHrana {
+            public THrana Data { get; set; }
+            public IVrchol Vrchol1 { get; set; }
+            public IVrchol Vrchol2 { get; set; }
+            public TMetrika Metrika { get; set; }
+        }
+        protected Dictionary<IBod, IVrchol> vrcholy = new Dictionary<IBod, IVrchol>();
+        protected Dictionary<THrana, IHrana> hrany = new Dictionary<THrana, IHrana>();
         #region Vrcholy
         public void Pridej(IVrchol vrchol) {
             if (vrcholy.ContainsKey(vrchol.Souradnice)) {
@@ -38,24 +96,23 @@ namespace aplikace {
                 Pridej(item);
             }
         }
-        public void Odeber(IBod souradnice) {
+        public bool Odeber(IBod souradnice) {
             if (vrcholy.ContainsKey(souradnice)) {
-                vrcholy.Remove(souradnice);
+                return vrcholy.Remove(souradnice);
             } else {
                 throw new ArgumentException("Neznámý parametr klíče Vrcholy-Odeber!");
             }
         }
-        public IEnumerator GetEnumeratorVrcholy() {
-            foreach (KeyValuePair<IBod, IVrchol> item in vrcholy) {
-                yield return item.Value;
-            }
-        }
-        public IVrchol Dej(IBod souradnice) {
-            if (vrcholy.ContainsKey(souradnice)) {
+        public IVrchol DejVrchol(IBod souradnice) {
+            if (vrcholy.ContainsKey(souradnice as IBod)) {
                 return vrcholy[souradnice];
             } else {
-                return null;
+                throw new Exception("Vrchol cesty se nenachází v seznamu vrcholů!");
+                //return null;
             }
+        }
+        public IVrchol DejVrchol(TBod x, TBod y) { // does not work due to: IEqualityComparer is not implemented on abstract layer
+            return DejVrchol(new GBod(x, y));
         }
         public List<IVrchol> DejVrcholy() {
             List<IVrchol> vystup = new List<IVrchol>();
@@ -63,6 +120,9 @@ namespace aplikace {
                 vystup.Add(item.Value);
             }
             return vystup;
+        }
+        public int CountVrcholy() {
+            return vrcholy.Count;
         }
         #endregion
         #region Hrany
@@ -77,22 +137,17 @@ namespace aplikace {
                 Pridej(item);
             }
         }
-        public void Odeber(THrana nazev) {
-            if (hrany.ContainsKey(nazev)) {
-                hrany.Remove(nazev);
+        public bool Odeber(THrana data) {
+            if (hrany.ContainsKey(data)) {
+                return hrany.Remove(data);
             } else {
                 throw new ArgumentException("Neznámý parametr klíče v Hrany-Odeber!");
             }
         }
 
-        public IEnumerator GetEnumeratorHrany() {
-            foreach (KeyValuePair<THrana, IHrana> item in hrany) {
-                yield return item.Value;
-            }
-        }
-        public IHrana Dej(THrana nazev) {
-            if (hrany.ContainsKey(nazev)) {
-                return hrany[nazev];
+        public IHrana DejHranu(THrana data) {
+            if (hrany.ContainsKey(data)) {
+                return hrany[data];
             } else {
                 return null;
             }
@@ -103,6 +158,9 @@ namespace aplikace {
                 vystup.Add(item.Value);
             }
             return vystup;
+        }
+        public int CountHrany() {
+            return hrany.Count;
         }
         #endregion
     }
