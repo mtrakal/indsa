@@ -37,7 +37,7 @@ namespace aplikace.DatoveStruktury {
             public override string ToString() {
                 return Data + ": " + Vrchol1.Data + " - " + Vrchol2.Data + ": " + Metrika + "km ," + ((Sjizdna == true) ? "Sjízdná" : "Nesjízdná");
             }
-            new public int Compare(object x, object y) {
+            public int Compare(object x, object y) {
                 if ((x as Hrana).Metrika > (y as Hrana).Metrika) {
                     return 1;
                 }

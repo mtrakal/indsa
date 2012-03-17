@@ -11,34 +11,15 @@ namespace aplikace {
             public CestyGraf.Vrchol Data { get; set; }
             public DVrchol Predchudce { get; set; }
             public CestyGraf.Hrana Silnice { get; set; }
-            public DVrchol() {
-                Predchudce = null;
-                Silnice = null;
-            }
-            public DVrchol(CestyGraf.Vrchol data)
-                : this() {
-                Data = data;
-            }
-            public DVrchol(CestyGraf.Vrchol data, DVrchol predchudce)
-                : this(data) {
-                Predchudce = predchudce;
-            }
-            public DVrchol(CestyGraf.Vrchol data, DVrchol predchudce, CestyGraf.Hrana silnice)
-                : this(data, predchudce) {
-                Silnice = silnice;
-            }
-            public override bool Equals(object obj) {
-                return Data == (obj as DVrchol).Data;
-            }
-
-            public bool Equals(DVrchol x, DVrchol y) {
-                return (x.Data == y.Data);
-            }
-
-            public int GetHashCode(DVrchol obj) {
-                throw new NotImplementedException();
-            }
-
+            public double MetrikaOdStartu { get; set; }
+            public DVrchol() { Predchudce = null; Silnice = null; }
+            public DVrchol(CestyGraf.Vrchol data) : this() { Data = data; }
+            public DVrchol(CestyGraf.Vrchol data, DVrchol predchudce) : this(data) { Predchudce = predchudce; }
+            public DVrchol(CestyGraf.Vrchol data, DVrchol predchudce, CestyGraf.Hrana silnice) : this(data, predchudce) { Silnice = silnice; }
+            public DVrchol(CestyGraf.Vrchol data, DVrchol predchudce, CestyGraf.Hrana silnice, double metrikaOdStartu) : this(data, predchudce, silnice) { this.MetrikaOdStartu = metrikaOdStartu; }
+            public override bool Equals(object obj) { return Data == (obj as DVrchol).Data; }
+            public bool Equals(DVrchol x, DVrchol y) { return (x.Data == y.Data); }
+            public int GetHashCode(DVrchol obj) { throw new NotImplementedException(); }
             public bool Equals(DVrchol other) {
                 if (ReferenceEquals(other, null))
                     return false;
@@ -48,7 +29,6 @@ namespace aplikace {
 
                 return this.Data == other.Data;
             }
-
             public int Compare(object x, object y) {
                 if ((x as DVrchol).Silnice.Metrika > (y as DVrchol).Silnice.Metrika) {
                     return 1;
@@ -58,14 +38,10 @@ namespace aplikace {
                 }
                 return 0;
             }
-
-            public int CompareTo(object obj) {
-                return Compare(this, obj);
-            }
+            public int CompareTo(object obj) { return Compare(this, obj); }
             // (Ohodnoceni(a.Silnice.Metrika,cil.Vrchol1,2))
-            public double Ohodnoceni(CestyGraf.Vrchol cil, double heuristika) {
-                return heuristika * Math.Sqrt(Math.Pow(Data.Souradnice.X - cil.Souradnice.X, 2) + Math.Pow(Data.Souradnice.Y - cil.Souradnice.Y, 2));
-            }
+            public double VzdalenostOd(CestyGraf.Vrchol od) { return Konstanty.VypocitejVzdalenost(Data, od); }
+            public double Ohodnoceni(CestyGraf.Vrchol cil, double heuristika) { return heuristika * Math.Sqrt(Math.Pow(Data.Souradnice.X - cil.Souradnice.X, 2) + Math.Pow(Data.Souradnice.Y - cil.Souradnice.Y, 2)); }
         }
 
         public static LinkedList<CestyGraf.Hrana> doDijkstra(CestyGraf graf, Auto startPozice, CestyGraf.Hrana cil) {
@@ -79,15 +55,19 @@ namespace aplikace {
             List<DVrchol> otevrene = new List<DVrchol>();
             List<DVrchol> uzavrene = new List<DVrchol>();
             DVrchol zkoumany = new DVrchol();
+
+            DVrchol cilPosledni = new DVrchol();
+
             //TODO zkontrolovat nedestruktivnost foreachů vůči datům!
-            foreach (CestyGraf.Hrana item in startPozice.HranaPoloha.Vrchol1.DejHrany()) {
-                item.Metrika += startPozice.VzdalenostOdV1;
-            }
-            foreach (CestyGraf.Hrana item in startPozice.HranaPoloha.Vrchol2.DejHrany()) {
-                item.Metrika += startPozice.VzdalenostOdV2;
-            }
-            otevrene.Add(new DVrchol(startPozice.HranaPoloha.Vrchol1 as CestyGraf.Vrchol, null, startPozice.HranaPoloha));
-            otevrene.Add(new DVrchol(startPozice.HranaPoloha.Vrchol2 as CestyGraf.Vrchol, null, startPozice.HranaPoloha));
+            // DESTRUKTIVNÍ!!!
+            //foreach (CestyGraf.Hrana item in startPozice.HranaPoloha.Vrchol1.DejHrany()) {
+            //    item.Metrika += startPozice.VzdalenostOdV1;
+            //}
+            //foreach (CestyGraf.Hrana item in startPozice.HranaPoloha.Vrchol2.DejHrany()) {
+            //    item.Metrika += startPozice.VzdalenostOdV2;
+            //}
+            otevrene.Add(new DVrchol(startPozice.HranaPoloha.Vrchol1 as CestyGraf.Vrchol, null, startPozice.HranaPoloha, startPozice.VzdalenostOdV1));
+            otevrene.Add(new DVrchol(startPozice.HranaPoloha.Vrchol2 as CestyGraf.Vrchol, null, startPozice.HranaPoloha, startPozice.VzdalenostOdV2));
 
             while (otevrene.Count != 0) {
                 //zkoumany = otevrene[0]; // prozkoumá první vrchol
@@ -97,40 +77,90 @@ namespace aplikace {
                 otevrene.RemoveAt(otevrene.IndexOf(zkoumany));
                 uzavrene.Add(zkoumany);
                 if (zkoumany.Data == cil.Vrchol1 || zkoumany.Data == cil.Vrchol2) {
-                    DVrchol aktualniCilovy = zkoumany;
-                    while (aktualniCilovy.Predchudce != null) {
-                        vzdalenost[(nalezenPrvniVyskyt ? 1 : 0)] += aktualniCilovy.Silnice.Metrika;
-                        cilovaCesta[(nalezenPrvniVyskyt ? 1 : 0)].AddFirst(aktualniCilovy.Silnice);
-                        aktualniCilovy = aktualniCilovy.Predchudce;
-                    }
-                    cilovaCesta[(nalezenPrvniVyskyt ? 1 : 0)].AddFirst(aktualniCilovy.Silnice);
-                    vzdalenost[(nalezenPrvniVyskyt ? 1 : 0)] += aktualniCilovy.Silnice.Metrika;
-
-                    if (!nalezenPrvniVyskyt) {
-                        nalezenPrvniVyskyt = true;
-                    } else {
-                        if (vzdalenost[1] < vzdalenost[0]) {
-                            return cilovaCesta[1];
+                    if (nalezenPrvniVyskyt) {
+                        if (zkoumany.MetrikaOdStartu < cilPosledni.MetrikaOdStartu) {
+                            cilPosledni = zkoumany;
                         }
-                        return cilovaCesta[0];
+                    } else {
+                        cilPosledni = zkoumany;
+                        nalezenPrvniVyskyt = true;
                     }
+
+                    //DVrchol aktualniCilovy = zkoumany;
+                    //while (aktualniCilovy.Predchudce != null) {
+                    //    vzdalenost[(nalezenPrvniVyskyt ? 1 : 0)] += aktualniCilovy.Silnice.Metrika;
+                    //    cilovaCesta[(nalezenPrvniVyskyt ? 1 : 0)].AddFirst(aktualniCilovy.Silnice);
+                    //    aktualniCilovy = aktualniCilovy.Predchudce;
+                    //}
+                    //cilovaCesta[(nalezenPrvniVyskyt ? 1 : 0)].AddFirst(aktualniCilovy.Silnice);
+                    //vzdalenost[(nalezenPrvniVyskyt ? 1 : 0)] += aktualniCilovy.Silnice.Metrika;
+
+                    //if (!nalezenPrvniVyskyt) {
+                    //    nalezenPrvniVyskyt = true;
+                    //} else {
+                    //    if (vzdalenost[1] < vzdalenost[0]) {
+                    //        return cilovaCesta[1];
+                    //    }
+                    //    return cilovaCesta[0];
+                    //}
 
                 }
                 //throw new Exception("Nalezena cesta :)");
                 foreach (CestyGraf.Hrana item in zkoumany.Data.DejHrany()) { // z zkoum.pro každou hranu přidat do otevřených koncový bod
-                    DVrchol v1 = new DVrchol(item.Vrchol1 as CestyGraf.Vrchol, zkoumany, item);
-                    DVrchol v2 = new DVrchol(item.Vrchol2 as CestyGraf.Vrchol, zkoumany, item);
+                    if (!item.Sjizdna) {
+                        continue;
+                    }
+                    DVrchol v1 = new DVrchol(item.Vrchol1 as CestyGraf.Vrchol, zkoumany, item, zkoumany.MetrikaOdStartu + item.Metrika);
+                    DVrchol v2 = new DVrchol(item.Vrchol2 as CestyGraf.Vrchol, zkoumany, item, zkoumany.MetrikaOdStartu + item.Metrika);
                     if (zkoumany.Data.Equals(item.Vrchol1)) { // pokud je vrchol vrcholem 1, potřebujeme přidat vrchol 2, jinak vrchol 1 do seznamu zkoumaných vrcholů
                         if (!(otevrene.Contains(v2) || uzavrene.Contains(v2))) {
                             otevrene.Add(v2);
+                        } else { // TODO: zkontrolovat funkčnost!!! Pokoud chceme vícenásobný proůchod vrcholy
+                            if (otevrene.Contains(v2)) {
+                                int index = otevrene.IndexOf(v2);
+
+                                if (otevrene[index].MetrikaOdStartu > v2.MetrikaOdStartu) {
+                                    otevrene.RemoveAt(index);
+                                    otevrene.Add(v2);
+                                }
+                            } else {
+                                int index = uzavrene.IndexOf(v2);
+
+                                if (uzavrene[index].MetrikaOdStartu > v2.MetrikaOdStartu) {
+                                    uzavrene.RemoveAt(index);
+                                    otevrene.Add(v2);
+                                }
+                            }
                         }
                     } else {
                         if (!(otevrene.Contains(v1) || uzavrene.Contains(v1))) {
                             otevrene.Add(v1);
+                        } else { // TODO: zkontrolovat funkčnost!!! Pokoud chceme vícenásobný proůchod vrcholy
+                            if (otevrene.Contains(v1)) {
+                                int index = otevrene.IndexOf(v1);
+
+                                if (otevrene[index].MetrikaOdStartu > v1.MetrikaOdStartu) {
+                                    otevrene.RemoveAt(index);
+                                    otevrene.Add(v1);
+                                }
+                            } else {
+                                int index = uzavrene.IndexOf(v1);
+
+                                if (uzavrene[index].MetrikaOdStartu > v1.MetrikaOdStartu) {
+                                    uzavrene.RemoveAt(index);
+                                    otevrene.Add(v1);
+                                }
+                            }
                         }
                     }
                 }
 
+            }
+
+            while (cilPosledni.Predchudce != null) {
+                vzdalenost[0] += cilPosledni.Silnice.Metrika;
+                cilovaCesta[0].AddFirst(cilPosledni.Silnice);
+                cilPosledni = cilPosledni.Predchudce;
             }
             return cilovaCesta[0];
         }

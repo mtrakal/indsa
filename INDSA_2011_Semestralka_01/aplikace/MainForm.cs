@@ -91,7 +91,7 @@ namespace aplikace {
 
         private void toolStripMenuItemNacist_Click(object sender, EventArgs e) {
             nactiSoubory();
-            //nactiStranku();
+            nactiStranku();
         }
 
         private void nactiSoubory() {
@@ -159,7 +159,9 @@ namespace aplikace {
             if (cp.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 graf.Pridej(new CestyGraf.Hrana(cp.Nazev, cp.CestaZ, cp.CestaDo, cp.Metrika, true));
                 nactiStranku();
-                idvHrany.UlozHrany(graf.DejHrany());
+                if (idvHrany != null) {
+                    idvHrany.UlozHrany(graf.DejHrany());
+                }
             }
         }
 
@@ -176,7 +178,9 @@ namespace aplikace {
                 co.HranaProOdebrani.Vrchol2.OdeberHranu(co.HranaProOdebrani.Data);
                 graf.Odeber(co.HranaProOdebrani.Data); //hrana
                 nactiStranku();
-                idvHrany.UlozHrany(graf.DejHrany());
+                if (idvHrany != null) {
+                    idvHrany.UlozHrany(graf.DejHrany());
+                }
             }
         }
 
@@ -186,7 +190,9 @@ namespace aplikace {
             if (mp.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 graf.Pridej(mp.Mesto);
                 nactiStranku();
-                idvVrcholy.UlozVrcholy(graf.DejVrcholy());
+                if (idvVrcholy != null) {
+                    idvVrcholy.UlozVrcholy(graf.DejVrcholy());
+                }
             }
         }
         private void odebratToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -197,8 +203,13 @@ namespace aplikace {
                 }
                 graf.Odeber((CestyGraf.Bod)mo.MestoProOdebrani.Souradnice);
                 nactiStranku();
-                idvVrcholy.UlozVrcholy(graf.DejVrcholy());
-                idvHrany.UlozHrany(graf.DejHrany());
+
+                if (idvVrcholy != null) {
+                    idvVrcholy.UlozVrcholy(graf.DejVrcholy());
+                }
+                if (idvHrany != null) {
+                    idvHrany.UlozHrany(graf.DejHrany());
+                }
             }
         }
         CestyGraf.Vrchol udalostMouseUpWebBrowser(object sender, HtmlElementEventArgs e) {
@@ -228,7 +239,7 @@ namespace aplikace {
             AutoNastav an = new AutoNastav(graf.DejHrany());
             if (an.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 auto = an.Automobil;
-                //nactiStranku();
+                nactiStranku();
             }
         }
         protected override void OnClosing(CancelEventArgs e) {
@@ -261,6 +272,8 @@ namespace aplikace {
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e) {
             auto = null;
+            cesta = new LinkedList<CestyGraf.Hrana>();
+            nactiStranku();
         }
     }
 }
