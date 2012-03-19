@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using aplikace.DatoveStruktury;
 using System.Collections;
+using System.Diagnostics;
 
 namespace aplikace {
     class Dijkstra {
@@ -45,6 +46,10 @@ namespace aplikace {
         }
 
         public static LinkedList<CestyGraf.Hrana> doDijkstra(CestyGraf graf, Auto startPozice, CestyGraf.Hrana cil) {
+            int pocetProhledanych = 0;
+            Stopwatch stopky = new Stopwatch();
+            stopky.Start();
+
             bool nalezenPrvniVyskyt = false;
             double[] vzdalenost = new double[2];
             vzdalenost[0] = 0;
@@ -54,10 +59,13 @@ namespace aplikace {
             cilovaCesta[1] = new LinkedList<CestyGraf.Hrana>();
             List<DVrchol> otevrene = new List<DVrchol>();
             List<DVrchol> uzavrene = new List<DVrchol>();
+            BST<DVrchol, string> bst = new BST<DVrchol, string>();
+
             DVrchol zkoumany = new DVrchol();
 
             DVrchol cilPosledni = new DVrchol();
 
+            #region MyRegion
             //TODO zkontrolovat nedestruktivnost foreachů vůči datům!
             // DESTRUKTIVNÍ!!!
             //foreach (CestyGraf.Hrana item in startPozice.HranaPoloha.Vrchol1.DejHrany()) {
@@ -66,6 +74,8 @@ namespace aplikace {
             //foreach (CestyGraf.Hrana item in startPozice.HranaPoloha.Vrchol2.DejHrany()) {
             //    item.Metrika += startPozice.VzdalenostOdV2;
             //}
+
+            #endregion
             otevrene.Add(new DVrchol(startPozice.HranaPoloha.Vrchol1 as CestyGraf.Vrchol, null, startPozice.HranaPoloha, startPozice.VzdalenostOdV1));
             otevrene.Add(new DVrchol(startPozice.HranaPoloha.Vrchol2 as CestyGraf.Vrchol, null, startPozice.HranaPoloha, startPozice.VzdalenostOdV2));
 
@@ -85,7 +95,7 @@ namespace aplikace {
                         cilPosledni = zkoumany;
                         nalezenPrvniVyskyt = true;
                     }
-
+                    #region MyRegion
                     //DVrchol aktualniCilovy = zkoumany;
                     //while (aktualniCilovy.Predchudce != null) {
                     //    vzdalenost[(nalezenPrvniVyskyt ? 1 : 0)] += aktualniCilovy.Silnice.Metrika;
@@ -102,14 +112,14 @@ namespace aplikace {
                     //        return cilovaCesta[1];
                     //    }
                     //    return cilovaCesta[0];
-                    //}
-
+                    //} 
+                    #endregion
                 }
-                //throw new Exception("Nalezena cesta :)");
-                foreach (CestyGraf.Hrana item in zkoumany.Data.DejHrany()) { // z zkoum.pro každou hranu přidat do otevřených koncový bod
+                foreach (CestyGraf.Hrana item in zkoumany.Data.DejHrany()) { // z zkoum. pro každou hranu přidat do otevřených koncový bod         
                     if (!item.Sjizdna) {
                         continue;
                     }
+                    pocetProhledanych++;
                     DVrchol v1 = new DVrchol(item.Vrchol1 as CestyGraf.Vrchol, zkoumany, item, zkoumany.MetrikaOdStartu + item.Metrika);
                     DVrchol v2 = new DVrchol(item.Vrchol2 as CestyGraf.Vrchol, zkoumany, item, zkoumany.MetrikaOdStartu + item.Metrika);
                     if (zkoumany.Data.Equals(item.Vrchol1)) { // pokud je vrchol vrcholem 1, potřebujeme přidat vrchol 2, jinak vrchol 1 do seznamu zkoumaných vrcholů
@@ -156,12 +166,14 @@ namespace aplikace {
                 }
 
             }
-
             while (cilPosledni.Predchudce != null) {
                 vzdalenost[0] += cilPosledni.Silnice.Metrika;
                 cilovaCesta[0].AddFirst(cilPosledni.Silnice);
                 cilPosledni = cilPosledni.Predchudce;
             }
+
+            stopky.Stop();
+            Debug.WriteLine("Milisekund: " + stopky.ElapsedMilliseconds + ", Tiků: " + stopky.ElapsedTicks + ", Prohledaných stavů celkem: " + pocetProhledanych);
             return cilovaCesta[0];
         }
 
