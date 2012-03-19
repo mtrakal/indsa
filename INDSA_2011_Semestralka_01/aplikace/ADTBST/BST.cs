@@ -19,9 +19,14 @@ namespace aplikace {
             public DVrchol(TKey klic, T data, DVrchol pravy, DVrchol levy) : this(klic, data, pravy) { Levy = levy; }
         }
         DVrchol koren;
+        private int count = 0;
+        public int Count { get { return count; } private set { this.count = value; } }
+
         public BST() { koren = null; }
+
         private DVrchol vlozR(DVrchol v, TKey klic, T data, DVrchol rodic) { // OK
             if (v == null) {
+                count++;
                 return new DVrchol(klic, data) { Rodic = rodic };
             }
             if (klic.CompareTo(v.Klic) == -1) {
@@ -31,9 +36,11 @@ namespace aplikace {
             }
             return v;
         }
-
         public void Vloz(TKey klic, T data) {
             koren = vlozR(koren, klic, data, null);
+        }
+        public void Add(T data, TKey klic) {
+            Vloz(klic, data);
         }
 
         public bool JePrazdny() {
@@ -56,9 +63,15 @@ namespace aplikace {
                     aktualni = aktualni.Pravy;
                 }
                 data = aktualni.Data;
+                if (jeKoren(aktualni) && jeVrchol(aktualni)) {
+                    koren = null;
+                    count--; // musí být 0, jinak mám chybku :)
+                    return aktualni.Data;
+                }
                 if (jeKoren(aktualni)) {
                     koren = aktualni.Levy;
                     aktualni.Levy.Rodic = null;
+                    count--;
                     return data;
                 }
                 if (jeVrchol(aktualni)) {
@@ -67,6 +80,7 @@ namespace aplikace {
                     aktualni.Levy.Rodic = aktualni.Rodic;
                     aktualni.Rodic.Pravy = aktualni.Levy;
                 }
+                count--;
                 return data;
             } else {
                 // prohledávání k minimálnímu prvku
@@ -74,9 +88,15 @@ namespace aplikace {
                     aktualni = aktualni.Levy;
                 }
                 data = aktualni.Data;
+                if (jeKoren(aktualni) && jeVrchol(aktualni)) {
+                    koren = null;
+                    count--; // musí být 0, jinak mám chybku :)
+                    return aktualni.Data;
+                }
                 if (jeKoren(aktualni)) {
                     koren = aktualni.Pravy;
                     aktualni.Pravy.Rodic = null;
+                    count--;
                     return data;
                 }
                 if (jeVrchol(aktualni)) {
@@ -86,6 +106,7 @@ namespace aplikace {
                     aktualni.Pravy.Rodic = aktualni.Rodic;
                     aktualni.Rodic.Levy = aktualni.Pravy;
                 }
+                count--;
                 return data;
             }
         }
@@ -143,24 +164,40 @@ namespace aplikace {
         //public void PruchodPostorder() {
         //    Postorder(koren);
         //}
-
-        //private T hledejR(DVrchol v, TKey klic) { // Vyhledavani
-        //    if (v == null) {
-        //        return default(T);
-        //    }
-        //    if (klic.Equals(v.Klic)) {
-        //        return v.Data;
-        //    }
-        //    if (klic.CompareTo(v.Klic) == 1) { // TODO: zkontrolovat podmínku
-        //        return hledejR(v.Levy, klic);
-        //    } else {
-        //        return hledejR(v.Pravy, klic);
-        //    }
-        //}
-
-        //public T Hledej(TKey klic) {
-        //    return hledejR(koren, klic);
-        //} 
         #endregion
+
+        private T hledejR(DVrchol v, TKey klic) { // Vyhledavani
+            if (v == null) {
+                return default(T);
+            }
+            if (klic.Equals(v.Klic)) {
+                return v.Data;
+            }
+            if (klic.CompareTo(v.Klic) == 1) { // TODO: zkontrolovat podmínku
+                return hledejR(v.Levy, klic);
+            } else {
+                return hledejR(v.Pravy, klic);
+            }
+        }
+
+        public T Hledej(TKey klic) {
+            return hledejR(koren, klic);
+        }
+        public bool Contains(T data, TKey klic) {
+            return porovnej(koren, klic);
+        }
+        private bool porovnej(DVrchol v, TKey klic) { // Vyhledavani
+            if (v == null) {
+                return false;
+            }
+            if (klic.Equals(v.Klic)) {
+                return true;
+            }
+            if (klic.CompareTo(v.Klic) == 1) { // TODO: zkontrolovat podmínku
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 }
