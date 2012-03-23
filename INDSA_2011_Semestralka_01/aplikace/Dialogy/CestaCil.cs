@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using aplikace.DatoveStruktury;
 
 namespace aplikace.Dialogy {
     public partial class CestaCil : Form {

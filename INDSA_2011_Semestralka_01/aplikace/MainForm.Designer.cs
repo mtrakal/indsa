@@ -36,6 +36,7 @@
             this.nastavSjízdnostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.operaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.umístitVozidloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.najítCestuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonKonec = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -44,7 +45,6 @@
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -99,14 +99,14 @@
             // přidatToolStripMenuItem
             // 
             this.přidatToolStripMenuItem.Name = "přidatToolStripMenuItem";
-            this.přidatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.přidatToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.přidatToolStripMenuItem.Text = "Přidat";
             this.přidatToolStripMenuItem.Click += new System.EventHandler(this.přidatToolStripMenuItem_Click);
             // 
             // odebratToolStripMenuItem
             // 
             this.odebratToolStripMenuItem.Name = "odebratToolStripMenuItem";
-            this.odebratToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.odebratToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.odebratToolStripMenuItem.Text = "Odebrat";
             this.odebratToolStripMenuItem.Click += new System.EventHandler(this.odebratToolStripMenuItem_Click);
             // 
@@ -154,14 +154,21 @@
             // umístitVozidloToolStripMenuItem
             // 
             this.umístitVozidloToolStripMenuItem.Name = "umístitVozidloToolStripMenuItem";
-            this.umístitVozidloToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.umístitVozidloToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.umístitVozidloToolStripMenuItem.Text = "Umístit vozidlo";
             this.umístitVozidloToolStripMenuItem.Click += new System.EventHandler(this.umístitVozidloToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(166, 22);
+            this.toolStripMenuItem2.Text = "Odstranit vozidlo";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // najítCestuToolStripMenuItem
             // 
             this.najítCestuToolStripMenuItem.Name = "najítCestuToolStripMenuItem";
-            this.najítCestuToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.najítCestuToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.najítCestuToolStripMenuItem.Text = "Najít cestu";
             this.najítCestuToolStripMenuItem.Click += new System.EventHandler(this.najítCestuToolStripMenuItem_Click);
             // 
@@ -214,13 +221,6 @@
             this.webBrowser1.Size = new System.Drawing.Size(760, 539);
             this.webBrowser1.TabIndex = 4;
             this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(166, 22);
-            this.toolStripMenuItem2.Text = "Odstranit vozidlo";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // MainForm
             // 

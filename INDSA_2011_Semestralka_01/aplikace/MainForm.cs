@@ -11,13 +11,12 @@ using System.Globalization;
 using System.Threading;
 using System.Diagnostics;
 using aplikace.Dialogy;
-using aplikace.DatoveStruktury;
 
 namespace aplikace {
     public partial class MainForm : Form {
         CestyGraf graf = new CestyGraf();
-        //CestyGraf.Vrcholy vrcholy = new CestyGraf.Vrcholy();
-        //CestyGraf.Hrany hrany = new CestyGraf.Hrany();
+        IDatovaVrstva idvHrany = null;
+        IDatovaVrstva idvVrcholy = null;
         Auto auto = null;
         string gmHead;
         string gmBottom;
@@ -38,38 +37,8 @@ namespace aplikace {
             streamReader = new StreamReader(Directory.GetCurrentDirectory() + "../../../GoogleMaps_bottom.htm");
             gmBottom = streamReader.ReadToEnd();
             streamReader.Close();
-
             nactiStranku();
         }
-
-        //public void Pokus() {
-        //    Dictionary<string, int> seznamVrcholu = new Dictionary<string, int>();
-        //    double[,] mapa = new double[graf.CountVrcholy, graf.CountVrcholy];
-        //    foreach (CestyGraf.Hrana item in hrany) {
-        //        vrcholy.Dej(item.Vrchol1.Data).PridejHranu(item);
-        //        vrcholy.Dej(item.Vrchol2.Data).PridejHranu(item);
-        //    }
-        //    int i = 0;
-        //    foreach (CestyGraf.Vrchol item in vrcholy) {
-        //        seznamVrcholu.Add(item.Data, i);
-        //        i++;
-        //    }
-        //    for (i = 0; i < seznamVrcholu.Count; i++) {
-        //        for (int j = 0; j < seznamVrcholu.Count; j++) {
-        //            mapa[i, j] = -1;
-        //        }
-        //    }
-        //    foreach (CestyGraf.Hrana item in hrany) {
-        //        if (item.Sjizdna) {
-        //            mapa[seznamVrcholu[item.Vrchol1.Data], seznamVrcholu[item.Vrchol2.Data]] = item.Metrika;
-        //            mapa[seznamVrcholu[item.Vrchol2.Data], seznamVrcholu[item.Vrchol1.Data]] = item.Metrika;
-        //        }
-        //    }
-        //    Console.WriteLine();
-        //}
-
-        IDatovaVrstva idvHrany = null;
-        IDatovaVrstva idvVrcholy = null;
 
         private void konecToolStripMenuItem_Click(object sender, EventArgs e) {
             konec();
@@ -141,17 +110,8 @@ namespace aplikace {
                 sb.Append(string.Format(Konstanty.FORMATAUTO, "auto", auto.DejPolohu().Souradnice.X, auto.DejPolohu().Souradnice.Y));
             }
             string s = gmHead + sb.ToString() + gmBottom;
-            //webBrowser1.Document.Write(s);
             webBrowser1.Document.OpenNew(true);
-            //webBrowser1.Navigate("about:blank");
-            //Debug.Write(s);
-            //            webBrowser1.Document.Write(s.ToString());
             webBrowser1.DocumentText = s.ToString();
-            /*
-            StreamWriter sw = new StreamWriter("./aaaa.txt");
-            sw.WriteLine(gmHead + sb.ToString() + gmBottom);
-            sw.Close();
-             */
         }
 
         private void přidatCestuToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -213,8 +173,6 @@ namespace aplikace {
             }
         }
         CestyGraf.Vrchol udalostMouseUpWebBrowser(object sender, HtmlElementEventArgs e) {
-            //if (e.MouseButtonsPressed == MouseButtons.Left) {
-
             Thread.CurrentThread.CurrentCulture = ci;
             Object[] objArray = new Object[1];
             CestyGraf.Vrchol v = new CestyGraf.Vrchol();
@@ -232,7 +190,6 @@ namespace aplikace {
                 Debug.WriteLine(ex.Message);
                 return null;
             }
-            //}
         }
 
         private void umístitVozidloToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -275,5 +232,26 @@ namespace aplikace {
             cesta = new LinkedList<CestyGraf.Hrana>();
             nactiStranku();
         }
+
+        //private void pokusToolStripMenuItem_Click(object sender, EventArgs e) {
+        //    //StringBuilder sb = new StringBuilder();
+        //    //sb.Append("javascript:function foo(){");
+        //    //int i = 0;
+        //    //foreach (CestyGraf.Vrchol item in graf.DejVrcholy()) {
+        //    //    sb.Append(string.Format(Konstanty.FORMATVRCHOL, item.Data, item.Souradnice.X, item.Souradnice.Y));
+        //    //    i++;
+        //    //    if (i == 3) {
+        //    //        break;
+        //    //    }
+        //    //}
+        //    //sb.Append("}foo();");
+
+        //    foreach (CestyGraf.Vrchol item in graf.DejVrcholy()) {
+        //        string s = "javascript:function foo(){" + string.Format(Konstanty.FORMATVRCHOL, item.Data, item.Souradnice.X, item.Souradnice.Y) + "}foo();";
+        //        Debug.WriteLine(s);
+        //        webBrowser1.Navigate(s);
+        //        break;
+        //    }
+        //}
     }
 }

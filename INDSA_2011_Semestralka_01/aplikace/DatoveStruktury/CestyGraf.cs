@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using cz.mtrakal.ADT;
 
-namespace aplikace.DatoveStruktury {
+namespace aplikace {
     public class CestyGraf : Graf<double, string, string, double> {
         public class Bod : Graf<double, string, string, double>.GBod {
             public Bod() : base() { }
@@ -67,31 +68,6 @@ namespace aplikace.DatoveStruktury {
         public void Pridej(string nazev, Bod souradnice) {
             Pridej(new Vrchol(nazev, souradnice));
         }
-        //public void Pridej(List<Vrchol> vrcholy) {
-        //    foreach (Vrchol item in vrcholy) {
-        //        Pridej(item);
-        //    }
-        //}
-
-        //public void Odeber(Bod souradnice) {
-        //    if (vrcholy.ContainsKey(souradnice)) {
-        //        vrcholy.Remove(souradnice);
-        //    } else {
-        //        throw new ArgumentException("Neznámý parametr klíče v Vrcholy-Odeber!");
-        //    }
-        //}
-        //public IEnumerator GetEnumerator() {
-        //    foreach (KeyValuePair<Bod, Vrchol> item in vrcholy) {
-        //        yield return item.Value;
-        //    }
-        //}
-        //public Vrchol Dej(Bod souradnice) {
-        //    if (vrcholy.ContainsKey(souradnice)) {
-        //        return vrcholy[souradnice];
-        //    } else {
-        //        return null;
-        //    }
-        //}
         public Vrchol DejVrchol(string nazev) {
             foreach (KeyValuePair<IBod, IVrchol> item in vrcholy) {
                 if (item.Value.Data == nazev) {
@@ -100,59 +76,9 @@ namespace aplikace.DatoveStruktury {
             }
             return null;
         }
-        //public List<Vrchol> Dej() {
-        //    List<Vrchol> vystup = new List<Vrchol>();
-        //    foreach (KeyValuePair<IBod, IVrchol> item in vrcholy) {
-        //        vystup.Add(item.Value);
-        //    }
-        //    return vystup;
-        //}
-        //public int Count { get { return vrcholy.Count; } }
-
-
-        //public void Pridej(IHrana hrana) {
-        //    if (hrany.ContainsKey(hrana.Data)) {
-        //        throw new Exception("Klíč již existuje Hrany");
-        //        //return;
-        //    }
-        //    hrany.Add(hrana.Data, hrana as Hrana);
-        //}
         public void Pridej(string nazev, IVrchol vrchol1, IVrchol vrchol2, double metrika, bool sjizdna) {
             Pridej(new Hrana(nazev, vrchol1, vrchol2, metrika, sjizdna));
         }
-        //public void Pridej(List<Hrana> hrany) {
-        //    foreach (Hrana item in hrany) {
-        //        Pridej(item);
-        //    }
-        //}
-        //public void Odeber(string nazev) {
-        //    if (hrany.ContainsKey(nazev)) {
-        //        hrany.Remove(nazev);
-        //    } else {
-        //        throw new ArgumentException("Neznámý parametr klíče v Hrany-Odeber!");
-        //    }
-        //}
-
-        //public IEnumerator GetEnumerator() {
-        //    foreach (KeyValuePair<string, Hrana> item in hrany) {
-        //        yield return item.Value;
-        //    }
-        //}
-        //public Hrana Dej(string nazev) {
-        //    if (hrany.ContainsKey(nazev)) {
-        //        return hrany[nazev];
-        //    } else {
-        //        return null;
-        //    }
-        //}
-        //public List<Hrana> Dej() {
-        //    List<Hrana> vystup = new List<Hrana>();
-        //    foreach (KeyValuePair<string, Hrana> item in hrany) {
-        //        vystup.Add(item.Value);
-        //    }
-        //    return vystup;
-        //}
-
         new public List<Hrana> DejHrany() {
             List<Hrana> vystup = new List<Hrana>();
             foreach (KeyValuePair<string, IHrana> item in hrany) {
@@ -167,19 +93,17 @@ namespace aplikace.DatoveStruktury {
             }
             return vystup;
         }
-
         internal void Pridej(List<Hrana> list) {
             foreach (Hrana item in list) {
                 hrany.Add(item.Data, item);
             }
         }
-
         internal void Pridej(List<Vrchol> list) {
             foreach (Vrchol item in list) {
                 vrcholy.Add(item.Souradnice, item);
             }
         }
-        new public IVrchol DejVrchol(double x, double y) { // does not work due to: IEqualityComparer is not implemented on abstract layer
+        new public IVrchol DejVrchol(double x, double y) {
             return DejVrchol(new Bod(x, y));
         }
     }

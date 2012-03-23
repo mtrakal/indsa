@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Drawing;
-using aplikace.DatoveStruktury;
 
 namespace aplikace {
     class TextSouborDV : IDisposable, IDatovaVrstva {

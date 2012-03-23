@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using aplikace.DatoveStruktury;
 
 namespace aplikace {
     public partial class MestoPridejDialog : Form {

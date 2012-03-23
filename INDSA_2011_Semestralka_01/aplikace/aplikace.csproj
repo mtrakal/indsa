@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ADTBST\BST.cs" />
     <Compile Include="DatoveStruktury\Auto.cs" />
     <Compile Include="DatoveStruktury\CestyGraf.cs" />
     <Compile Include="Dialogy\AutoNastav.cs">
@@ -73,14 +72,12 @@
     <Compile Include="Dialogy\CestaSjizdnost.Designer.cs">
       <DependentUpon>CestaSjizdnost.cs</DependentUpon>
     </Compile>
-    <Compile Include="ADTGraf\Graf.cs" />
     <Compile Include="Dialogy\CestaOdeberDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialogy\CestaOdeberDialog.Designer.cs">
       <DependentUpon>CestaOdeberDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Astar.cs" />
     <Compile Include="Dijkstra.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -139,8 +136,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ADTBST\BST.cd" />
-    <None Include="ADTGraf\Graf.cd" />
     <None Include="DatoveStruktury\CestyGraf.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -155,6 +150,12 @@
   <ItemGroup>
     <Content Include="GoogleMaps_bottom.htm" />
     <Content Include="GoogleMaps_head.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cz.mtrakal.ADT\cz.mtrakal.ADT.csproj">
+      <Project>{8A8676F5-7BB2-469A-A698-604984265E2A}</Project>
+      <Name>cz.mtrakal.ADT</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

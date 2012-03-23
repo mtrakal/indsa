@@ -62,3 +62,16 @@ implementace grafu:
 
 
 prior fronta + halda?
+
+------------- Dokumentace
+popsat dat struktury
+algoritmus pro cestu a úpravy
+nìco o strukturøe implementaèní èásti (diagram tøíd)
+odstavec specifického s implementací
+
+odevzdat do stagu
+
+sortedDictionary
+
+Pokud prohledávám prior frontu, vyøešit aby se znova nehledalo znova cesty s horším ohodnocením.
+Nebo použít nìco jinýho.
