@@ -136,6 +136,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Dijkstra.cd" />
+    <None Include="DatoveStruktury\Auto.cd" />
+    <None Include="DatoveStruktury\TextSouborDV.cd" />
     <None Include="DatoveStruktury\CestyGraf.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

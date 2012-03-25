@@ -1,22 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="aplikace.DatoveStruktury.CestyGraf">
+  <Class Name="aplikace.CestyGraf">
     <Position X="0.5" Y="0.5" Width="5.25" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
-      <Class Name="aplikace.DatoveStruktury.CestyGraf.Bod">
+      <Class Name="aplikace.CestyGraf.Bod" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>DatoveStruktury\CestyGraf.cs</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Class Name="aplikace.DatoveStruktury.CestyGraf.Hrana">
+      <Class Name="aplikace.CestyGraf.Hrana" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>DatoveStruktury\CestyGraf.cs</NewMemberFileName>
         </TypeIdentifier>
+        <Lollipop Position="0.2" />
       </Class>
-      <Class Name="aplikace.DatoveStruktury.CestyGraf.Vrchol">
+      <Class Name="aplikace.CestyGraf.Vrchol" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>DatoveStruktury\CestyGraf.cs</NewMemberFileName>
         </TypeIdentifier>
@@ -25,51 +26,6 @@
     <TypeIdentifier>
       <HashCode>AAAAAAQAIAAAAAEAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
       <FileName>DatoveStruktury\CestyGraf.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="aplikace.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;">
-    <Position X="6" Y="0.5" Width="3.5" />
-    <Compartments>
-      <Compartment Name="Nested Types" Collapsed="false" />
-    </Compartments>
-    <NestedTypes>
-      <Interface Name="aplikace.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.IBod">
-        <TypeIdentifier>
-          <NewMemberFileName>ADTGraf\Graf.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Interface>
-      <Interface Name="aplikace.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.IVrchol">
-        <TypeIdentifier>
-          <NewMemberFileName>ADTGraf\Graf.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Interface>
-      <Interface Name="aplikace.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.IHrana">
-        <TypeIdentifier>
-          <NewMemberFileName>ADTGraf\Graf.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Interface>
-      <Class Name="aplikace.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.GBod">
-        <TypeIdentifier>
-          <NewMemberFileName>ADTGraf\Graf.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-      <Class Name="aplikace.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.GVrchol">
-        <TypeIdentifier>
-          <NewMemberFileName>ADTGraf\Graf.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-      <Class Name="aplikace.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.GHrana">
-        <TypeIdentifier>
-          <NewMemberFileName>ADTGraf\Graf.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-    </NestedTypes>
-    <TypeIdentifier>
-      <HashCode>BAAAAAQAIAAABgEQAAAAAAAAAAAAAAAAAAYAAAAAAAQ=</HashCode>
-      <FileName>ADTGraf\Graf.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Tahoma" Size="8.25" />

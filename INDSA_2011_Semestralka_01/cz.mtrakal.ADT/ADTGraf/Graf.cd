@@ -21,19 +21,19 @@
           <NewMemberFileName>ADTGraf\Graf.cs</NewMemberFileName>
         </TypeIdentifier>
       </Interface>
-      <Class Name="cz.mtrakal.ADT.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.GBod">
+      <Class Name="cz.mtrakal.ADT.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.GBod" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>ADTGraf\Graf.cs</NewMemberFileName>
         </TypeIdentifier>
         <Lollipop Position="0.2" />
       </Class>
-      <Class Name="cz.mtrakal.ADT.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.GVrchol">
+      <Class Name="cz.mtrakal.ADT.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.GVrchol" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>ADTGraf\Graf.cs</NewMemberFileName>
         </TypeIdentifier>
         <Lollipop Position="0.2" />
       </Class>
-      <Class Name="cz.mtrakal.ADT.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.GHrana">
+      <Class Name="cz.mtrakal.ADT.Graf&lt;TBod, TVrchol, THrana, TMetrika&gt;.GHrana" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>ADTGraf\Graf.cs</NewMemberFileName>
         </TypeIdentifier>

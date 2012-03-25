@@ -30,7 +30,6 @@ namespace aplikace {
 
             Thread.CurrentThread.CurrentCulture = ci;
 
-            //webBrowser1.Url = new Uri(Directory.GetCurrentDirectory()+"../../../GoogleMaps.htm");
             StreamReader streamReader = new StreamReader(Directory.GetCurrentDirectory() + "../../../GoogleMaps_head.htm");
             gmHead = streamReader.ReadToEnd();
             streamReader.Close();
@@ -54,7 +53,6 @@ namespace aplikace {
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private void konec() {
-            //idvHrany.UlozHrany(seznamHran.Dej());
             Close();
         }
 
@@ -219,6 +217,7 @@ namespace aplikace {
                     }
                 }
                 (graf.DejHranu(cs.Silnice.Data) as CestyGraf.Hrana).Sjizdna = cs.Silnice.Sjizdna;
+                idvHrany.UlozHrany(graf.DejHrany());
                 nactiStranku();
             }
         }
