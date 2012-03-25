@@ -75,3 +75,16 @@ sortedDictionary
 
 Pokud prohledávám prior frontu, vyøešit aby se znova nehledalo znova cesty s horším ohodnocením.
 Nebo použít nìco jinýho.
+
+-- zdroje
+http://kam.mff.cuni.cz/~kuba/ka/
+http://kam.mff.cuni.cz/~kuba/ka/halda.pdf
+http://cs.wikipedia.org/wiki/Dijkstr%C5%AFv_algoritmus
+http://ww3.algorithmdesign.net/handouts/Heap.pdf
+https://docs.google.com/viewer?a=v&q=cache:npw0BxnC_K8J:www.kiv.zcu.cz/~netrvalo/vyuka/ppa2-08/prednasky/prednaska08.doc+&hl=cs&gl=cz&pid=bl&srcid=ADGEESg6OIc6f-U3U-6yXTZ2tv6VdR9N7cngEEiY4e6tnHK7KXMtl_0Jc3cMWsDChLOH4S_dv6imAjO-XIxzoniv-2vS2epVcZUczh8cpU0RThlrIx1yR3CfL9Xfo5YWUcbSk3ldcsJM&sig=AHIEtbQDIF9vTai6shw4Qp8KccM2Gdsang
+http://stackoverflow.com/questions/1937690/c-sharp-priority-queue
+https://docs.google.com/viewer?a=v&q=cache:BI4DrpWRSicJ:www2.cs.siu.edu/~mengxia/Courses%2520PPT/220/carrano_ppt18.ppt+&hl=cs&gl=cz&pid=bl&srcid=ADGEESjYg4oJKq0SjNOwGHSxMn07ohbApsHUTQVVQO0y9mTpLbxHkim7Qyn4UQToB_66od2wOCahJgrgWoXwnbQH7MHuaojx0gyhrpoqkGXkQuNYQTrKEc6MbohV9k93WwzDWMGxCuOT&sig=AHIEtbR8b8McwZIOV5ScV_knVWhbJPN8iQ
+http://www.avk.name/2010/11/priority-queue-in-c-with-help-of-heap.html
+http://www.devsource.com/c/a/Languages/A-Priority-Queue-Implementation-in-C/
+http://www.codeproject.com/Articles/13295/A-Priority-Queue-in-C
+http://voho.cz/wiki/informatika/algoritmus/graf/dijkstra/

@@ -66,7 +66,7 @@ namespace ConsoleApplication1 {
             //al1(ref s, ref ll, "ArrayList bez sortu"); // nekonečný jen načítání, asi nefunguje
             pq3(ref s, ref ll, "PriorityQueue3");
             //ll1(ref s, ref ll, "LinkedList bez sortu");
-            //bst1(ref s, ref ll, "BST");
+            bst1(ref s, ref ll, "BST");
             //l1(ref s, ref ll, "List bez sortu");
             //sortDict1(ref s, ref ll, "Sorted Dictionary");
             //dict1(ref s, ref ll, "Dictionary bez sortu");

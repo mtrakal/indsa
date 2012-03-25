@@ -100,8 +100,9 @@ namespace aplikace {
                 CestyGraf.Hrana c = new CestyGraf.Hrana() {
                     Data = pom[0],
                     //Data = string.Format("{0}{1}", Konstanty.ABECEDA[i / Konstanty.ABECEDA.Length], Konstanty.ABECEDA[i % Konstanty.ABECEDA.Length]),
-                    //Vrchol1 = vrcholy.Dej(pom[0]),
-                    //Vrchol2 = vrcholy.Dej(pom[1]),
+                    //Vrchol1 = graf.DejVrchol(pom[0]),
+                    //Vrchol2 = graf.DejVrchol(pom[1]),
+
                     Vrchol1 = graf.DejVrchol(double.Parse(pom[1], Konstanty.CULTUREINFO), double.Parse(pom[2], Konstanty.CULTUREINFO)),
                     Vrchol2 = graf.DejVrchol(double.Parse(pom[3], Konstanty.CULTUREINFO), double.Parse(pom[4], Konstanty.CULTUREINFO)),
                     Metrika = double.Parse(pom[5], Konstanty.CULTUREINFO),

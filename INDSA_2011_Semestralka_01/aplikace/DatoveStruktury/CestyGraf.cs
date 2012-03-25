@@ -95,12 +95,21 @@ namespace aplikace {
         }
         internal void Pridej(List<Hrana> list) {
             foreach (Hrana item in list) {
-                hrany.Add(item.Data, item);
+                try {
+                    hrany.Add(item.Data, item);
+                } catch (Exception) {
+                    System.Diagnostics.Debug.WriteLine("Diplicita hran: " + item.Data + "; " + item.Metrika + ":" + item.Vrchol1 + ", " + item.Vrchol2);
+                    throw;
+                }
             }
         }
         internal void Pridej(List<Vrchol> list) {
             foreach (Vrchol item in list) {
-                vrcholy.Add(item.Souradnice, item);
+                try {
+                    vrcholy.Add(item.Souradnice, item);
+                } catch (Exception) {
+                    System.Diagnostics.Debug.WriteLine("Diplicita vrcholů: " + item.Data + "; " + item.Souradnice.X + ":" + item.Souradnice.X);
+                }
             }
         }
         new public IVrchol DejVrchol(double x, double y) {

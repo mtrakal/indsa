@@ -327,8 +327,8 @@ namespace cz.mtrakal.ADT.ADTPriorityQueue {
 
         private bool changePriority(TKey key, TPriority priority, TValue value) {
             if (dict.ContainsKey(key)) {
-                if ((dict[key].Key.CompareTo(priority)) == 1) { // TODO: zkontrolovat podmínku
-                    dict.Remove(key);
+                if ((dict[key].Key.CompareTo(priority)) == 1) { // Pokud je priorita menší, než již vložená
+                    dict.Remove(key); // smažu pouze ze slovníku, ne z PriorQueu
                 } else {
                     return false;
                 }

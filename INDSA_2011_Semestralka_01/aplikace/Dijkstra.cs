@@ -8,12 +8,12 @@ using cz.mtrakal.ADT.ADTPriorityQueue;
 
 namespace aplikace {
     class Dijkstra {
-        private class DVrchol/* : IEqualityComparer<DVrchol>, IEquatable<DVrchol>*/ {
+        private class DVrchol /*: IEqualityComparer<DVrchol>, IEquatable<DVrchol>*/ {
             public CestyGraf.Vrchol Data { get; set; }
             public DVrchol Predchudce { get; set; }
             public CestyGraf.Hrana SilniceDoPredchudce { get; set; }
             public double MetrikaOdStartu { get; set; }
-            public DVrchol() { Predchudce = null; SilniceDoPredchudce = null; }
+            public DVrchol() { /*Predchudce = null; SilniceDoPredchudce = null;*/ }
             public DVrchol(CestyGraf.Vrchol data) : this() { Data = data; }
             public DVrchol(CestyGraf.Vrchol data, DVrchol predchudce) : this(data) { Predchudce = predchudce; }
             public DVrchol(CestyGraf.Vrchol data, DVrchol predchudce, CestyGraf.Hrana silnice) : this(data, predchudce) { SilniceDoPredchudce = silnice; }
@@ -54,12 +54,14 @@ namespace aplikace {
                     if (cilPosledni.Data != null) {
                         if (cilPosledni.MetrikaOdStartu > zkoumany.MetrikaOdStartu) {
                             cilPosledni = zkoumany; // nebude pouze ukazatel, který se neustále mění?
-                            Debug.WriteLine("Další výskyt: " + cilPosledni.MetrikaOdStartu + ", vrchol: " + zkoumany.Data.Data);
+                            Debug.WriteLine("Další výskyt: " + cilPosledni.MetrikaOdStartu + ", vrchol: " + cilPosledni.Data.Data);
+                        } else {
+                            Debug.WriteLine("Nepoužitý výskyt: " + zkoumany.MetrikaOdStartu + ", vrchol: " + zkoumany.Data.Data);
                         }
                     } else {
                         cilPosledni = zkoumany;
-                        Debug.WriteLine("První výskyt: " + cilPosledni.MetrikaOdStartu + ", vrchol: " + zkoumany.Data.Data);
-                        break;
+                        Debug.WriteLine("První výskyt: " + cilPosledni.MetrikaOdStartu + ", vrchol: " + cilPosledni.Data.Data);
+                        //break;
                     }
                 }
 
@@ -84,7 +86,9 @@ namespace aplikace {
                 cilovaCesta.AddFirst(cilPosledni.SilniceDoPredchudce);
                 cilPosledni = cilPosledni.Predchudce;
             }
+            CestyGraf.Hrana hrStart = new CestyGraf.Hrana(null, startPozice.DejPolohu(), cilPosledni.Data, 0, true);
 
+            cilovaCesta.AddFirst(hrStart);
             stopky.Stop();
             Debug.WriteLine("Milisekund: " + stopky.ElapsedMilliseconds + ", Tiků: " + stopky.ElapsedTicks + ", Prohledaných stavů celkem: " + pocetProhledanych);
             return cilovaCesta;

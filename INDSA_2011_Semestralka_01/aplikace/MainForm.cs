@@ -77,8 +77,12 @@ namespace aplikace {
                     graf.Pridej(idvHrany.NactiHrany(ref graf));
 
                     foreach (CestyGraf.Hrana item in graf.DejHrany()) {
-                        item.Vrchol1.PridejHranu(item);
-                        item.Vrchol2.PridejHranu(item);
+                        try {
+                            item.Vrchol1.PridejHranu(item);
+                            item.Vrchol2.PridejHranu(item);
+                        } catch (Exception) {
+
+                        }
                     }
                 }
             }
@@ -223,6 +227,9 @@ namespace aplikace {
             CestaCil cc = new CestaCil(graf.DejHrany());
             if (cc.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 cesta = Dijkstra.doDijkstra(graf, auto, cc.HranaCil);
+                if (cesta.Count == 0) {
+                    Debug.WriteLine("nenalezena cesta z " + auto.HranaPoloha.Data + " do: " + cc.HranaCil.Data);
+                }
                 nactiStranku();
             }
         }

@@ -74,8 +74,9 @@
             // toolStripMenuItemNacist
             // 
             this.toolStripMenuItemNacist.Name = "toolStripMenuItemNacist";
-            this.toolStripMenuItemNacist.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.toolStripMenuItemNacist.Size = new System.Drawing.Size(154, 22);
+            this.toolStripMenuItemNacist.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.O)));
+            this.toolStripMenuItemNacist.Size = new System.Drawing.Size(184, 22);
             this.toolStripMenuItemNacist.Text = "Načíst";
             this.toolStripMenuItemNacist.Click += new System.EventHandler(this.toolStripMenuItemNacist_Click);
             // 
@@ -83,7 +84,7 @@
             // 
             this.konecToolStripMenuItem.Name = "konecToolStripMenuItem";
             this.konecToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.X)));
-            this.konecToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.konecToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.konecToolStripMenuItem.Text = "Konec";
             this.konecToolStripMenuItem.Click += new System.EventHandler(this.konecToolStripMenuItem_Click);
             // 
@@ -99,14 +100,14 @@
             // přidatToolStripMenuItem
             // 
             this.přidatToolStripMenuItem.Name = "přidatToolStripMenuItem";
-            this.přidatToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.přidatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.přidatToolStripMenuItem.Text = "Přidat";
             this.přidatToolStripMenuItem.Click += new System.EventHandler(this.přidatToolStripMenuItem_Click);
             // 
             // odebratToolStripMenuItem
             // 
             this.odebratToolStripMenuItem.Name = "odebratToolStripMenuItem";
-            this.odebratToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.odebratToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.odebratToolStripMenuItem.Text = "Odebrat";
             this.odebratToolStripMenuItem.Click += new System.EventHandler(this.odebratToolStripMenuItem_Click);
             // 

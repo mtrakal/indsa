@@ -13,9 +13,21 @@ namespace aplikace {
         public double VzdalenostOdV2 { get; set; }
         public CestyGraf.Vrchol DejPolohu() {
             CestyGraf.Vrchol v = new CestyGraf.Vrchol();
-            v = HranaPoloha.Vrchol1 as CestyGraf.Vrchol;
-            double uhel = ((Math.Asin(HranaPoloha.Vrchol2.Souradnice.X - HranaPoloha.Vrchol1.Souradnice.X / HranaPoloha.Vrchol2.Souradnice.Y - HranaPoloha.Vrchol1.Souradnice.Y)) / (2 * Math.PI)) * 360;
-            //return new Vrchol("automobil",(HranaPoloha.Vrchol1.Souradnice.X + HranaPoloha.Vrchol2.Souradnice.X) / 2, (HranaPoloha.Vrchol1.Souradnice.Y + HranaPoloha.Vrchol2.Souradnice.Y) / 2,);
+            v.Souradnice = new CestyGraf.Bod();
+            double vzdalenostX = Math.Abs(HranaPoloha.Vrchol1.Souradnice.X - HranaPoloha.Vrchol2.Souradnice.X);
+            double vzdalenostY = Math.Abs(HranaPoloha.Vrchol1.Souradnice.Y - HranaPoloha.Vrchol2.Souradnice.Y);
+            double vzdalenostPrepona = VzdalenostOdV1 + VzdalenostOdV2;
+            double koeficient1 = VzdalenostOdV1 / vzdalenostPrepona;
+            v.Souradnice.X = vzdalenostX * koeficient1;
+            v.Souradnice.Y = vzdalenostY * koeficient1;
+            if (HranaPoloha.Vrchol1.Souradnice.X > HranaPoloha.Vrchol2.Souradnice.X) {
+                v.Souradnice.X *= -1;
+            }
+            if (HranaPoloha.Vrchol1.Souradnice.Y > HranaPoloha.Vrchol2.Souradnice.Y) {
+                v.Souradnice.Y *= -1;
+            }
+            v.Souradnice.X += HranaPoloha.Vrchol1.Souradnice.X;
+            v.Souradnice.Y += HranaPoloha.Vrchol1.Souradnice.Y;
             return v;
         }
     }
