@@ -49,6 +49,15 @@ namespace aplikace {
 
             while (otevrene.Count != 0) {
                 zkoumany = otevrene.Dequeue().Value;
+                if (uzavrene.ContainsKey(zkoumany.Data.Souradnice)) {
+                    if (uzavrene[zkoumany.Data.Souradnice].MetrikaOdStartu < zkoumany.MetrikaOdStartu) {
+                        // zahození horší cesty (zlepšilo o několik % procházení - méně procházených cest)
+                        continue;
+                    } else { // pokud by náhodou nastalo, odebrat starý vrchol (kvůli jedinečnosti): O(1)
+                        uzavrene.Remove(zkoumany.Data.Souradnice);
+                    }
+                }
+                uzavrene.Add(zkoumany.Data.Souradnice, zkoumany);
 
                 if (zkoumany.Data == cil.Vrchol1 || zkoumany.Data == cil.Vrchol2) { // je nalezen cíl
                     if (cilPosledni.Data != null) {
@@ -61,7 +70,7 @@ namespace aplikace {
                     } else {
                         cilPosledni = zkoumany;
                         Debug.WriteLine("První výskyt: " + cilPosledni.MetrikaOdStartu + ", vrchol: " + cilPosledni.Data.Data);
-                        //break;
+                        //break; // pokud chceme ukončit po nalezení prvního vrcholu
                     }
                 }
 

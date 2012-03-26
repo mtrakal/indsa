@@ -189,15 +189,13 @@ namespace cz.mtrakal.ADT.ADTPriorityQueue {
         }
 
         private void Insert(TPriority priority, TValue value, TKey key) {
-            KeyValuePair<TPriority, PQData> val = new KeyValuePair<TPriority, PQData>(priority, new PQData() { Key = key, Value = value });
             if (changePriority(key, priority, value)) {
-                _baseHeap.Add(val);
+                _baseHeap.Add(new KeyValuePair<TPriority, PQData>(priority, new PQData() { Key = key, Value = value }));
                 // heap[i] have children heap[2*i + 1] and heap[2*i + 2] and parent heap[(i-1)/ 2];
                 // heapify after insert, from end to beginning
                 HeapifyFromEndToBeginning(_baseHeap.Count - 1);
             }
         }
-
 
         private int HeapifyFromEndToBeginning(int pos) {
             if (pos >= _baseHeap.Count) return -1;
@@ -211,7 +209,6 @@ namespace cz.mtrakal.ADT.ADTPriorityQueue {
             }
             return pos;
         }
-
 
         private void DeleteRoot() {
             if (_baseHeap.Count <= 1) {
