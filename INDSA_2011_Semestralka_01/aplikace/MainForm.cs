@@ -136,9 +136,9 @@ namespace aplikace {
                         return;
                     }
                 }
-                co.HranaProOdebrani.Vrchol1.OdeberHranu(co.HranaProOdebrani.Data);
-                co.HranaProOdebrani.Vrchol2.OdeberHranu(co.HranaProOdebrani.Data);
-                graf.Odeber(co.HranaProOdebrani.Data); //hrana
+                //co.HranaProOdebrani.Vrchol1.OdeberHranu(co.HranaProOdebrani.Data);
+                //co.HranaProOdebrani.Vrchol2.OdeberHranu(co.HranaProOdebrani.Data);
+                graf.Odeber(co.HranaProOdebrani); //hrana
                 nactiStranku();
                 if (idvHrany != null) {
                     idvHrany.UlozHrany(graf.DejHrany());

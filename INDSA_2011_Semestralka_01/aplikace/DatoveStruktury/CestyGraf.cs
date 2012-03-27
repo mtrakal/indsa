@@ -68,6 +68,11 @@ namespace aplikace {
         public void Pridej(string nazev, Bod souradnice) {
             Pridej(new Vrchol(nazev, souradnice));
         }
+        public void Pridej(Hrana hrana) {
+            base.Pridej(hrana);
+            hrana.Vrchol1.PridejHranu(hrana);
+            hrana.Vrchol2.PridejHranu(hrana);
+        }
         public Vrchol DejVrchol(string nazev) {
             foreach (KeyValuePair<IBod, IVrchol> item in vrcholy) {
                 if (item.Value.Data == nazev) {
@@ -80,14 +85,14 @@ namespace aplikace {
             Pridej(new Hrana(nazev, vrchol1, vrchol2, metrika, sjizdna));
         }
         new public List<Hrana> DejHrany() {
-            List<Hrana> vystup = new List<Hrana>();
+            List<Hrana> vystup = new List<Hrana>(hrany.Count);
             foreach (KeyValuePair<string, IHrana> item in hrany) {
                 vystup.Add(item.Value as Hrana);
             }
             return vystup;
         }
         new public List<Vrchol> DejVrcholy() {
-            List<Vrchol> vystup = new List<Vrchol>();
+            List<Vrchol> vystup = new List<Vrchol>(vrcholy.Count);
             foreach (KeyValuePair<IBod, IVrchol> item in vrcholy) {
                 vystup.Add(item.Value as Vrchol);
             }
@@ -102,6 +107,11 @@ namespace aplikace {
                     throw;
                 }
             }
+        }
+        public bool Odeber(Hrana hrana) {
+            hrana.Vrchol1.OdeberHranu(hrana.Data);
+            hrana.Vrchol2.OdeberHranu(hrana.Data);
+            return base.Odeber(hrana.Data);
         }
         internal void Pridej(List<Vrchol> list) {
             foreach (Vrchol item in list) {
