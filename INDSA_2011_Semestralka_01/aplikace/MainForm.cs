@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Threading;
 using System.Diagnostics;
 using aplikace.Dialogy;
+using System.Drawing.Printing;
 
 namespace aplikace {
     public partial class MainForm : Form {
@@ -237,6 +238,11 @@ namespace aplikace {
             auto = null;
             cesta = new LinkedList<CestyGraf.Hrana>();
             nactiStranku();
+        }
+
+        private void tiskToolStripMenuItem_Click(object sender, EventArgs e) {
+            //PrintDialog pd = new PrintDialog();
+            webBrowser1.Print();
         }
 
         //private void pokusToolStripMenuItem_Click(object sender, EventArgs e) {

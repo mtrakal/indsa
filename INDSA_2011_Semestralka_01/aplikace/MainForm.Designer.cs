@@ -45,6 +45,7 @@
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.tiskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -66,6 +67,7 @@
             // 
             this.souborToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemNacist,
+            this.tiskToolStripMenuItem,
             this.konecToolStripMenuItem});
             this.souborToolStripMenuItem.Name = "souborToolStripMenuItem";
             this.souborToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
@@ -100,14 +102,14 @@
             // přidatToolStripMenuItem
             // 
             this.přidatToolStripMenuItem.Name = "přidatToolStripMenuItem";
-            this.přidatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.přidatToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.přidatToolStripMenuItem.Text = "Přidat";
             this.přidatToolStripMenuItem.Click += new System.EventHandler(this.přidatToolStripMenuItem_Click);
             // 
             // odebratToolStripMenuItem
             // 
             this.odebratToolStripMenuItem.Name = "odebratToolStripMenuItem";
-            this.odebratToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.odebratToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.odebratToolStripMenuItem.Text = "Odebrat";
             this.odebratToolStripMenuItem.Click += new System.EventHandler(this.odebratToolStripMenuItem_Click);
             // 
@@ -223,6 +225,13 @@
             this.webBrowser1.TabIndex = 4;
             this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
             // 
+            // tiskToolStripMenuItem
+            // 
+            this.tiskToolStripMenuItem.Name = "tiskToolStripMenuItem";
+            this.tiskToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.tiskToolStripMenuItem.Text = "Tisk";
+            this.tiskToolStripMenuItem.Click += new System.EventHandler(this.tiskToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -271,6 +280,7 @@
         private System.Windows.Forms.ToolStripMenuItem najítCestuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nastavSjízdnostToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem tiskToolStripMenuItem;
 
     }
 }
