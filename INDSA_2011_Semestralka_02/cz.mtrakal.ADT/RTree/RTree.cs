@@ -107,7 +107,6 @@ namespace cz.mtrakal.ADT {
             }
             KapacitaUzlu = kapacitaUzlu;
         }
-        //private void pocet(bool inkrement) { if (inkrement) { Count++; } else { Count--; } }
 
         public void Vloz(TKey key, RectangleF oblast, TValue value) { vloz(new RVrchol(key, oblast, value)); }
 
@@ -124,12 +123,13 @@ namespace cz.mtrakal.ADT {
             //    poleListu.Add(value);
             //}
 
-            //postavStrom(poleListu);
+            //PostavStrom();
         }
 
+        [System.Obsolete("Nevyužito")]
         private RVrchol najdiPredchudce(RVrchol predchudce, RVrchol value) {
             // dočasná berlička
-            return poleListu.Last();
+            return poleListu.Last(); // TODO: vymazat časem, bude potřeba vůbec hledat předchůdce, nbeo stačí PriorQueue?
 
             // TODO najdiPredchudce dodelat
             if (root == null) {
@@ -152,7 +152,7 @@ namespace cz.mtrakal.ADT {
             //    return poleListu.Find(novyPredchudce); // O(n) :(, půjde vyřešit přidáním ref do struktury nejspíš
         }
 
-        public void postavStrom() {
+        public void PostavStrom() {
             foreach (RVrchol item in poleListu) {
                 priorQueue.Add(new KeyValuePair<int, RVrchol>(item.GetZOrder(), item), item);
             }
@@ -160,7 +160,6 @@ namespace cz.mtrakal.ADT {
             while (!priorQueue.IsEmpty) {
                 list.Add(priorQueue.DequeueValue());
             }
-            //postavStrom(poleListu);
             postavStrom(list);
         }
 
@@ -250,6 +249,7 @@ namespace cz.mtrakal.ADT {
             return ((KapacitaUzlu % 2 == 0) ? KapacitaUzlu / 2 : (KapacitaUzlu / 2) + 1);
         }
 
+        [System.Obsolete("Nevyužito")]
         private void vlozDoVrcholu(RVrchol vrchol, RVrchol value) {
             if (vrchol.maVolnySlot()) {
                 vrchol.Potomci.Add(value);
@@ -271,13 +271,57 @@ namespace cz.mtrakal.ADT {
             throw new NotImplementedException();
             //return default(TValue);
         }
-        public TValue VyhledejBodove(TKey key) { // O(log n)
-            throw new NotImplementedException();
-            return default(TValue);
+
+        public List<TValue> VyhledejBodove(PointF value) {
+            List<TValue> list = new List<TValue>();
+            foreach (RVrchol item in vyhledejBodove(root, value)) {
+                list.Add(item.Data);
+            }
+            return list;
         }
-        public TValue VyhledejIntervalove(TKey key, TKey key2) { // O(log n)
-            throw new NotImplementedException();
-            return default(TValue);
+
+        private List<RVrchol> vyhledejBodove(RVrchol uroven, PointF value) { // O(log n)
+            if (root == null) {
+                throw new NullReferenceException("Root neexistuje");
+            }
+            List<RVrchol> list = new List<RVrchol>();
+
+            foreach (RVrchol item in uroven.Potomci) {
+                if (item.Oblast.Contains(value)) {
+                    if (item.JeList()) {
+                        // TODO fixnout vkládání celých souřadnic a nejen obdélníku, jelikož nedokážu určit, zda-li leží ten bod přímo v obdélníku, nebo je to prázdný bod...
+                        list.Add(item);
+                        //return list;
+                    }
+                    list.AddRange(vyhledejBodove(item, value));
+                }
+            }
+
+            return list;
+        }
+        public List<TValue> VyhledejIntervalove(RectangleF value) {
+            List<TValue> list = new List<TValue>();
+            foreach (RVrchol item in vyhledejIntervalove(root, value)) {
+                list.Add(item.Data);
+            }
+            return list;
+        }
+        private List<RVrchol> vyhledejIntervalove(RVrchol uroven, RectangleF value) { // O(log n)
+            if (root == null) {
+                throw new NullReferenceException("Root neexistuje");
+            }
+            List<RVrchol> list = new List<RVrchol>();
+
+            foreach (RVrchol item in uroven.Potomci) {
+                if (value.IntersectsWith(item.Oblast)) {
+                    if (item.JeList()) {
+                        list.Add(item);
+                        //return list;
+                    }
+                    list.AddRange(vyhledejIntervalove(item, value));
+                }
+            }
+            return list;
         }
     }
 }

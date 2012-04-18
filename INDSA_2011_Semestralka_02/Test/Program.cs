@@ -29,7 +29,10 @@ namespace Test {
             rtree.Vloz("Rd", new Rectangle(25, 55, 8, 8), 109);
 
 
-            rtree.postavStrom();
+            rtree.PostavStrom();
+
+            List<int> listBodove =  rtree.VyhledejBodove(new PointF(30, 20));
+            List<int> listIntervalove = rtree.VyhledejIntervalove(new RectangleF(7, 3, 10, 12));
 
             Console.ReadLine();
         }
