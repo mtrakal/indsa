@@ -54,6 +54,14 @@ namespace cz.mtrakal.ADT {
             /// </summary>
             public RectangleF Oblast { get; set; }
             /// <summary>
+            /// Vrchol 1
+            /// </summary>
+            public PointF V1 { get; set; }
+            /// <summary>
+            /// Vrchol 2
+            /// </summary>
+            public PointF V2 { get; set; }
+            /// <summary>
             /// Předchůdce (vyšší vrchol, slouží k traverzování mezi vrcholy). Pokud se jedná o kořen, je Rodic == null.
             /// </summary>
             public RVrchol Rodic { get; set; }
@@ -86,12 +94,27 @@ namespace cz.mtrakal.ADT {
             }
             public RVrchol() : this(3) { }
             public RVrchol(int kapacitaUzlu) { Potomci = new List<RVrchol>(kapacitaUzlu); }
-            public RVrchol(TKey key, RectangleF oblast, TValue value) : this() { this.Key = key; this.Oblast = oblast; this.Data = value; }
+            public RVrchol(TKey key, PointF v1, PointF v2, TValue value) : this() { this.Key = key; this.V1 = v1; this.V2 = v2; this.Data = value; this.Oblast = vypoctiObdelnikThis(); }
+
+            private RectangleF vypoctiObdelnikThis() {
+                float minX = (V1.X < V2.X) ? V1.X : V2.X;
+                float minY = (V1.Y < V2.Y) ? V1.Y : V2.Y;
+                float maxX = (V1.X > V2.X) ? V1.X : V2.X;
+                float maxY = (V1.Y > V2.Y) ? V1.Y : V2.Y;
+                return new RectangleF(minX, minY, maxX, maxY);
+            }
             public bool maVolnySlot() {
                 return (KapacitaUzlu - Potomci.Count > 0) ? true : false;
             }
             public bool JeKoren() { return (Rodic == null) ? true : false; }
             public bool JeList() { return (Potomci.Count == 0 && Data != null) ? true : false; }
+
+            public bool JeBod(PointF value) {
+                if ((V1.X == value.X && V1.Y == value.Y) || (V2.X == value.X && V2.Y == value.Y)) {
+                    return true;
+                }
+                return false;
+            }
         }
 
         public static int KapacitaUzlu { get; private set; }
@@ -108,7 +131,7 @@ namespace cz.mtrakal.ADT {
             KapacitaUzlu = kapacitaUzlu;
         }
 
-        public void Vloz(TKey key, RectangleF oblast, TValue value) { vloz(new RVrchol(key, oblast, value)); }
+        public void Vloz(TKey key, PointF v1, PointF v2, TValue value) { vloz(new RVrchol(key, v1, v2, value)); }
 
         private void vloz(RVrchol value) { // O(log n) pokud možno
             // TODO: musím zajistit, aby se vkládal na správné místo do listu!!!
@@ -126,31 +149,31 @@ namespace cz.mtrakal.ADT {
             //PostavStrom();
         }
 
-        [System.Obsolete("Nevyužito")]
-        private RVrchol najdiPredchudce(RVrchol predchudce, RVrchol value) {
-            // dočasná berlička
-            return poleListu.Last(); // TODO: vymazat časem, bude potřeba vůbec hledat předchůdce, nbeo stačí PriorQueue?
+        //[System.Obsolete("Nevyužito")]
+        //private RVrchol najdiPredchudce(RVrchol predchudce, RVrchol value) {
+        //    // dočasná berlička
+        //    return poleListu.Last(); // TODO: vymazat časem, bude potřeba vůbec hledat předchůdce, nbeo stačí PriorQueue?
 
-            // TODO najdiPredchudce dodelat
-            if (root == null) {
-                throw new Exception("Root null");
-            }
-            RVrchol novyPredchudce = null;
-            foreach (RVrchol item in predchudce.Potomci) {
-                if (item.JeList()) {
-                    // todo
-                    return novyPredchudce; // O(n) :(, půjde vyřešit přidáním ref do struktury nejspíš
-                } else {
-                    if (item.Oblast.Contains(value.Oblast)) {
-                        return najdiPredchudce(item, value);
-                    } else {
-                        continue;
-                    }
-                }
-            }
-            return null;
-            //    return poleListu.Find(novyPredchudce); // O(n) :(, půjde vyřešit přidáním ref do struktury nejspíš
-        }
+        //    // TODO najdiPredchudce dodelat
+        //    if (root == null) {
+        //        throw new Exception("Root null");
+        //    }
+        //    RVrchol novyPredchudce = null;
+        //    foreach (RVrchol item in predchudce.Potomci) {
+        //        if (item.JeList()) {
+        //            // todo
+        //            return novyPredchudce; // O(n) :(, půjde vyřešit přidáním ref do struktury nejspíš
+        //        } else {
+        //            if (item.Oblast.Contains(value.Oblast)) {
+        //                return najdiPredchudce(item, value);
+        //            } else {
+        //                continue;
+        //            }
+        //        }
+        //    }
+        //    return null;
+        //    //    return poleListu.Find(novyPredchudce); // O(n) :(, půjde vyřešit přidáním ref do struktury nejspíš
+        //}
 
         public void PostavStrom() {
             foreach (RVrchol item in poleListu) {
@@ -249,22 +272,22 @@ namespace cz.mtrakal.ADT {
             return ((KapacitaUzlu % 2 == 0) ? KapacitaUzlu / 2 : (KapacitaUzlu / 2) + 1);
         }
 
-        [System.Obsolete("Nevyužito")]
-        private void vlozDoVrcholu(RVrchol vrchol, RVrchol value) {
-            if (vrchol.maVolnySlot()) {
-                vrchol.Potomci.Add(value);
-            } else {
-                RVrchol rv = new RVrchol(KapacitaUzlu);
-                //value.Potomci = vrchol;
-                rv.Potomci.Add(value);
-                rv.Rodic = vrchol.Rodic;
-                vrchol.Rodic = rv;
-                if (vrchol.JeKoren()) {
-                    root = rv;
-                }
-                vlozDoVrcholu(rv, value);
-            }
-        }
+        //[System.Obsolete("Nevyužito")]
+        //private void vlozDoVrcholu(RVrchol vrchol, RVrchol value) {
+        //    if (vrchol.maVolnySlot()) {
+        //        vrchol.Potomci.Add(value);
+        //    } else {
+        //        RVrchol rv = new RVrchol(KapacitaUzlu);
+        //        //value.Potomci = vrchol;
+        //        rv.Potomci.Add(value);
+        //        rv.Rodic = vrchol.Rodic;
+        //        vrchol.Rodic = rv;
+        //        if (vrchol.JeKoren()) {
+        //            root = rv;
+        //        }
+        //        vlozDoVrcholu(rv, value);
+        //    }
+        //}
 
         public TValue Odeber(TKey key) { // O(log n)
             //pocet(false);
@@ -289,14 +312,15 @@ namespace cz.mtrakal.ADT {
             foreach (RVrchol item in uroven.Potomci) {
                 if (item.Oblast.Contains(value)) {
                     if (item.JeList()) {
-                        // TODO fixnout vkládání celých souřadnic a nejen obdélníku, jelikož nedokážu určit, zda-li leží ten bod přímo v obdélníku, nebo je to prázdný bod...
-                        list.Add(item);
-                        //return list;
+                        if (item.JeBod(value)) {
+                            // TODO fixnout vkládání celých souřadnic a nejen obdélníku, jelikož nedokážu určit, zda-li leží ten bod přímo v obdélníku, nebo je to prázdný bod... Mělo by být OK snad již :)
+                            list.Add(item);
+                            //return list;
+                        }
                     }
                     list.AddRange(vyhledejBodove(item, value));
                 }
             }
-
             return list;
         }
         public List<TValue> VyhledejIntervalove(RectangleF value) {
