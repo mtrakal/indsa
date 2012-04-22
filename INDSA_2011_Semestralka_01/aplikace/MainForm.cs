@@ -12,6 +12,7 @@ using System.Threading;
 using System.Diagnostics;
 using aplikace.Dialogy;
 using System.Drawing.Printing;
+using cz.mtrakal.ADT;
 
 namespace aplikace {
     public partial class MainForm : Form {
@@ -24,6 +25,9 @@ namespace aplikace {
         LinkedList<CestyGraf.Hrana> cesta = new LinkedList<CestyGraf.Hrana>();
 
         CultureInfo ci = Konstanty.CULTUREINFO;
+
+        const float nasobek = 100000;
+        RTree<string, CestyGraf.Hrana> rtree = new RTree<string, CestyGraf.Hrana>();
 
         public MainForm() {
             InitializeComponent();
@@ -243,6 +247,48 @@ namespace aplikace {
         private void tiskToolStripMenuItem_Click(object sender, EventArgs e) {
             //PrintDialog pd = new PrintDialog();
             webBrowser1.Print();
+        }
+
+        private void vypočtiToolStripMenuItem_Click(object sender, EventArgs e) {
+            rtree = new RTree<string, CestyGraf.Hrana>();
+            foreach (CestyGraf.Hrana item in graf.DejHrany()) {
+                rtree.Vloz(item.Data, new PointF(Convert.ToSingle(item.Vrchol1.Souradnice.X) * nasobek, Convert.ToSingle(item.Vrchol1.Souradnice.Y) * nasobek), new PointF(Convert.ToSingle(item.Vrchol2.Souradnice.X) * nasobek, Convert.ToSingle(item.Vrchol2.Souradnice.Y) * nasobek), item);
+            }
+            rtree.PostavStrom();
+        }
+
+        private void vypišToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void vyhledejBodověToolStripMenuItem_Click(object sender, EventArgs e) {
+            CestyGraf.Vrchol v = udalostMouseUpWebBrowser(this, null);
+            VyhledejBodove vb = new VyhledejBodove(graf.DejVrcholy(), v);
+            if (vb.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                List<CestyGraf.Hrana> hrany = rtree.VyhledejBodove(new PointF(Convert.ToSingle(vb.VystupniBod.X) * nasobek, Convert.ToSingle(vb.VystupniBod.Y) * nasobek));
+                StringBuilder sb = new StringBuilder();
+                foreach (CestyGraf.Hrana item in hrany) {
+                    sb.Append(item + "\r\n");
+                }
+                MessageBox.Show(sb.ToString(), "Nalezené body", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void vyhledejIntervalověToolStripMenuItem_Click(object sender, EventArgs e) {
+            CestyGraf.Vrchol v = udalostMouseUpWebBrowser(this, null);
+            VyhledejBodove vbPocatecni = new VyhledejBodove(graf.DejVrcholy(), v);
+            if (vbPocatecni.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                VyhledejBodove vbKoncovy = new VyhledejBodove(graf.DejVrcholy(), v);
+                if (vbKoncovy.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                    List<CestyGraf.Hrana> hrany = rtree.VyhledejIntervalove((new PointF(Convert.ToSingle(vbPocatecni.VystupniBod.X) * nasobek, Convert.ToSingle(vbPocatecni.VystupniBod.Y) * nasobek)), new PointF(Convert.ToSingle(vbKoncovy.VystupniBod.X) * nasobek, Convert.ToSingle(vbKoncovy.VystupniBod.Y) * nasobek));
+
+                    StringBuilder sb = new StringBuilder();
+                    foreach (CestyGraf.Hrana item in hrany) {
+                        sb.Append(item + "\r\n");
+                    }
+                    MessageBox.Show(sb.ToString(), "Nalezené úsečky", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
         //private void pokusToolStripMenuItem_Click(object sender, EventArgs e) {

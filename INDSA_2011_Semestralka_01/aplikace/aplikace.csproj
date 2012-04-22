@@ -78,6 +78,12 @@
     <Compile Include="Dialogy\CestaOdeberDialog.Designer.cs">
       <DependentUpon>CestaOdeberDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogy\VyhledejBodove.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogy\VyhledejBodove.Designer.cs">
+      <DependentUpon>VyhledejBodove.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dijkstra.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -122,6 +128,9 @@
     <EmbeddedResource Include="Dialogy\CestaSjizdnost.resx">
       <DependentUpon>CestaSjizdnost.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogy\VyhledejBodove.resx">
+      <DependentUpon>VyhledejBodove.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -155,8 +164,8 @@
     <Content Include="GoogleMaps_head.htm" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cz.mtrakal.ADT\cz.mtrakal.ADT.csproj">
-      <Project>{8A8676F5-7BB2-469A-A698-604984265E2A}</Project>
+    <ProjectReference Include="..\..\INDSA_2011_Semestralka_02\cz.mtrakal.ADT\cz.mtrakal.ADT.csproj">
+      <Project>{B8EADBCE-F96C-47F9-8DFB-FFC8F6B8D46B}</Project>
       <Name>cz.mtrakal.ADT</Name>
     </ProjectReference>
   </ItemGroup>

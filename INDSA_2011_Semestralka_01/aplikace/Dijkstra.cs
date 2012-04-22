@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Diagnostics;
-using cz.mtrakal.ADT.ADTPriorityQueue;
+using cz.mtrakal.ADT;
 
 namespace aplikace {
     class Dijkstra {

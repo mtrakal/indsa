@@ -41,11 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+  <Compile Include="ADTBST\BST.cs" />
+    <Compile Include="ADTGraf\Graf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RTree\RTree.cs" />
     <Compile Include="ADTPriorityQueue\PriorityQueue.cs" />
   </ItemGroup>
   <ItemGroup>
+  <None Include="ADTBST\BST.cd" />
+    <None Include="ADTGraf\Graf.cd" />
     <None Include="RTree\RTree.cd" />
     <None Include="ADTPriorityQueue\PriorityQueue.cd" />
   </ItemGroup>
