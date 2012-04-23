@@ -419,8 +419,9 @@ namespace cz.mtrakal.ADT {
             foreach (RVrchol item in uroven.Potomci) {
                 if (value.IntersectsWith(item.Oblast)) {
                     if (item.JeList()) {
-                        list.Add(item);
-                        //return list;
+                        if (leziVOblasti(value, item.V1, item.V2)) {
+                            list.Add(item);
+                        }
                     }
                     list.AddRange(vyhledejIntervalove(item, value));
                 }
@@ -430,5 +431,62 @@ namespace cz.mtrakal.ADT {
         public List<RVrchol> DejStrukturu() {
             return poleListu;
         }
+        /// <summary>
+        /// Liang-Barsky algoritmus: http://www.zdrojovykod.cz/?p=105 pro výpočet, zda-li přímka leží v oblasti.
+        /// </summary>
+        /// <param name="hranice"></param>
+        /// <param name="pocatek"></param>
+        /// <param name="konec"></param>
+        /// <returns></returns>
+        private bool leziVOblasti(RectangleF hranice, PointF pocatek, PointF konec) {
+            
+            float dx = konec.X - pocatek.X;
+            float dy = konec.Y - pocatek.Y;
+
+
+            float p1 = -dx;
+            float p2 = dx;
+            float p3 = -dy;
+            float p4 = dy;
+
+            float q1 = pocatek.X - hranice.X;
+            float q2 = hranice.X + hranice.Width - pocatek.X;
+            float q3 = pocatek.Y - hranice.Y;
+            float q4 = hranice.Y + hranice.Height - pocatek.Y;
+
+            float[] p = { p1, p2, p3, p4 };
+            float[] q = { q1, q2, q3, q4 };
+
+            float u1 = 0, u2 = 1, r = 0;
+
+            for (int i = 0; i < 4; i++) {
+
+                if ((p[i] == 0) && (q[i] < 0)) {
+                    return false; //vynechame
+                }
+
+                if (p[i] != 0) {
+                    r = q[i] / p[i];
+                    if (p[i] < 0) {
+                        u1 = Math.Max(u1, r);
+                    } else if (p[i] > 0) { //p[i] > 0
+                        u2 = Math.Min(u2, r);
+                    }
+                }
+            }
+
+            //x_orezane1 = (int)Math.round(x1 + u1 * dx);
+            //y_orezane1 = (int)Math.round(y1 + u1 * dy);
+
+            //x_orezane2 = (int)Math.round(x1 + u2 * dx);
+            //y_orezane2 = (int)Math.round(y1 + u2 * dy);
+
+            if (u1 < u2) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 }
+

@@ -39,7 +39,7 @@
             this.buttonZrus.Location = new System.Drawing.Point(158, 93);
             this.buttonZrus.Name = "buttonZrus";
             this.buttonZrus.Size = new System.Drawing.Size(75, 23);
-            this.buttonZrus.TabIndex = 7;
+            this.buttonZrus.TabIndex = 6;
             this.buttonZrus.Text = "Zrušit";
             this.buttonZrus.UseVisualStyleBackColor = true;
             this.buttonZrus.Click += new System.EventHandler(this.buttonZrus_Click);
@@ -51,7 +51,7 @@
             this.buttonOK.Location = new System.Drawing.Point(76, 93);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
-            this.buttonOK.TabIndex = 6;
+            this.buttonOK.TabIndex = 5;
             this.buttonOK.Text = "Nastav";
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -62,7 +62,7 @@
             this.label3.Location = new System.Drawing.Point(12, 68);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(14, 13);
-            this.label3.TabIndex = 10;
+            this.label3.TabIndex = 3;
             this.label3.Text = "Y";
             // 
             // label2
@@ -71,7 +71,7 @@
             this.label2.Location = new System.Drawing.Point(12, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(14, 13);
-            this.label2.TabIndex = 8;
+            this.label2.TabIndex = 1;
             this.label2.Text = "X";
             // 
             // textBoxY
@@ -81,7 +81,7 @@
             this.textBoxY.Location = new System.Drawing.Point(79, 65);
             this.textBoxY.Name = "textBoxY";
             this.textBoxY.Size = new System.Drawing.Size(217, 20);
-            this.textBoxY.TabIndex = 11;
+            this.textBoxY.TabIndex = 4;
             this.textBoxY.TextChanged += new System.EventHandler(this.textBoxY_TextChanged);
             // 
             // textBoxX
@@ -91,7 +91,7 @@
             this.textBoxX.Location = new System.Drawing.Point(79, 39);
             this.textBoxX.Name = "textBoxX";
             this.textBoxX.Size = new System.Drawing.Size(217, 20);
-            this.textBoxX.TabIndex = 9;
+            this.textBoxX.TabIndex = 2;
             this.textBoxX.TextChanged += new System.EventHandler(this.textBoxX_TextChanged);
             // 
             // comboBoxMesta
@@ -102,7 +102,7 @@
             this.comboBoxMesta.Location = new System.Drawing.Point(15, 12);
             this.comboBoxMesta.Name = "comboBoxMesta";
             this.comboBoxMesta.Size = new System.Drawing.Size(281, 21);
-            this.comboBoxMesta.TabIndex = 12;
+            this.comboBoxMesta.TabIndex = 0;
             this.comboBoxMesta.SelectedIndexChanged += new System.EventHandler(this.comboBoxMesta_SelectedIndexChanged);
             // 
             // VyhledejBodove

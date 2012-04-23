@@ -21,9 +21,12 @@ namespace aplikace.Dialogy {
 
         public VyhledejBodove(List<CestyGraf.Vrchol> mesta, CestyGraf.Vrchol v)
             : this(mesta) {
-            if (mesta.Contains(v)) {
-                comboBoxMesta.SelectedItem = v;
-            }
+                if (mesta.Contains(v)) {
+                    comboBoxMesta.SelectedItem = v;
+                } else {
+                    textBoxX.Text = v.Souradnice.X.ToString();
+                    textBoxY.Text = v.Souradnice.Y.ToString();
+                }
         }
 
         private void comboBoxMesta_SelectedIndexChanged(object sender, EventArgs e) {

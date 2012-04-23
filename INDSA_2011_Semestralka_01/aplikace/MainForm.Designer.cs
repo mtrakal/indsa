@@ -39,6 +39,11 @@
             this.umístitVozidloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.najítCestuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rstromToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vypočtiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vypišToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vyhledejBodověToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vyhledejIntervalověToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonKonec = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -46,11 +51,6 @@
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.rstromToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vypočtiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vypišToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vyhledejBodověToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vyhledejIntervalověToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -188,6 +188,45 @@
             this.najítCestuToolStripMenuItem.Text = "Najít cestu";
             this.najítCestuToolStripMenuItem.Click += new System.EventHandler(this.najítCestuToolStripMenuItem_Click);
             // 
+            // rstromToolStripMenuItem
+            // 
+            this.rstromToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.vypočtiToolStripMenuItem,
+            this.vypišToolStripMenuItem,
+            this.vyhledejBodověToolStripMenuItem,
+            this.vyhledejIntervalověToolStripMenuItem});
+            this.rstromToolStripMenuItem.Name = "rstromToolStripMenuItem";
+            this.rstromToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.rstromToolStripMenuItem.Text = "R-strom";
+            // 
+            // vypočtiToolStripMenuItem
+            // 
+            this.vypočtiToolStripMenuItem.Name = "vypočtiToolStripMenuItem";
+            this.vypočtiToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.vypočtiToolStripMenuItem.Text = "Vypočti";
+            this.vypočtiToolStripMenuItem.Click += new System.EventHandler(this.vypočtiToolStripMenuItem_Click);
+            // 
+            // vypišToolStripMenuItem
+            // 
+            this.vypišToolStripMenuItem.Name = "vypišToolStripMenuItem";
+            this.vypišToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.vypišToolStripMenuItem.Text = "Vypiš";
+            this.vypišToolStripMenuItem.Click += new System.EventHandler(this.vypišToolStripMenuItem_Click);
+            // 
+            // vyhledejBodověToolStripMenuItem
+            // 
+            this.vyhledejBodověToolStripMenuItem.Name = "vyhledejBodověToolStripMenuItem";
+            this.vyhledejBodověToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.vyhledejBodověToolStripMenuItem.Text = "Vyhledej bodově";
+            this.vyhledejBodověToolStripMenuItem.Click += new System.EventHandler(this.vyhledejBodověToolStripMenuItem_Click);
+            // 
+            // vyhledejIntervalověToolStripMenuItem
+            // 
+            this.vyhledejIntervalověToolStripMenuItem.Name = "vyhledejIntervalověToolStripMenuItem";
+            this.vyhledejIntervalověToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.vyhledejIntervalověToolStripMenuItem.Text = "Vyhledej intervalově";
+            this.vyhledejIntervalověToolStripMenuItem.Click += new System.EventHandler(this.vyhledejIntervalověToolStripMenuItem_Click);
+            // 
             // buttonKonec
             // 
             this.buttonKonec.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -237,45 +276,6 @@
             this.webBrowser1.Size = new System.Drawing.Size(760, 539);
             this.webBrowser1.TabIndex = 4;
             this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
-            // 
-            // rstromToolStripMenuItem
-            // 
-            this.rstromToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.vypočtiToolStripMenuItem,
-            this.vypišToolStripMenuItem,
-            this.vyhledejBodověToolStripMenuItem,
-            this.vyhledejIntervalověToolStripMenuItem});
-            this.rstromToolStripMenuItem.Name = "rstromToolStripMenuItem";
-            this.rstromToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.rstromToolStripMenuItem.Text = "R-strom";
-            // 
-            // vypočtiToolStripMenuItem
-            // 
-            this.vypočtiToolStripMenuItem.Name = "vypočtiToolStripMenuItem";
-            this.vypočtiToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.vypočtiToolStripMenuItem.Text = "Vypočti";
-            this.vypočtiToolStripMenuItem.Click += new System.EventHandler(this.vypočtiToolStripMenuItem_Click);
-            // 
-            // vypišToolStripMenuItem
-            // 
-            this.vypišToolStripMenuItem.Name = "vypišToolStripMenuItem";
-            this.vypišToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.vypišToolStripMenuItem.Text = "Vypiš";
-            this.vypišToolStripMenuItem.Click += new System.EventHandler(this.vypišToolStripMenuItem_Click);
-            // 
-            // vyhledejBodověToolStripMenuItem
-            // 
-            this.vyhledejBodověToolStripMenuItem.Name = "vyhledejBodověToolStripMenuItem";
-            this.vyhledejBodověToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.vyhledejBodověToolStripMenuItem.Text = "Vyhledej bodově";
-            this.vyhledejBodověToolStripMenuItem.Click += new System.EventHandler(this.vyhledejBodověToolStripMenuItem_Click);
-            // 
-            // vyhledejIntervalověToolStripMenuItem
-            // 
-            this.vyhledejIntervalověToolStripMenuItem.Name = "vyhledejIntervalověToolStripMenuItem";
-            this.vyhledejIntervalověToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.vyhledejIntervalověToolStripMenuItem.Text = "Vyhledej intervalově";
-            this.vyhledejIntervalověToolStripMenuItem.Click += new System.EventHandler(this.vyhledejIntervalověToolStripMenuItem_Click);
             // 
             // MainForm
             // 

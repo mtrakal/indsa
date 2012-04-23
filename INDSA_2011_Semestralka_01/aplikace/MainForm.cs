@@ -276,7 +276,7 @@ namespace aplikace {
 
         private void vyhledejIntervalověToolStripMenuItem_Click(object sender, EventArgs e) {
             CestyGraf.Vrchol v = udalostMouseUpWebBrowser(this, null);
-            VyhledejBodove vbPocatecni = new VyhledejBodove(graf.DejVrcholy(), v);
+            VyhledejBodove vbPocatecni = new VyhledejBodove(graf.DejVrcholy());
             if (vbPocatecni.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 VyhledejBodove vbKoncovy = new VyhledejBodove(graf.DejVrcholy(), v);
                 if (vbKoncovy.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
