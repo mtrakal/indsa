@@ -408,7 +408,7 @@ namespace cz.mtrakal.ADT {
             return list;
         }
         public List<TValue> VyhledejIntervalove(PointF point1, PointF point2) {
-            return VyhledejIntervalove(new RectangleF(point1.X, point1.Y, point2.X - point1.X, point2.Y - point1.Y));
+            return VyhledejIntervalove(new RectangleF(Math.Min(point1.X, point2.X), Math.Min(point1.Y, point2.Y), Math.Max(point1.X, point2.X) - Math.Min(point1.X, point2.X), Math.Max(point1.Y, point2.Y) - Math.Min(point1.Y, point2.Y)));
         }
         private List<RVrchol> vyhledejIntervalove(RVrchol uroven, RectangleF value) { // O(log n)
             if (root == null) {
