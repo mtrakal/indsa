@@ -172,7 +172,7 @@ namespace cz.mtrakal.ADT {
         public static int KapacitaUzlu { get; private set; }
         public RVrchol root;
         public List<RVrchol> poleListu = new List<RVrchol>();
-        PriorityQueue<int, RVrchol, RVrchol> priorQueue = new PriorityQueue<int, RVrchol, RVrchol>();
+        PriorityQueue<string, RVrchol, RVrchol> priorQueue = new PriorityQueue<string, RVrchol, RVrchol>();
 
         public RTree() : this(3) { }
         public RTree(int kapacitaUzlu) {
@@ -224,18 +224,7 @@ namespace cz.mtrakal.ADT {
 
         private void vloz(RVrchol value) { // O(log n) pokud možno
             // FIXED: musím zajistit, aby se vkládal na správné místo do listu! Vyřešeno metodou PostavStrom a poleListu.Sort()
-
             poleListu.Add(value);
-
-            //priorQueue.Add(new KeyValuePair<int, RVrchol>(value.GetZOrder(), value), value);
-            //poleListu.Add(priorQueue.DequeueValue());
-            //if (root == null) {
-            //    poleListu.Add(value);
-            //    root = value;
-            //} else {
-            //    //poleListu.AddAfter(najdiPredchudce(root, value), value);
-            //    poleListu.Add(value);
-            //}
         }
 
         //[System.Obsolete("Nevyužito")]
@@ -265,16 +254,17 @@ namespace cz.mtrakal.ADT {
         //}
 
         public void PostavStrom() {
-            //foreach (RVrchol item in poleListu) {
-            //    priorQueue.Add(new KeyValuePair<int, RVrchol>(item.GetZOrder(), item), item);
-            //}
-            //List<RVrchol> list = new List<RVrchol>(poleListu.Count);
-            //while (!priorQueue.IsEmpty) {
-            //    list.Add(priorQueue.DequeueValue());
-            //}
-            //postavStrom(list);
-            poleListu.Sort();
-            postavStrom(poleListu);
+            foreach (RVrchol item in poleListu) {
+                priorQueue.Add(new KeyValuePair<string, RVrchol>(item.GetZOrder(), item), item);
+            }
+            List<RVrchol> list = new List<RVrchol>(poleListu.Count);
+            while (!priorQueue.IsEmpty) {
+                list.Add(priorQueue.DequeueValue());
+            }
+            postavStrom(list);
+
+            //poleListu.Sort();
+            //postavStrom(poleListu);
         }
 
         private void postavStrom(IList<RVrchol> uroven) {
@@ -439,7 +429,7 @@ namespace cz.mtrakal.ADT {
         /// <param name="konec"></param>
         /// <returns></returns>
         private bool leziVOblasti(RectangleF hranice, PointF pocatek, PointF konec) {
-            
+
             float dx = konec.X - pocatek.X;
             float dy = konec.Y - pocatek.Y;
 

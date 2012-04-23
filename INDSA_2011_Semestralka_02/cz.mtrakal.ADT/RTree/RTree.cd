@@ -10,10 +10,11 @@
         <TypeIdentifier>
           <NewMemberFileName>RTree\RTree.cs</NewMemberFileName>
         </TypeIdentifier>
+        <Lollipop Position="0.2" />
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIAYAASoAAAGAAAIQAAACAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAIEYAASoCAAEQAAIAAAACACAAAggAAA=</HashCode>
       <FileName>RTree\RTree.cs</FileName>
     </TypeIdentifier>
   </Class>
