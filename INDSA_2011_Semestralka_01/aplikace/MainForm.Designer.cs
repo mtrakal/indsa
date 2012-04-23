@@ -41,7 +41,6 @@
             this.najítCestuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rstromToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vypočtiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vypišToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vyhledejBodověToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vyhledejIntervalověToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonKonec = new System.Windows.Forms.Button();
@@ -192,7 +191,6 @@
             // 
             this.rstromToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.vypočtiToolStripMenuItem,
-            this.vypišToolStripMenuItem,
             this.vyhledejBodověToolStripMenuItem,
             this.vyhledejIntervalověToolStripMenuItem});
             this.rstromToolStripMenuItem.Name = "rstromToolStripMenuItem";
@@ -205,13 +203,6 @@
             this.vypočtiToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.vypočtiToolStripMenuItem.Text = "Vypočti";
             this.vypočtiToolStripMenuItem.Click += new System.EventHandler(this.vypočtiToolStripMenuItem_Click);
-            // 
-            // vypišToolStripMenuItem
-            // 
-            this.vypišToolStripMenuItem.Name = "vypišToolStripMenuItem";
-            this.vypišToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.vypišToolStripMenuItem.Text = "Vypiš";
-            this.vypišToolStripMenuItem.Click += new System.EventHandler(this.vypišToolStripMenuItem_Click);
             // 
             // vyhledejBodověToolStripMenuItem
             // 
@@ -328,7 +319,6 @@
         private System.Windows.Forms.ToolStripMenuItem tiskToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rstromToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vypočtiToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem vypišToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vyhledejBodověToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vyhledejIntervalověToolStripMenuItem;
 

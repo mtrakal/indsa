@@ -118,7 +118,7 @@ namespace cz.mtrakal.ADT {
                 float maxY = (V1.Y > V2.Y) ? V1.Y : V2.Y;
                 return new RectangleF(minX, minY, maxX - minX, maxY - minY);
             }
-            public bool maVolnySlot() {
+            public bool MaVolnySlot() {
                 return (KapacitaUzlu - Potomci.Count > 0) ? true : false;
             }
             public bool JeKoren() { return (Rodic == null) ? true : false; }
@@ -297,7 +297,7 @@ namespace cz.mtrakal.ADT {
             if (pocetPretekajicich == 0) {
                 // nemusíme nic upravovat    
                 for (int i = 0; i < uroven.Count; i++) {
-                    if (i == 0 || !novyVrchol.maVolnySlot()) { // po kapacitě uzlu vytvoříme nový vrchol
+                    if (i == 0 || !novyVrchol.MaVolnySlot()) { // po kapacitě uzlu vytvoříme nový vrchol
                         novyVrchol = new RVrchol(KapacitaUzlu); // vytvořím nový uzel
                         novaUroven.Add(novyVrchol); // přidání vrcholu do úrovně
                     }
@@ -309,7 +309,7 @@ namespace cz.mtrakal.ADT {
                 // pokud je prvků více než polovina kapacity, stačí přidat jeden prvek do vrstvy
                 pocetVrcholu++;
                 for (int i = 0; i < uroven.Count; i++) {
-                    if (i == 0 || !novyVrchol.maVolnySlot()) { // po kapacitě uzlu vytvoříme nový vrchol
+                    if (i == 0 || !novyVrchol.MaVolnySlot()) { // po kapacitě uzlu vytvoříme nový vrchol
                         novyVrchol = new RVrchol(KapacitaUzlu); // vytvořím nový uzel
                         novaUroven.Add(novyVrchol); // přidání vrcholu do úrovně
                     }
@@ -331,7 +331,7 @@ namespace cz.mtrakal.ADT {
                         novyVrchol.VypoctiObdelnik();
                         continue;
                     }
-                    if (i == 0 || !novyVrchol.maVolnySlot()) {
+                    if (i == 0 || !novyVrchol.MaVolnySlot()) {
                         // po kapacitě uzlu vytvoříme nový vrchol
                         novyVrchol = new RVrchol(KapacitaUzlu); // vytvořím nový uzel
                         novaUroven.Add(novyVrchol); // přidání vrcholu do úrovně
@@ -353,7 +353,7 @@ namespace cz.mtrakal.ADT {
 
         //[System.Obsolete("Nevyužito")]
         //private void vlozDoVrcholu(RVrchol vrchol, RVrchol value) {
-        //    if (vrchol.maVolnySlot()) {
+        //    if (vrchol.MaVolnySlot()) {
         //        vrchol.Potomci.Add(value);
         //    } else {
         //        RVrchol rv = new RVrchol(KapacitaUzlu);
