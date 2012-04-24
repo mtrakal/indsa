@@ -283,12 +283,24 @@ namespace aplikace {
                     List<CestyGraf.Hrana> hrany = rtree.VyhledejIntervalove((new PointF(Convert.ToSingle(vbPocatecni.VystupniBod.X) * nasobek, Convert.ToSingle(vbPocatecni.VystupniBod.Y) * nasobek)), new PointF(Convert.ToSingle(vbKoncovy.VystupniBod.X) * nasobek, Convert.ToSingle(vbKoncovy.VystupniBod.Y) * nasobek));
 
                     StringBuilder sb = new StringBuilder();
+                    foreach (CestyGraf.Hrana item in graf.DejHrany()) {
+                        item.Sjizdna = true;
+                    }
                     foreach (CestyGraf.Hrana item in hrany) {
+                        item.Sjizdna = false;
                         sb.Append(item + "\r\n");
                     }
+                    nactiStranku();
                     MessageBox.Show(sb.ToString(), "Nalezené úsečky", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void nastavVšeNaSjízdnéToolStripMenuItem_Click(object sender, EventArgs e) {
+            foreach (CestyGraf.Hrana item in graf.DejHrany()) {
+                item.Sjizdna = true;
+            }
+            nactiStranku();
         }
 
         //private void pokusToolStripMenuItem_Click(object sender, EventArgs e) {

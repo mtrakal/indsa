@@ -50,6 +50,7 @@
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.nastavVšeNaSjízdnéToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -192,7 +193,8 @@
             this.rstromToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.vypočtiToolStripMenuItem,
             this.vyhledejBodověToolStripMenuItem,
-            this.vyhledejIntervalověToolStripMenuItem});
+            this.vyhledejIntervalověToolStripMenuItem,
+            this.nastavVšeNaSjízdnéToolStripMenuItem});
             this.rstromToolStripMenuItem.Name = "rstromToolStripMenuItem";
             this.rstromToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.rstromToolStripMenuItem.Text = "R-strom";
@@ -268,6 +270,13 @@
             this.webBrowser1.TabIndex = 4;
             this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
             // 
+            // nastavVšeNaSjízdnéToolStripMenuItem
+            // 
+            this.nastavVšeNaSjízdnéToolStripMenuItem.Name = "nastavVšeNaSjízdnéToolStripMenuItem";
+            this.nastavVšeNaSjízdnéToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.nastavVšeNaSjízdnéToolStripMenuItem.Text = "Nastav vše na sjízdné";
+            this.nastavVšeNaSjízdnéToolStripMenuItem.Click += new System.EventHandler(this.nastavVšeNaSjízdnéToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -321,6 +330,7 @@
         private System.Windows.Forms.ToolStripMenuItem vypočtiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vyhledejBodověToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vyhledejIntervalověToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nastavVšeNaSjízdnéToolStripMenuItem;
 
     }
 }
