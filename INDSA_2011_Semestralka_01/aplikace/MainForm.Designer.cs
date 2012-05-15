@@ -43,6 +43,12 @@
             this.vypočtiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vyhledejBodověToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vyhledejIntervalověToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nastavVšeNaSjízdnéToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rstromSouborToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.načtiCestyZBázovéhoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vybudujStromAVypisHoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zobrazBlokZBázovéhoSouboruToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonKonec = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -50,7 +56,7 @@
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.nastavVšeNaSjízdnéToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zobrazitZáznamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -62,7 +68,8 @@
             this.toolStripMenuItem1,
             this.mapaToolStripMenuItem,
             this.operaceToolStripMenuItem,
-            this.rstromToolStripMenuItem});
+            this.rstromToolStripMenuItem,
+            this.rstromSouborToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(760, 24);
@@ -202,23 +209,70 @@
             // vypočtiToolStripMenuItem
             // 
             this.vypočtiToolStripMenuItem.Name = "vypočtiToolStripMenuItem";
-            this.vypočtiToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.vypočtiToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.vypočtiToolStripMenuItem.Text = "Vypočti";
             this.vypočtiToolStripMenuItem.Click += new System.EventHandler(this.vypočtiToolStripMenuItem_Click);
             // 
             // vyhledejBodověToolStripMenuItem
             // 
             this.vyhledejBodověToolStripMenuItem.Name = "vyhledejBodověToolStripMenuItem";
-            this.vyhledejBodověToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.vyhledejBodověToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.vyhledejBodověToolStripMenuItem.Text = "Vyhledej bodově";
             this.vyhledejBodověToolStripMenuItem.Click += new System.EventHandler(this.vyhledejBodověToolStripMenuItem_Click);
             // 
             // vyhledejIntervalověToolStripMenuItem
             // 
             this.vyhledejIntervalověToolStripMenuItem.Name = "vyhledejIntervalověToolStripMenuItem";
-            this.vyhledejIntervalověToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.vyhledejIntervalověToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.vyhledejIntervalověToolStripMenuItem.Text = "Vyhledej intervalově";
             this.vyhledejIntervalověToolStripMenuItem.Click += new System.EventHandler(this.vyhledejIntervalověToolStripMenuItem_Click);
+            // 
+            // nastavVšeNaSjízdnéToolStripMenuItem
+            // 
+            this.nastavVšeNaSjízdnéToolStripMenuItem.Name = "nastavVšeNaSjízdnéToolStripMenuItem";
+            this.nastavVšeNaSjízdnéToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.nastavVšeNaSjízdnéToolStripMenuItem.Text = "Nastav vše na sjízdné";
+            this.nastavVšeNaSjízdnéToolStripMenuItem.Click += new System.EventHandler(this.nastavVšeNaSjízdnéToolStripMenuItem_Click);
+            // 
+            // rstromSouborToolStripMenuItem
+            // 
+            this.rstromSouborToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem3,
+            this.načtiCestyZBázovéhoToolStripMenuItem,
+            this.vybudujStromAVypisHoToolStripMenuItem,
+            this.zobrazBlokZBázovéhoSouboruToolStripMenuItem,
+            this.zobrazitZáznamToolStripMenuItem});
+            this.rstromSouborToolStripMenuItem.Name = "rstromSouborToolStripMenuItem";
+            this.rstromSouborToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.rstromSouborToolStripMenuItem.Text = "R-strom soubor";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(206, 22);
+            this.toolStripMenuItem3.Text = "Vytvoř bázový soubor";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
+            // načtiCestyZBázovéhoToolStripMenuItem
+            // 
+            this.načtiCestyZBázovéhoToolStripMenuItem.Name = "načtiCestyZBázovéhoToolStripMenuItem";
+            this.načtiCestyZBázovéhoToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.načtiCestyZBázovéhoToolStripMenuItem.Text = "Zobraz cesty z bázového";
+            this.načtiCestyZBázovéhoToolStripMenuItem.Click += new System.EventHandler(this.načtiCestyZBázovéhoToolStripMenuItem_Click);
+            // 
+            // vybudujStromAVypisHoToolStripMenuItem
+            // 
+            this.vybudujStromAVypisHoToolStripMenuItem.Name = "vybudujStromAVypisHoToolStripMenuItem";
+            this.vybudujStromAVypisHoToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.vybudujStromAVypisHoToolStripMenuItem.Text = "Vybuduj strom a vypis ho";
+            this.vybudujStromAVypisHoToolStripMenuItem.Click += new System.EventHandler(this.vybudujStromAVypisHoToolStripMenuItem_Click);
+            // 
+            // zobrazBlokZBázovéhoSouboruToolStripMenuItem
+            // 
+            this.zobrazBlokZBázovéhoSouboruToolStripMenuItem.Name = "zobrazBlokZBázovéhoSouboruToolStripMenuItem";
+            this.zobrazBlokZBázovéhoSouboruToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.zobrazBlokZBázovéhoSouboruToolStripMenuItem.Text = "Zobraz blok dle indexu";
+            this.zobrazBlokZBázovéhoSouboruToolStripMenuItem.Click += new System.EventHandler(this.zobrazBlokZBázovéhoSouboruToolStripMenuItem_Click);
             // 
             // buttonKonec
             // 
@@ -270,12 +324,12 @@
             this.webBrowser1.TabIndex = 4;
             this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
             // 
-            // nastavVšeNaSjízdnéToolStripMenuItem
+            // zobrazitZáznamToolStripMenuItem
             // 
-            this.nastavVšeNaSjízdnéToolStripMenuItem.Name = "nastavVšeNaSjízdnéToolStripMenuItem";
-            this.nastavVšeNaSjízdnéToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.nastavVšeNaSjízdnéToolStripMenuItem.Text = "Nastav vše na sjízdné";
-            this.nastavVšeNaSjízdnéToolStripMenuItem.Click += new System.EventHandler(this.nastavVšeNaSjízdnéToolStripMenuItem_Click);
+            this.zobrazitZáznamToolStripMenuItem.Name = "zobrazitZáznamToolStripMenuItem";
+            this.zobrazitZáznamToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.zobrazitZáznamToolStripMenuItem.Text = "Zobrazit záznam";
+            this.zobrazitZáznamToolStripMenuItem.Click += new System.EventHandler(this.zobrazitZáznamToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -331,6 +385,12 @@
         private System.Windows.Forms.ToolStripMenuItem vyhledejBodověToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vyhledejIntervalověToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nastavVšeNaSjízdnéToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rstromSouborToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem načtiCestyZBázovéhoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vybudujStromAVypisHoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zobrazBlokZBázovéhoSouboruToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zobrazitZáznamToolStripMenuItem;
 
     }
 }

@@ -28,6 +28,7 @@ namespace aplikace {
 
         const float nasobek = 100000;
         RTree<string, CestyGraf.Hrana> rtree = new RTree<string, CestyGraf.Hrana>();
+        RTreeIO rtreeIO = new RTreeIO();
 
         public MainForm() {
             InitializeComponent();
@@ -303,25 +304,67 @@ namespace aplikace {
             nactiStranku();
         }
 
-        //private void pokusToolStripMenuItem_Click(object sender, EventArgs e) {
-        //    //StringBuilder sb = new StringBuilder();
-        //    //sb.Append("javascript:function foo(){");
-        //    //int i = 0;
-        //    //foreach (CestyGraf.Vrchol item in graf.DejVrcholy()) {
-        //    //    sb.Append(string.Format(Konstanty.FORMATVRCHOL, item.Data, item.Souradnice.X, item.Souradnice.Y));
-        //    //    i++;
-        //    //    if (i == 3) {
-        //    //        break;
-        //    //    }
-        //    //}
-        //    //sb.Append("}foo();");
+        private void toolStripMenuItem3_Click(object sender, EventArgs e) {
+            rtreeIO.VymazBazovy();
+            foreach (CestyGraf.Hrana item in graf.DejHrany()) {
+                //rtreeIO.Vloz(new PointF(Convert.ToSingle(item.Vrchol1.Souradnice.X), Convert.ToSingle(item.Vrchol1.Souradnice.Y)), new PointF(Convert.ToSingle(item.Vrchol2.Souradnice.X), Convert.ToSingle(item.Vrchol2.Souradnice.Y)), item.Data);
+                rtreeIO.NaplnBazovySoubor(new PointF(Convert.ToSingle(item.Vrchol1.Souradnice.X), Convert.ToSingle(item.Vrchol1.Souradnice.Y)), new PointF(Convert.ToSingle(item.Vrchol2.Souradnice.X), Convert.ToSingle(item.Vrchol2.Souradnice.Y)), item.Data);
+            }
+            rtreeIO.UlozBazovySoubor();
+        }
 
-        //    foreach (CestyGraf.Vrchol item in graf.DejVrcholy()) {
-        //        string s = "javascript:function foo(){" + string.Format(Konstanty.FORMATVRCHOL, item.Data, item.Souradnice.X, item.Souradnice.Y) + "}foo();";
-        //        Debug.WriteLine(s);
-        //        webBrowser1.Navigate(s);
-        //        break;
-        //    }
-        //}
+        private void načtiCestyZBázovéhoToolStripMenuItem_Click(object sender, EventArgs e) {
+            int counter = 1;
+            List<RTreeIO.RVrchol> list = rtreeIO.BazovyEnumerator();
+            foreach (RTreeIO.RVrchol item in list) {
+                Debug.Write(counter++ + ": " + item.ToString() + "\r\n");
+            }
+            //for (int i = 0; i < 40; i++) {
+            //    for (int j = 0; j < 3; j++) {
+            //        Debug.Write(counter++ + ": " + rtreeIO.NactiZBazovehoSouboru(i, j).ToString() + "\r\n");
+            //    }
+            //}
+        }
+
+        private void vybudujStromAVypisHoToolStripMenuItem_Click(object sender, EventArgs e) {
+            int counter = 1;
+            rtreeIO.PostavStrom();
+
+            for (int i = 0; i < 200; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (rtreeIO.NactiZRSouboru(i, j) == null) {
+                        break;
+                    }
+                    Debug.Write(counter++ + ": " + rtreeIO.NactiZRSouboru(i, j).ToString() + "\r\n");
+                }
+            }
+        }
+
+        private void zobrazBlokZBázovéhoSouboruToolStripMenuItem_Click(object sender, EventArgs e) {
+            RtioBazovy dialog = new RtioBazovy();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                StringBuilder sb = new StringBuilder();
+                if (!dialog.Bazovy) {
+                    rtreeIO.PostavStrom();
+                }
+                for (int i = 0; i < 3; i++) {
+
+                    RTreeIO.RVrchol rv = (dialog.Bazovy) ? rtreeIO.NactiZBazovehoSouboru(dialog.CisloBloku, i) : rtreeIO.NactiZRSouboru(dialog.CisloBloku, i);
+                    sb.Append(rv.ToString() + "\r\n");
+                }
+                MessageBox.Show(sb.ToString());
+            }
+        }
+
+        private void zobrazitZáznamToolStripMenuItem_Click(object sender, EventArgs e) {
+            RtioIndex dialog = new RtioIndex();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                if (!dialog.Bazovy) {
+                    rtreeIO.PostavStrom();
+                }
+                RTreeIO.RVrchol rv = (dialog.Bazovy) ? rtreeIO.NactiZBazovehoSouboru(dialog.CisloBloku, dialog.CisloIndexu) : rtreeIO.NactiZRSouboru(dialog.CisloBloku, dialog.CisloIndexu);
+                MessageBox.Show(rv.ToString());
+            }
+        }
     }
 }

@@ -1,0 +1,41 @@
+R-strom v externí pamìti
+
+neutøídìné (z hlediska obsahu)
+
+soubory s pøímým pøístupem
+blokovì orientované (mají organizaèní èásti, strukturované ze záznamù, má být realizováno pomocí blokového pøenosu (celou strukturu tedy)
+nejhorší je pøenos dat mezi interní a externí pamìtí (samotná operace)
+
+soubor s pøímým pøístupem a s blokovým pøístupem je jedna z impementací tabulek (každý záznam reprezentován klíèem v souboru nejspíš indexem, nebo NAJDI prvek s daným klíèem). Mùžeme nahlížet jako specifické blokové pole.
+
+ArrayList je v podstatì nìco podobného.
+
+operace: èti, zapiš, zruš, modifikuj
+
+Jak pracovat s blokovì orientovaným souborem:
+  Blok0 je speciální a obsahuje øídicí informace.
+  
+  Musím z hlavièky rozpoznat, že je soubor zcela plný a alokovat nový blok (por vkládání záznamù)
+  pokud odeberu (vyprázdním celý blok), nemáme volné bloky? Jejich evidence abychom do nich mohli zase nìco ukládat.
+  
+implementace velmi volná, jak se mi to bude hodit.
+
+øídicí blok buï na zaèátku, nebo na konci (pøepsat daty a posunout do novì alkované pamìti)
+
+nefixované záznamy: primárnì uèiním pøístup pouze k bloku, kde by se mìl nacházet > naètu do bufferu a až v nìm hledám pøíslušný záznam
+fixované záznamy: mám k dispozici o záznamu dvousložkovou informaci (adresu a cosi) a mohu pøistupovat pøímo k dat§m bez bufferu.
+
+heap file / heap
+
+Sekvenèní prùchod (hledání v každém prvku jen nìjaké informace) - prùchod postupnì celou pamìtí
+
+B+ strom (nad ním je i R-strom)
+
+Pøístup s úplným (hustým) indexem:
+2 soubory: v jednoms turktura v druhém listy, do bufferu natáhnu root, najdu potomka co heldám postupnì, opìt natáhnu blok a projdu až se dostanu k listùm, kde je index na soubor s listy a najdu index, kde bude (offset, nebo poøadí, index, ...) a na nìj sáhnu pomocí pøímého pøístupu.
+
+
+Musí být blokový pøenos v obou smìrech!
+
+
+Binární vyhledávání, v utøídìném souboru, pùlení intervalù (modifikace pro pùlení bloku, ne nalezení koncového záznamu) O(log2n)

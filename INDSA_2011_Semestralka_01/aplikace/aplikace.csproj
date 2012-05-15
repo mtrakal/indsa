@@ -78,6 +78,18 @@
     <Compile Include="Dialogy\CestaOdeberDialog.Designer.cs">
       <DependentUpon>CestaOdeberDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogy\RtioIndex.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogy\RtioIndex.Designer.cs">
+      <DependentUpon>RtioIndex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogy\RtioBazovy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogy\RtioBazovy.Designer.cs">
+      <DependentUpon>RtioBazovy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogy\VyhledejBodove.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +140,12 @@
     <EmbeddedResource Include="Dialogy\CestaSjizdnost.resx">
       <DependentUpon>CestaSjizdnost.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogy\RtioIndex.resx">
+      <DependentUpon>RtioIndex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogy\RtioBazovy.resx">
+      <DependentUpon>RtioBazovy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogy\VyhledejBodove.resx">
       <DependentUpon>VyhledejBodove.cs</DependentUpon>
     </EmbeddedResource>
@@ -164,7 +182,7 @@
     <Content Include="GoogleMaps_head.htm" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\INDSA_2011_Semestralka_02\cz.mtrakal.ADT\cz.mtrakal.ADT.csproj">
+    <ProjectReference Include="..\..\INDSA_2011_Semestralka_03\cz.mtrakal.ADT\cz.mtrakal.ADT.csproj">
       <Project>{B8EADBCE-F96C-47F9-8DFB-FFC8F6B8D46B}</Project>
       <Name>cz.mtrakal.ADT</Name>
     </ProjectReference>
