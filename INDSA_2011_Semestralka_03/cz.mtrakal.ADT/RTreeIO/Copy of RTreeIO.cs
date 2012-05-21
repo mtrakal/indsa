@@ -120,12 +120,11 @@ namespace cz.mtrakal.ADT {
                 }
             }
             public const int maxdelkaretezce = 15;
+            private string data;
             /// <summary>
             /// Datová složka, kam se ukládají objekty vstupních dat. V této datové složce budou hodnoty pouze u poslední vrstvy listů.
             /// </summary>
-            private string data;
             public string Data { get { return data; } set { this.data = (value.Length > 15) ? value.Trim().Substring(0, maxdelkaretezce) : value; } }
-            public bool Sjizdna { get; set; }
             /// <summary>
             /// Předchůdce (vyšší vrchol, slouží k traverzování mezi vrcholy). Pokud se jedná o kořen, je Rodic == null.
             /// </summary>
@@ -176,11 +175,11 @@ namespace cz.mtrakal.ADT {
             }
             public RVrchol() : this(3) { }
             public RVrchol(int kapacitaUzlu) { Potomci = new List<RVrchol>(kapacitaUzlu); }
-            public RVrchol(PointF v1, PointF v2, string value, bool sjizdna) : this() { this.Oblast.V1 = v1; this.Oblast.V2 = v2; this.Data = value; this.Oblast.Oblast = Oblast.VypoctiObdelnikThis(); this.Sjizdna = sjizdna; }
+            public RVrchol(PointF v1, PointF v2, string value) : this() { this.Oblast.V1 = v1; this.Oblast.V2 = v2; this.Data = value; this.Oblast.Oblast = Oblast.VypoctiObdelnikThis(); }
 
             public bool MaVolnySlot() { return (KapacitaUzlu - Potomci.Count > 0) ? true : false; }
             public bool JeKoren() { return (Rodic == null) ? true : false; }
-            //public bool JeList() { return (Potomci.Count == 0 && Data != null) ? true : false; }
+            public bool JeList() { return (Potomci.Count == 0 && Data != null) ? true : false; }
 
             public int CompareTo(RVrchol other) {
                 if (other == null) {
@@ -233,10 +232,9 @@ namespace cz.mtrakal.ADT {
                 byteArray.AddRange(BitConverter.GetBytes(Oblast.V1.Y));
                 byteArray.AddRange(BitConverter.GetBytes(Oblast.V2.X));
                 byteArray.AddRange(BitConverter.GetBytes(Oblast.V2.Y));
-                byteArray.AddRange(BitConverter.GetBytes(Sjizdna));
                 return byteArray.ToArray();
             }
-            internal byte[] GetByteArrayIndex() {
+            internal byte[] GetByteArrayR() {
                 List<byte> byteArray = new List<byte>();
                 byteArray.AddRange(BitConverter.GetBytes(Oblast.V1.X));
                 byteArray.AddRange(BitConverter.GetBytes(Oblast.V1.Y));
@@ -248,14 +246,14 @@ namespace cz.mtrakal.ADT {
                 return byteArray.ToArray();
             }
             public override string ToString() {
-                return Data + ", " + Oblast.ToString() + Sjizdna + ", " + Blok + "-" + Index;
+                return Data + ", " + Oblast.ToString() + ", " + Blok + "-" + Index;
             }
 
             public int Blok { get; set; }
             public int Index { get; set; }
         }
         public static int KapacitaUzlu { get; private set; }
-        //public RVrchol root;
+        public RVrchol root;
         PriorityQueue<string, RVrchol, RVrchol> priorQueue = new PriorityQueue<string, RVrchol, RVrchol>();
         public RTreeIO() : this(3) { }
         public RTreeIO(int kapacitaUzlu) {
@@ -263,119 +261,120 @@ namespace cz.mtrakal.ADT {
                 throw new ArgumentOutOfRangeException("Parametr musí být nezáporné číslo vyšší, než 2");
             }
             KapacitaUzlu = kapacitaUzlu;
-
-            bpBase = new BlokPrenos("fsBase.dat", KapacitaUzlu, pocetBytuZaznamuBase);
-            bpIndex = new BlokPrenos("fsIndex.dat", KapacitaUzlu, pocetBytuZaznamuIndex);
+        }
+        public void DebugStrom() {
+            if (root == null) {
+                Debug.WriteLine("Root = null");
+                return;
+            }
+            Debug.WriteLine(string.Format("{0,-5}\t{1,-5}\t{2,-5}\t{3,5}\t{4,5}\t{5,5}\t{6,5}\t{7,5}\t{8,5}\t{9,5}\t{10,5}",
+                    "Rodic",
+                    "Data",
+                    "Key",
+                    "V1.X",
+                    "V1.Y",
+                    "V2.X",
+                    "V2.Y",
+                    "Width",
+                    "Height",
+                    "JeList",
+                    "Level"));
+            debugPostrom(root, 0);
+        }
+        private void debugPostrom(RVrchol vrchol, int level) {
+            foreach (RVrchol item in vrchol.Potomci) {
+                Debug.WriteLine(string.Format("{0,-5}\t{1,-5}\t{2,-5}\t{3,5}\t{4,5}\t{5,5}\t{6,5}\t{7,5}\t{8,5}\t{9,5}\t{10,5}",
+                    item.Rodic.Data,
+                    item.Data,
+                    item.Oblast.V1.X,
+                    item.Oblast.V1.Y,
+                    item.Oblast.V2.X,
+                    item.Oblast.V2.Y,
+                    item.Oblast.Oblast.Width,
+                    item.Oblast.Oblast.Height,
+                    item.JeList(),
+                    level));
+                debugPostrom(item, level + 1);
+            }
         }
 
-        public void PostavStrom() {
-            frontaIndexu.Clear();
-            aktualniIndexUrovne = 0;
-            priorQueue.Clear();
-            bpIndex.ClearFile();
+        bool postaven = false;
 
-            foreach (RVrchol item in BazovyEnumerator()) {
-                priorQueue.Add(new KeyValuePair<string, RVrchol>(item.GetZOrder(), item), item);
+        public void PostavStrom() {
+            if (!postaven) {
+                postaven = true;
+                foreach (RVrchol item in BazovyEnumerator()) {
+                    priorQueue.Add(new KeyValuePair<string, RVrchol>(item.GetZOrder(), item), item);
+                }
+                List<RVrchol> list = new List<RVrchol>(priorQueue.Count);
+                while (!priorQueue.IsEmpty) {
+                    list.Add(priorQueue.DequeueValue());
+                }
+                vytvorR(fsR, kapacitaBlokuR);
+                postavStrom(list, true);
             }
-            List<RVrchol> list = new List<RVrchol>(priorQueue.Count);
-            while (!priorQueue.IsEmpty) {
-                list.Add(priorQueue.DequeueValue());
-            }
-            postavStrom(list, true);
         }
 
         private int minimumPrvkuKapacity() {
             return ((KapacitaUzlu % 2 == 0) ? KapacitaUzlu / 2 : (KapacitaUzlu / 2) + 1);
         }
-        public List<RVrchol> VyhledejBodove(PointF value) {
-            List<RVrchol> list = new List<RVrchol>();
+        public List<string> VyhledejBodove(PointF value) {
+            List<string> list = new List<string>();
 
-            //int koren = br.ReadInt32();
-            RVrchol root = new RVrchol();
-            int rootIndex = DejPocetBlokuIndex() - 1;
+            BinaryReader br = new BinaryReader(fsR, Encoding.UTF8);
+            br.ReadInt32();
+            br.ReadInt32();
+            int koren = br.ReadInt32();
 
-            for (int i = 0; i < KapacitaUzlu; i++) {
-                RVrchol v = NactiZIndexovehoSouboru(rootIndex, i);
-                if (v == null) {
-                    continue;
-                }
-                nactiPotomkyZIndexoveho(ref v);
-
-                root.Potomci.Add(v);
-            }
-            root.VypoctiObdelnik();
             foreach (RVrchol item in vyhledejBodove(root, value)) {
-                list.Add(NactiZBazovehoSouboru(item.Blok, item.Index));
+                list.Add(item.Data);
             }
             return list;
         }
         private List<RVrchol> vyhledejBodove(RVrchol uroven, PointF value) { // O(log n)
-            List<RVrchol> list = new List<RVrchol>();
-            if (uroven.Potomci.Count == 0) {
-                nactiPotomkyZIndexoveho(ref uroven);
+            if (root == null) {
+                throw new NullReferenceException("Root neexistuje");
             }
+            List<RVrchol> list = new List<RVrchol>();
 
             foreach (RVrchol item in uroven.Potomci) {
                 if (item.Oblast.Oblast.Contains(value)) {
-                    if (item.Index != -1) {
-                        RVrchol v = NactiZBazovehoSouboru(item.Blok, item.Index);
-                        if (v.Oblast.JeBod(value)) {
+                    if (item.JeList()) {
+                        if (item.Oblast.JeBod(value)) {
+                            // FIXED: fixnout vkládání celých souřadnic a nejen obdélníku, jelikož nedokážu určit, zda-li leží ten bod přímo v obdélníku, nebo je to prázdný bod... Mělo by být OK snad již :)
                             list.Add(item);
                         }
-                    } else {
-                        list.AddRange(vyhledejBodove(item, value));
                     }
+                    list.AddRange(vyhledejBodove(item, value));
                 }
             }
             return list;
         }
-        public List<RVrchol> VyhledejIntervalove(PointF point1, PointF point2) {
+        public List<string> VyhledejIntervalove(RectangleF value) {
+            // prohledání a porovnání s přímkou. http://www.multilingualarchive.com/ma/enwiki/en/Cohen-Sutherland
+            List<string> list = new List<string>();
+            foreach (RVrchol item in vyhledejIntervalove(root, value)) {
+                list.Add(item.Data);
+            }
+            return list;
+        }
+        public List<string> VyhledejIntervalove(PointF point1, PointF point2) {
             return VyhledejIntervalove(new RectangleF(Math.Min(point1.X, point2.X), Math.Min(point1.Y, point2.Y), Math.Max(point1.X, point2.X) - Math.Min(point1.X, point2.X), Math.Max(point1.Y, point2.Y) - Math.Min(point1.Y, point2.Y)));
         }
-        public List<RVrchol> VyhledejIntervalove(RectangleF value) {
-            // prohledání a porovnání s přímkou. http://www.multilingualarchive.com/ma/enwiki/en/Cohen-Sutherland
-            List<RVrchol> list = new List<RVrchol>();
-
-            RVrchol root = new RVrchol();
-            int rootIndex = DejPocetBlokuIndex() - 1;
-
-            for (int i = 0; i < KapacitaUzlu; i++) {
-                RVrchol v = NactiZIndexovehoSouboru(rootIndex, i);
-                if (v == null) {
-                    continue;
-                }
-                nactiPotomkyZIndexoveho(ref v);
-
-                root.Potomci.Add(v);
-            }
-            root.VypoctiObdelnik();
-
-            foreach (RVrchol item in vyhledejIntervalove(root, value)) {
-                list.Add(NactiZBazovehoSouboru(item.Blok, item.Index));
-            }
-            return list;
-        }
         private List<RVrchol> vyhledejIntervalove(RVrchol uroven, RectangleF value) { // O(log n)
-            //if (root == null) {
-            //    throw new NullReferenceException("Root neexistuje");
-            //}
-            List<RVrchol> list = new List<RVrchol>();
-
-            if (uroven.Potomci.Count == 0) {
-                nactiPotomkyZIndexoveho(ref uroven);
+            if (root == null) {
+                throw new NullReferenceException("Root neexistuje");
             }
+            List<RVrchol> list = new List<RVrchol>();
 
             foreach (RVrchol item in uroven.Potomci) {
                 if (value.IntersectsWith(item.Oblast.Oblast)) {
-                    if (item.Index != -1) {
-                        RVrchol v = NactiZBazovehoSouboru(item.Blok, item.Index);
-                        if (leziVOblasti(value, v.Oblast.V1, v.Oblast.V2)) {
-                            
+                    if (item.JeList()) {
+                        if (leziVOblasti(value, item.Oblast.V1, item.Oblast.V2)) {
                             list.Add(item);
                         }
-                    } else {
-                        list.AddRange(vyhledejIntervalove(item, value));
                     }
+                    list.AddRange(vyhledejIntervalove(item, value));
                 }
             }
             return list;
@@ -432,20 +431,154 @@ namespace cz.mtrakal.ADT {
         }
 
         #region Bázový blok
-        static int pocetBytuZaznamuBase = RVrchol.maxdelkaretezce + sizeof(Single) * 4 + sizeof(bool);
-        BlokPrenos bpBase = null;
-        public void NaplnBazovySoubor(PointF v1, PointF v2, string value, bool sjizdna) { naplnBazovySoubor(new RVrchol(v1, v2, value, sjizdna)); }
+        FileStream fsBase = new FileStream("fsBazovy.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+        static int pocetBytuZaznamu = RVrchol.maxdelkaretezce + sizeof(Single) * 4;
+        static int kapacitaBloku = 3;
+        int indexBlokuBaze = -1;
+        int pocetZaznamuVMS = 0;
+        MemoryStream ms = new MemoryStream(pocetBytuZaznamu * kapacitaBloku);
+
+        public delegate void BufferJePlnyHandler();
+        public event BufferJePlnyHandler BufferJePlny;
+
+        public void ZapisDoBufferu(MemoryStream ms, byte[] data) {
+            if (pocetZaznamuVMS < kapacitaBloku) {
+                ms.Write(data, 0, pocetBytuZaznamu);
+                pocetZaznamuVMS++;
+            }
+            if (pocetZaznamuVMS == kapacitaBloku) {
+                if (ms.Length != kapacitaBloku * pocetBytuZaznamu) {
+                    throw new OutOfMemoryException("Chybná velikost dat!");
+                }
+                if (BufferJePlny != null) {
+                    BufferJePlny(); //zavolá událost
+                    vymazBuffer(ms);
+                }
+            }
+        }
+        private void vymazBuffer(MemoryStream ms) {
+            pocetZaznamuVMS = 0;
+            ms.Seek(0, 0);
+            ms.SetLength(0);
+        }
+        private void zapisDataBazova(MemoryStream ms, FileStream fs) {
+            ms.WriteTo(fs);
+            fs.Flush();
+        }
+        public void NaplnBazovySoubor(PointF v1, PointF v2, string value) { naplnBazovySoubor(new RVrchol(v1, v2, value)); }
         private void naplnBazovySoubor(RVrchol vrchol) {
-            bpBase.Write(vrchol.GetByteArrayBase());
+            BufferJePlny += new BufferJePlnyHandler(zapisBazovaDataHandler);
+
+            if (fsBase.Length == 0) {
+                vytvorBazovy(fsBase, kapacitaBloku);
+            }
+            ZapisDoBufferu(this.ms, vrchol.GetByteArrayBase());
+
+            BufferJePlny -= new BufferJePlnyHandler(zapisBazovaDataHandler);
         }
         public void UlozBazovySoubor() {
-            bpBase.Flush();
+            if (pocetZaznamuVMS != 0) { // pokud není celý počet dat do bloku na konci, zapíše data
+                ms.SetLength(pocetBytuZaznamu * kapacitaBloku); // nastaví velikost na celý blok
+                zapisDataBazova(ms, fsBase);
+                vymazBuffer(ms);
+            }
+        }
+        //public void NaplnBazovySoubor() {
+        //    BufferJePlny += new BufferJePlnyHandler(zapisBazovaDataHandler);
+
+
+        //    foreach (RVrchol item in poleListu) {
+        //        ZapisDoBufferu(this.ms, item.GetByteArrayBase());
+        //    }
+        //    if (pocetZaznamuVMS != 0) { // pokud není celý počet dat do bloku na konci, zapíše data
+        //        ms.SetLength(pocetBytuZaznamu * kapacitaBloku); // nastaví velikost na celý blok
+        //        zapisDataBazova(ms, fsBase);
+        //        vymazBuffer(ms);
+        //    }
+        //    BufferJePlny -= new BufferJePlnyHandler(zapisBazovaDataHandler);
+        //}
+        void zapisBazovaDataHandler() {
+            zapisDataBazova(ms, fsBase);
         }
         public void VymazBazovy() {
-            bpBase.ClearFile();
+            fsBase.Seek(0, 0);
+            if (fsBase.Length > 0) {
+                fsBase.SetLength(0);
+                //throw new NotImplementedException("Bázový soubor není prázdný");
+            }
+        }
+        private void vytvorBazovy(FileStream fs, int kapacitaBloku) {
+            BinaryWriter bw = new BinaryWriter(fs, Encoding.UTF8);
+            bw.BaseStream.Seek(0, 0);
+
+            //VymazBazovy();
+
+            //hlavička
+            bw.Write(kapacitaBloku); // počet záznamů na blok
+            bw.Write(pocetBytuZaznamu); //velikost jednoho záznamu v bloku
+            bw.Flush();
         }
         public RVrchol NactiZBazovehoSouboru(int indexBloku, int indexZaznamu) {
-            byte[] buffer = bpBase.Read(indexBloku, indexZaznamu);
+            if (indexBlokuBaze != indexBloku) { // pokud již je blok v paměti, nepřistupuj do souboru
+                BinaryReader br = new BinaryReader(fsBase, Encoding.UTF8);
+                if (br.BaseStream.Length == 0) {
+                    throw new IOException("Prázdný soubor");
+                }
+                br.BaseStream.Seek(0, 0);
+                int kapacitaBloku = br.ReadInt32();
+                int velikostZaznamu = br.ReadInt32();
+                if (velikostZaznamu != pocetBytuZaznamu) {
+                    Debug.Write("Rozdílné velikost záznamů, upravuji.");
+                    pocetBytuZaznamu = velikostZaznamu;
+                }
+                long velikostSouboru = br.BaseStream.Length;
+                long pocetPretecenych = (velikostSouboru - sizeof(int) * 2) - (((velikostSouboru - sizeof(int) * 2) / (pocetBytuZaznamu * kapacitaBloku)) * kapacitaBloku * pocetBytuZaznamu);
+                if ((pocetPretecenych % pocetBytuZaznamu != 0) && (pocetPretecenych / pocetBytuZaznamu > kapacitaBloku)) {
+                    throw new Exception("Data nemají správný formát!");
+                }
+                if (pocetZaznamuVMS != 0) {
+                    vymazBuffer(ms);
+                }
+                byte[] byteArray = new byte[pocetBytuZaznamu * kapacitaBloku];
+                //byte[] zaznam = new byte[pocetBytuZaznamu];
+
+                // sizeof(int) * 2 + indexBloku
+                if (indexBloku * pocetBytuZaznamu * kapacitaBloku > br.BaseStream.Length) {
+                    return null;
+                    //throw new ArgumentOutOfRangeException("Index ukazuje za konec souboru blok bloku: " + indexBloku + "!");
+                }
+                br.BaseStream.Position = sizeof(int) * 2 + indexBloku * pocetBytuZaznamu * kapacitaBloku;
+                if (br.BaseStream.Length - br.BaseStream.Position > pocetBytuZaznamu * kapacitaBloku) {
+                    // pro prvky s obsazeným celým blokem
+                    br.BaseStream.Read(byteArray, 0, pocetBytuZaznamu * kapacitaBloku);
+                    ms.Write(byteArray, 0, pocetBytuZaznamu * kapacitaBloku);
+                    pocetZaznamuVMS = 3;
+                } else {
+                    // Pokud na konci souboru není obsazen celý blok.
+                    // Není aktivní, jelikož blok na konci je doplněm na celý blok při zápisu.
+                    br.BaseStream.Read(byteArray, 0, (int)(br.BaseStream.Length - br.BaseStream.Position));
+                    ms.Write(byteArray, 0, pocetBytuZaznamu * kapacitaBloku);
+                    pocetZaznamuVMS = (int)(br.BaseStream.Length - indexBloku * pocetBytuZaznamu * kapacitaBloku) / pocetBytuZaznamu;
+                }
+
+                //for (int i = 0; i < kapacitaBloku; i++) {
+                //    for (int j = 0; j < pocetBytuZaznamu; j++) {
+                //        zaznam[j] = byteArray[i * pocetBytuZaznamu + j];
+                //    }
+                //    ZapisDoBufferu(ms, zaznam);
+                //}
+                indexBlokuBaze = indexBloku;
+            }
+            return nactiVrcholZBufferu(indexZaznamu);
+        }
+        private RVrchol nactiVrcholZBufferu(int index) {
+            if (index >= ms.Length / pocetBytuZaznamu) {
+                throw new ArgumentOutOfRangeException("Index záznamu se v bufferu nenalézá!");
+            }
+            byte[] buffer = new byte[pocetBytuZaznamu];
+            ms.Seek(0, 0);
+            ms.Position = index * pocetBytuZaznamu;
+            ms.Read(buffer, 0, pocetBytuZaznamu);
 
             RVrchol vrchol = new RVrchol();
             vrchol.Data = Encoding.UTF8.GetString(buffer, 0, RVrchol.maxdelkaretezce).Trim();
@@ -454,21 +587,19 @@ namespace cz.mtrakal.ADT {
             vrchol.Oblast.V1 = v1;
             vrchol.Oblast.V2 = v2;
             vrchol.Oblast.Oblast = vrchol.Oblast.VypoctiObdelnikThis();
-            vrchol.Sjizdna = BitConverter.ToBoolean(buffer, RVrchol.maxdelkaretezce + sizeof(Single) * 4);
             return vrchol;
         }
         public List<RVrchol> BazovyEnumerator() {
-            List<RVrchol> vrcholy = new List<RVrchol>((int)(bpBase.GetBlockCount() * KapacitaUzlu));
+            List<RVrchol> vrcholy = new List<RVrchol>((int)(fsBase.Length - 8) / pocetBytuZaznamu);
             int blok = 0;
             while (true) {
-                for (int i = 0; i < KapacitaUzlu; i++) {
+                for (int i = 0; i < 3; i++) {
                     RVrchol v = NactiZBazovehoSouboru(blok, i);
                     if (v == null) {
                         return vrcholy;
                     }
-                    // pokud je na konci posledního bloku vrácen zmetek
                     if (v.Oblast.V1.X == 0 && v.Oblast.V1.Y == 0 && v.Oblast.V2.X == 0 && v.Oblast.V2.Y == 0) {
-                        return vrcholy;
+                        continue;
                     }
                     v.Blok = blok;
                     v.Index = i;
@@ -476,83 +607,93 @@ namespace cz.mtrakal.ADT {
                 }
                 blok++;
             }
-        }
-        public int DejPocetPrvkuBase() {
-            return (int)bpBase.GetBlockCount() * KapacitaUzlu;
         }
         #endregion
-        #region Indexový blok
-        static int pocetBytuZaznamuIndex = sizeof(Single) * 4 + 2 * sizeof(int);
-        BlokPrenos bpIndex = null;
 
-        public void NaplnIndexSoubor(PointF v1, PointF v2, string value, bool sjizdna) { naplnIndexSoubor(new RVrchol(v1, v2, value, sjizdna)); }
-        private void naplnIndexSoubor(RVrchol vrchol) {
-            bpIndex.Write(vrchol.GetByteArrayIndex());
-        }
-        public void UlozIndexSoubor() {
-            bpIndex.Flush();
-        }
-        public void VymazIndexovy() {
-            bpIndex.ClearFile();
-        }
-        public RVrchol NactiZIndexovehoSouboru(int indexBloku, int indexZaznamu) {
-            byte[] buffer = bpIndex.Read(indexBloku, indexZaznamu);
+        #region RTree blok
+        FileStream fsR = new FileStream("fsRStrom.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+        static int pocetBytuZaznamuR = sizeof(Single) * 4 + 2 * sizeof(int);
+        static int kapacitaBlokuR = 3;
+        int indexBlokuR = -1;
+        int indexZacatkuUrovne = 0;
+        int pocetZaznamuVMSR = 0;
+        MemoryStream msR = new MemoryStream(pocetBytuZaznamuR * kapacitaBlokuR);
+        public delegate void BufferJePlnyRHandler();
+        public event BufferJePlnyRHandler BufferJePlnyR;
 
-            RVrchol vrchol = new RVrchol();
-            PointF v1 = new PointF(BitConverter.ToSingle(buffer, 0), BitConverter.ToSingle(buffer, sizeof(Single)));
-            PointF v2 = new PointF(BitConverter.ToSingle(buffer, sizeof(Single) * 2), BitConverter.ToSingle(buffer, sizeof(Single) * 3));
-            if (v1.X == 0 && v1.Y == 0 && v2.X == 0 && v2.Y == 0) {
-                return null;
+        private void vytvorR(FileStream fs, int kapacitaBlokuR) {
+            VymazR();
+            BinaryWriter bw = new BinaryWriter(fs, Encoding.UTF8);
+
+            bw.BaseStream.Seek(0, 0);
+
+            //hlavička
+            bw.Write(kapacitaBlokuR); // počet záznamů na blok
+            bw.Write(pocetBytuZaznamuR); //velikost jednoho záznamu v bloku
+            bw.Write(-1); //index kořene
+            bw.Flush();
+        }
+        private void vymazBufferR(MemoryStream ms) {
+            pocetZaznamuVMSR = 0;
+            ms.Seek(0, 0);
+            ms.SetLength(0);
+        }
+        private void zapisDataR(MemoryStream ms, FileStream fs) {
+            ms.WriteTo(fs);
+            fs.Flush();
+        }
+        public void ZapisDoBufferuR(MemoryStream ms, byte[] data) {
+            if (pocetZaznamuVMSR < kapacitaBlokuR) {
+                ms.Write(data, 0, pocetBytuZaznamuR);
+                pocetZaznamuVMSR++;
             }
-            vrchol.Oblast.V1 = v1;
-            vrchol.Oblast.V2 = v2;
-            vrchol.Blok = BitConverter.ToInt32(buffer, sizeof(Single) * 4);
-            vrchol.Index = BitConverter.ToInt32(buffer, sizeof(Single) * 4 + sizeof(int));
-            vrchol.Oblast.Oblast = vrchol.Oblast.VypoctiObdelnikThis();
-            return vrchol;
-        }
-        public List<RVrchol> IndexovyEnumerator() {
-            List<RVrchol> vrcholy = new List<RVrchol>((int)(bpIndex.GetBlockCount() * KapacitaUzlu));
-            int blok = 0;
-            while (true) {
-                for (int i = 0; i < KapacitaUzlu; i++) {
-                    RVrchol v = NactiZIndexovehoSouboru(blok, i);
-                    if (v == null) {
-                        return vrcholy;
-                    }
-                    // pokud je na konci posledního bloku vrácen zmetek
-                    if (v.Oblast.V1.X == 0 && v.Oblast.V1.Y == 0 && v.Oblast.V2.X == 0 && v.Oblast.V2.Y == 0) {
-                        return vrcholy;
-                    }
-                    v.Blok = blok;
-                    v.Index = i;
-                    vrcholy.Add(v);
+            if (pocetZaznamuVMSR == kapacitaBlokuR) {
+                if (ms.Length != kapacitaBlokuR * pocetBytuZaznamuR) {
+                    throw new OutOfMemoryException("Chybná velikost dat!");
                 }
-                blok++;
+                if (BufferJePlnyR != null) {
+                    BufferJePlnyR(); //zavolá událost
+                    vymazBufferR(ms);
+                }
             }
         }
-
-        int aktualniIndexUrovne = 0;
-        Queue<int> frontaIndexu = new Queue<int>();
-
-        private void postavStrom(IList<RVrchol> uroven, bool prvni) {
-            if (prvni) {
-                frontaIndexu.Enqueue(aktualniIndexUrovne);
+        public void VymazR() {
+            fsR.Seek(0, 0);
+            if (fsR.Length > 0) {
+                fsR.SetLength(0);
             }
+        }
+        void zapisRDataHandler() {
+            zapisDataR(msR, fsR);
+        }
+        public void UlozRSoubor() {
+            if (pocetZaznamuVMSR != 0) { // pokud není celý počet dat do bloku na konci, zapíše data
+                msR.SetLength(pocetBytuZaznamuR * kapacitaBlokuR); // nastaví velikost na celý blok
+                zapisDataR(msR, fsR);
+                vymazBufferR(msR);
+            }
+        }
+        private void postavStrom(IList<RVrchol> uroven, bool prvni) {
+            BufferJePlnyR += new BufferJePlnyRHandler(zapisRDataHandler);
+
             if (uroven.Count <= KapacitaUzlu) {
                 // pokud je v úrovni již tak málo prvků, že může vzniknout kořen, vytvoříme kořen a ukončíme stavbu.
-                RVrchol root = new RVrchol(KapacitaUzlu);
+                root = new RVrchol(KapacitaUzlu);
                 foreach (RVrchol item in uroven) {
                     item.Rodic = root; // nastavíme zpětnou vazbu na rodiče
                     root.Potomci.Add(item);
-                    item.Blok = frontaIndexu.Dequeue();
-                    item.Index = -1;
-                    item.VypoctiObdelnik();
-                    bpIndex.Write(item.GetByteArrayIndex());
                 }
                 root.VypoctiObdelnik();
+                root.Blok = indexZacatkuUrovne++;
+                root.Index = -1;
+                ZapisDoBufferuR(msR, root.GetByteArrayR());
+                UlozRSoubor();
 
-                bpIndex.Flush();
+                msR.Seek(sizeof(int) * 2, SeekOrigin.Begin);
+                //msR.Position = sizeof(int) * 2;
+                msR.Write(BitConverter.GetBytes(indexZacatkuUrovne), 0, sizeof(int));
+                msR.Flush();
+
                 return;
             }
 
@@ -567,33 +708,18 @@ namespace cz.mtrakal.ADT {
                     if (i == 0 || !novyVrchol.MaVolnySlot()) { // po kapacitě uzlu vytvoříme nový vrchol
                         novyVrchol = new RVrchol(KapacitaUzlu); // vytvořím nový uzel
                         novaUroven.Add(novyVrchol); // přidání vrcholu do úrovně
-                        if (i != 0) {
-                            aktualniIndexUrovne++;
-                            frontaIndexu.Enqueue(aktualniIndexUrovne);
-                            bpIndex.Flush(); // nemusí tu být
-                            //if (!prvni) {
-                            //    aktualneVybranyIndexPotomka = frontaIndexu.Dequeue();
-                            //}
-                        } else {
-                            if (!prvni) {
-                                aktualniIndexUrovne++;
-                                frontaIndexu.Enqueue(aktualniIndexUrovne);
-                            }
-                        }
+                    }
+                    if (prvni) { // přidání odkazu do bázového souboru
+                        novyVrchol.Index = uroven[i].Index;
+                        novyVrchol.Blok = uroven[i].Blok;
+                    } else {
+                        novyVrchol.Index = -1;
+                        novyVrchol.Blok = indexZacatkuUrovne++; //(uroven.Count / kapacitaBlokuR) + 1 + indexZacatkuUrovne;
                     }
                     uroven[i].Rodic = novyVrchol; // nižší vrstvě nastavím rodiče
                     novyVrchol.Potomci.Add(uroven[i]); // linkuju no nové vrstvy
                     novyVrchol.VypoctiObdelnik();
-                    if (prvni) { // přidání odkazu do bázového souboru
-                        novyVrchol.Blok = uroven[i].Blok;
-                        novyVrchol.Index = uroven[i].Index;
-                    } else {
-                        //uroven[i].Index = -1;
-                        //uroven[i].Blok = frontaIndexu.Dequeue(); //(uroven.Count / kapacitaBlokuR) + 1 + aktualneVybranyIndexPotomka;
-                        novyVrchol.Blok = frontaIndexu.Dequeue();
-                        novyVrchol.Index = -1;
-                    }
-                    bpIndex.Write(novyVrchol.GetByteArrayIndex());
+                    ZapisDoBufferuR(msR, novyVrchol.GetByteArrayR());
                 }
             } else if (pocetPretekajicich >= minimumPrvkuKapacity()) {
                 // pokud je prvků více než polovina kapacity, stačí přidat jeden prvek do vrstvy
@@ -602,33 +728,19 @@ namespace cz.mtrakal.ADT {
                     if (i == 0 || !novyVrchol.MaVolnySlot()) { // po kapacitě uzlu vytvoříme nový vrchol
                         novyVrchol = new RVrchol(KapacitaUzlu); // vytvořím nový uzel
                         novaUroven.Add(novyVrchol); // přidání vrcholu do úrovně
-                        if (i != 0) {
-                            aktualniIndexUrovne++;
-                            frontaIndexu.Enqueue(aktualniIndexUrovne);
-                            bpIndex.Flush();
-                            //if (!prvni) {
-                            //    aktualneVybranyIndexPotomka = frontaIndexu.Dequeue();
-                            //}
-                        } else {
-                            if (!prvni) {
-                                aktualniIndexUrovne++;
-                                frontaIndexu.Enqueue(aktualniIndexUrovne);
-                            }
-                        }
+                    }
+                    if (prvni) { // přidání odkazu do bázového souboru
+                        novyVrchol.Index = uroven[i].Index;
+                        novyVrchol.Blok = uroven[i].Blok;
+                    } else {
+                        novyVrchol.Index = -1;
+                        //TODO: ošetřit čísla bloků
+                        novyVrchol.Blok = indexZacatkuUrovne++; //(uroven.Count / kapacitaBlokuR) + 2 + indexZacatkuUrovne;
                     }
                     uroven[i].Rodic = novyVrchol; // nižší vrstvě nastavím rodiče
                     novyVrchol.Potomci.Add(uroven[i]); // linkuju no nové vrstvy
                     novyVrchol.VypoctiObdelnik();
-                    if (prvni) { // přidání odkazu do bázového souboru
-                        novyVrchol.Blok = uroven[i].Blok;
-                        novyVrchol.Index = uroven[i].Index;
-                    } else {
-                        //uroven[i].Index = -1;
-                        //uroven[i].Blok = frontaIndexu.Dequeue(); //(uroven.Count / kapacitaBlokuR) + 2 + aktualneVybranyIndexPotomka;
-                        novyVrchol.Blok = frontaIndexu.Dequeue();
-                        novyVrchol.Index = -1;
-                    }
-                    bpIndex.Write(novyVrchol.GetByteArrayIndex());
+                    ZapisDoBufferuR(msR, novyVrchol.GetByteArrayR());
                 }
             } else {
                 // musíme přidat jeden prvek a předchozí rozhodit na více prvků
@@ -638,92 +750,121 @@ namespace cz.mtrakal.ADT {
                         if (pocetVrcholu == novaUroven.Count + 1) {
                             novyVrchol = new RVrchol(KapacitaUzlu);
                             novaUroven.Add(novyVrchol); // přidání vrcholu do úrovně
-                            if (i != 0) {
-                                bpIndex.Flush();
-                                aktualniIndexUrovne++;
-                                frontaIndexu.Enqueue(aktualniIndexUrovne);
-                                //if (!prvni) {
-                                //    aktualneVybranyIndexPotomka = frontaIndexu.Dequeue();
-                                //}
-                            } else {
-                                if (!prvni) {
-                                    aktualniIndexUrovne++;
-                                    frontaIndexu.Enqueue(aktualniIndexUrovne);
-                                }
-                            }
+                        }
+                        if (prvni) { // přidání odkazu do bázového souboru
+                            novyVrchol.Index = uroven[i].Index;
+                            novyVrchol.Blok = uroven[i].Blok;
+                        } else {
+                            novyVrchol.Index = -1;
+                            //TODO: ošetřit čísla bloků
+                            novyVrchol.Blok = indexZacatkuUrovne++; //(uroven.Count / kapacitaBlokuR) + 2 + indexZacatkuUrovne;
                         }
                         uroven[i].Rodic = novyVrchol; // nižší vrstvě nastavím rodiče
                         novyVrchol.Potomci.Add(uroven[i]); // linkuju no nové vrstvy
                         novyVrchol.VypoctiObdelnik();
-                        if (prvni) { // přidání odkazu do bázového souboru
-                            novyVrchol.Blok = uroven[i].Blok;
-                            novyVrchol.Index = uroven[i].Index;
-                        } else {
-                            //uroven[i].Index = -1;
-                            //uroven[i].Blok = frontaIndexu.Dequeue(); //(uroven.Count / kapacitaBlokuR) + 2 + aktualneVybranyIndexPotomka;
-                            novyVrchol.Blok = frontaIndexu.Dequeue();
-                            novyVrchol.Index = -1;
-                        }
-                        bpIndex.Write(novyVrchol.GetByteArrayIndex());
+                        ZapisDoBufferuR(msR, novyVrchol.GetByteArrayR());
                         continue;
                     }
                     if (i == 0 || !novyVrchol.MaVolnySlot()) {
                         // po kapacitě uzlu vytvoříme nový vrchol
                         novyVrchol = new RVrchol(KapacitaUzlu); // vytvořím nový uzel
                         novaUroven.Add(novyVrchol); // přidání vrcholu do úrovně
-                        if (i != 0) {
-                            aktualniIndexUrovne++;
-                            frontaIndexu.Enqueue(aktualniIndexUrovne);
-                            bpIndex.Flush(); // nemusí tu být
-                            //if (!prvni) {
-                            //    aktualneVybranyIndexPotomka = frontaIndexu.Dequeue();
-                            //}
-                        } else {
-                            if (!prvni) {
-                                aktualniIndexUrovne++;
-                                frontaIndexu.Enqueue(aktualniIndexUrovne);
-                            }
-                        }
+                    }
+                    if (prvni) { // přidání odkazu do bázového souboru
+                        novyVrchol.Index = uroven[i].Index;
+                        novyVrchol.Blok = uroven[i].Blok;
+                    } else {
+                        novyVrchol.Index = -1;
+                        //TODO: ošetřit čísla bloků
+                        novyVrchol.Blok = indexZacatkuUrovne++; //(uroven.Count / kapacitaBlokuR) + 2 + indexZacatkuUrovne;
                     }
                     uroven[i].Rodic = novyVrchol; // nižší vrstvě nastavím rodiče
                     novyVrchol.Potomci.Add(uroven[i]); // linkuju no nové vrstvy
                     novyVrchol.VypoctiObdelnik();
-                    if (prvni) { // přidání odkazu do bázového souboru
-                        novyVrchol.Blok = uroven[i].Blok;
-                        novyVrchol.Index = uroven[i].Index;
-                    } else {
-                        //uroven[i].Index = -1;
-                        //uroven[i].Blok = frontaIndexu.Dequeue(); //(uroven.Count / kapacitaBlokuR) + 2 + aktualneVybranyIndexPotomka;
-                        novyVrchol.Blok = frontaIndexu.Dequeue();
-                        novyVrchol.Index = -1;
-                    }
-                    bpIndex.Write(novyVrchol.GetByteArrayIndex());
+                    ZapisDoBufferuR(msR, novyVrchol.GetByteArrayR());
                 }
             }
             if (pocetVrcholu != novaUroven.Count) {
                 throw new Exception("Něco je špatně, nerovnají se vypočítané vrcholy s počty vrcholů!");
             }
-            // TODO: zkontrolovat, jeslti to platí - flushování.
-            bpIndex.Flush();
-            //aktualneVybranyIndexPotomka = uroven.Count / kapacitaBlokuR + 1;
+            //indexZacatkuUrovne = uroven.Count / kapacitaBlokuR + 1;
             postavStrom(novaUroven, false);
+            BufferJePlnyR -= new BufferJePlnyRHandler(zapisRDataHandler);
         }
-        public int DejPocetPrvkuIndex() {
-            return (int)bpIndex.GetBlockCount() * KapacitaUzlu;
-        }
-        public int DejPocetBlokuIndex() {
-            return (int)bpIndex.GetBlockCount();
-        }
-        private void nactiPotomkyZIndexoveho(ref RVrchol uroven) {
-            for (int i = 0; i < KapacitaUzlu; i++) {
-                RVrchol novy = NactiZIndexovehoSouboru(uroven.Blok, i);
-                if (novy == null) { break; }
-                if (uroven.MaVolnySlot()) {
-                    uroven.Potomci.Add(novy);
-                } else {
-                    throw new Exception("Whoops!");
+        public RVrchol NactiZRSouboru(int indexBloku, int indexZaznamu) {
+            if (indexBlokuR != indexBloku) { // pokud již je blok v paměti, nepřistupuj do souboru
+                BinaryReader br = new BinaryReader(fsR, Encoding.UTF8);
+                if (br.BaseStream.Length == 0) {
+                    throw new IOException("Prázdný soubor");
                 }
+                br.BaseStream.Seek(0, 0);
+                int kapacitaBloku = br.ReadInt32();
+                int velikostZaznamu = br.ReadInt32();
+                int koren = br.ReadInt32();
+
+                if (velikostZaznamu != pocetBytuZaznamuR) {
+                    Debug.Write("Rozdílné velikost záznamů, upravuji.");
+                    pocetBytuZaznamuR = velikostZaznamu;
+                }
+                long velikostSouboru = br.BaseStream.Length;
+                long pocetPretecenych = (velikostSouboru - sizeof(int) * 3) - (((velikostSouboru - sizeof(int) * 3) / (pocetBytuZaznamuR * kapacitaBlokuR)) * kapacitaBlokuR * pocetBytuZaznamuR);
+                if ((pocetPretecenych % pocetBytuZaznamuR != 0) && (pocetPretecenych / pocetBytuZaznamuR > kapacitaBlokuR)) {
+                    throw new Exception("Data nemají správný formát!");
+                }
+                if (pocetZaznamuVMSR != 0) {
+                    vymazBuffer(msR);
+                }
+                byte[] byteArray = new byte[pocetBytuZaznamuR * kapacitaBlokuR];
+                //byte[] zaznam = new byte[pocetBytuZaznamu];
+
+                // sizeof(int) * 2 + indexBloku
+                if (indexBloku * pocetBytuZaznamuR * kapacitaBlokuR > br.BaseStream.Length) {
+                    return null;
+                    //throw new ArgumentOutOfRangeException("Index ukazuje za konec souboru blok bloku: " + indexBloku + "!");
+                }
+                br.BaseStream.Position = sizeof(int) * 3 + indexBloku * pocetBytuZaznamuR * kapacitaBlokuR;
+                if (br.BaseStream.Length - br.BaseStream.Position > pocetBytuZaznamuR * kapacitaBlokuR) {
+                    // pro prvky s obsazeným celým blokem
+                    br.BaseStream.Read(byteArray, 0, pocetBytuZaznamuR * kapacitaBlokuR);
+                    msR.Write(byteArray, 0, pocetBytuZaznamuR * kapacitaBlokuR);
+                    pocetZaznamuVMSR = 3;
+                } else {
+                    // Pokud na konci souboru není obsazen celý blok.
+                    // Není aktivní, jelikož blok na konci je doplněm na celý blok při zápisu.
+                    br.BaseStream.Read(byteArray, 0, (int)(br.BaseStream.Length - br.BaseStream.Position));
+                    msR.Write(byteArray, 0, pocetBytuZaznamuR * kapacitaBlokuR);
+                    pocetZaznamuVMSR = (int)(br.BaseStream.Length - indexBloku * pocetBytuZaznamuR * kapacitaBlokuR) / pocetBytuZaznamuR;
+                }
+
+                //for (int i = 0; i < kapacitaBloku; i++) {
+                //    for (int j = 0; j < pocetBytuZaznamu; j++) {
+                //        zaznam[j] = byteArray[i * pocetBytuZaznamu + j];
+                //    }
+                //    ZapisDoBufferu(ms, zaznam);
+                //}
+                indexBlokuR = indexBloku;
             }
+            return nactiVrcholZBufferuR(indexZaznamu);
+        }
+        private RVrchol nactiVrcholZBufferuR(int index) {
+            if (index >= msR.Length / pocetBytuZaznamuR) {
+                throw new ArgumentOutOfRangeException("Index záznamu se v bufferu nenalézá!");
+            }
+            byte[] buffer = new byte[pocetBytuZaznamuR];
+            msR.Seek(0, 0);
+            msR.Position = index * pocetBytuZaznamuR;
+            msR.Read(buffer, 0, pocetBytuZaznamuR);
+
+            RVrchol vrchol = new RVrchol();
+            PointF v1 = new PointF(BitConverter.ToSingle(buffer, 0), BitConverter.ToSingle(buffer, 0 + sizeof(Single)));
+            PointF v2 = new PointF(BitConverter.ToSingle(buffer, sizeof(Single) * 2), BitConverter.ToSingle(buffer, sizeof(Single) * 3));
+
+            vrchol.Oblast.V1 = v1;
+            vrchol.Oblast.V2 = v2;
+            vrchol.Blok = BitConverter.ToInt32(buffer, sizeof(Single) * 4);
+            vrchol.Index = BitConverter.ToInt32(buffer, sizeof(Single) * 4 + sizeof(int));
+            vrchol.Oblast.Oblast = vrchol.Oblast.VypoctiObdelnikThis();
+            return vrchol;
         }
         #endregion
     }

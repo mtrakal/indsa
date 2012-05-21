@@ -45,6 +45,7 @@
     <Compile Include="ADTGraf\Graf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RTreeIO\Blok.cs" />
+    <Compile Include="RTreeIO\BlokPrenos.cs" />
     <Compile Include="RTreeIO\RTreeIO.cs" />
     <Compile Include="RTreeIO\RTreeFile.cs" />
     <Compile Include="RTreeIO\Zaznam.cs" />
@@ -54,6 +55,7 @@
   <ItemGroup>
     <None Include="ADTBST\BST.cd" />
     <None Include="ADTGraf\Graf.cd" />
+    <None Include="RTreeIO\BlokPrenos.cd" />
     <None Include="RTreeIO\RTreeIO.cd" />
     <None Include="RTree\RTree.cd" />
     <None Include="ADTPriorityQueue\PriorityQueue.cd" />

@@ -42,6 +42,5 @@ namespace cz.mtrakal.ADT {
             // TODO: zkontrolovat, případně napsat SetByteArray
             return (byteBuffer as Blok<T>);
         }
-
     }
 }

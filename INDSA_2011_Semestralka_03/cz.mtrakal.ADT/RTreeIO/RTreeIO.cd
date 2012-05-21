@@ -7,24 +7,21 @@
     </Compartments>
     <NestedTypes>
       <Class Name="cz.mtrakal.ADT.RTreeIO.RVrchol" Collapsed="true">
+        <NestedTypes>
+          <Class Name="cz.mtrakal.ADT.RTreeIO.RVrchol.OblastDat" Collapsed="true">
+            <TypeIdentifier>
+              <NewMemberFileName>RTreeIO\RTreeIO.cs</NewMemberFileName>
+            </TypeIdentifier>
+          </Class>
+        </NestedTypes>
         <TypeIdentifier>
           <NewMemberFileName>RTreeIO\RTreeIO.cs</NewMemberFileName>
         </TypeIdentifier>
         <Lollipop Position="0.2" />
       </Class>
-      <Delegate Name="cz.mtrakal.ADT.RTreeIO.BufferJePlnyHandler" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>RTreeIO\RTreeIO.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Delegate>
-      <Delegate Name="cz.mtrakal.ADT.RTreeIO.BufferJePlnyRHandler" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>RTreeIO\RTreeIO.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Delegate>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AADAAAQISQBRAYEIIJCoCAAEwCCJACBACKbQAFiAUEA=</HashCode>
+      <HashCode>AADAABaAQgBAAIBJAACICAAAQBAQBAACCECQAQiAUAA=</HashCode>
       <FileName>RTreeIO\RTreeIO.cs</FileName>
     </TypeIdentifier>
   </Class>
